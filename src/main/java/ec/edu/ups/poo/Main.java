@@ -13,10 +13,15 @@ public class Main {
         carrito.addItem(producto2, 2);
 
         System.out.println("Items en el carrito:");
+        double total = 0.0;
         for (ItemCarrito item : carrito.getItems()) {
             System.out.println("Producto: " + item.getProducto().getNombre() +
-                               ", Cantidad: " + item.getCantidad() +
-                               ", Subtotal: " + item.calcularSubtotal());
+                            ", Código: " + item.getProducto().getCodigo() +
+                            ", Precio: " + item.getProducto().getPrecio() +
+                            ", Cantidad: " + item.getCantidad() +
+                            ", Subtotal: " + item.calcularSubtotal());
+            total += item.calcularSubtotal();
         }
+        System.out.println("Total de la compra: " + total);
     }
 }
