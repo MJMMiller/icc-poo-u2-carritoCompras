@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ec.edu.ups.poo.vista.ProductoView">
+  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="11" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="1079" height="400"/>
+    </constraints>
+    <properties>
+      <background color="-14868960"/>
+      <foreground color="-13947600"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="96ec" class="javax.swing.JLabel" binding="txtTituloProductosVentana">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="9" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="2" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-394241"/>
+          <text value="🛒   Bienvenido al Carrito de Compras"/>
+        </properties>
+      </component>
+      <component id="3a9fe" class="javax.swing.JCheckBox" binding="checkBoxHability">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="81970" class="javax.swing.JLabel" binding="txtCodeProduct">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="P001"/>
+        </properties>
+      </component>
+      <component id="b21be" class="javax.swing.JLabel" binding="txtCode">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Codigo"/>
+        </properties>
+      </component>
+      <component id="9b585" class="javax.swing.JLabel" binding="txtName">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Nombre"/>
+        </properties>
+      </component>
+      <component id="a9d1b" class="javax.swing.JLabel" binding="txtNameProduct">
+        <constraints>
+          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Lapiz"/>
+        </properties>
+      </component>
+      <component id="6e4a8" class="javax.swing.JLabel" binding="txtPrice">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Precio"/>
+        </properties>
+      </component>
+      <component id="eaf" class="javax.swing.JLabel" binding="txtPriceProduct">
+        <constraints>
+          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="$"/>
+        </properties>
+      </component>
+      <component id="6bc74" class="javax.swing.JSpinner" binding="spinnerQuantityProduct">
+        <constraints>
+          <grid row="3" column="5" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="3ea99" class="javax.swing.JButton" binding="btnAddNew">
+        <constraints>
+          <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-12763068"/>
+          <foreground color="-459777"/>
+          <text value="➕  Add New"/>
+        </properties>
+      </component>
+      <component id="88830" class="javax.swing.JButton" binding="btnUpdate">
+        <constraints>
+          <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-12763068"/>
+          <foreground color="-394241"/>
+          <text value="✏️  Update"/>
+        </properties>
+      </component>
+      <component id="7a774" class="javax.swing.JLabel" binding="txtQuantity">
+        <constraints>
+          <grid row="2" column="5" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Cantidad"/>
+        </properties>
+      </component>
+      <hspacer id="bb1f3">
+        <constraints>
+          <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <component id="be4d5" class="javax.swing.JButton" binding="btnDelate">
+        <constraints>
+          <grid row="1" column="6" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-12763068"/>
+          <foreground color="-394241"/>
+          <text value="🗑️  Delate"/>
+        </properties>
+      </component>
+      <component id="70b9e" class="javax.swing.JCheckBox">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <vspacer id="44e74">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="9" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="426a7" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="P001"/>
+        </properties>
+      </component>
+      <component id="51d8e" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Lapiz"/>
+        </properties>
+      </component>
+      <component id="415e1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="$"/>
+        </properties>
+      </component>
+      <component id="df42" class="javax.swing.JSpinner">
+        <constraints>
+          <grid row="4" column="5" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="4468d" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="10" column="0" row-span="1" col-span="9" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="60b10" class="javax.swing.JLabel" binding="txtSubTotal">
+        <constraints>
+          <grid row="7" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Sub Total"/>
+        </properties>
+      </component>
+      <component id="939ac" class="javax.swing.JLabel" binding="txtDescount">
+        <constraints>
+          <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Desc"/>
+        </properties>
+      </component>
+      <component id="4e568" class="javax.swing.JLabel" binding="txtIVA">
+        <constraints>
+          <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="IVA"/>
+        </properties>
+      </component>
+      <component id="2961d" class="javax.swing.JLabel" binding="txtTotal">
+        <constraints>
+          <grid row="9" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="Total"/>
+        </properties>
+      </component>
+      <component id="f37c0" class="javax.swing.JLabel" binding="txtPorcentDescount">
+        <constraints>
+          <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="0.5%"/>
+        </properties>
+      </component>
+      <component id="c2a9f" class="javax.swing.JLabel" binding="txtMountSubTotal">
+        <constraints>
+          <grid row="7" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="10.00"/>
+        </properties>
+      </component>
+      <component id="59175" class="javax.swing.JLabel" binding="txtMountIVA">
+        <constraints>
+          <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="15%"/>
+        </properties>
+      </component>
+      <component id="22cb4" class="javax.swing.JLabel" binding="txtMountTotal">
+        <constraints>
+          <grid row="9" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <foreground color="-459777"/>
+          <text value="20.00"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
