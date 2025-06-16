@@ -17,14 +17,6 @@ public class CarritoServiceImpl implements CarritoService {
 
     @Override
     public void agregarProducto(Producto producto, int cantidad) {
-        // Verificar si el producto ya está en el carrito y actualizar la cantidad
-        for (ItemCarrito item : items) {
-            if (item.getProducto().getCodigo() == producto.getCodigo()) {
-                item.setCantidad(item.getCantidad() + cantidad);
-                return;
-            }
-        }
-        // Si no está, lo agrega
         items.add(new ItemCarrito(producto, cantidad));
     }
 
@@ -55,7 +47,7 @@ public class CarritoServiceImpl implements CarritoService {
 
     @Override
     public List<ItemCarrito> obtenerItems() {
-        return new ArrayList<>(items); // Protección contra modificaciones externas
+        return new ArrayList<>(items);
     }
 
     @Override

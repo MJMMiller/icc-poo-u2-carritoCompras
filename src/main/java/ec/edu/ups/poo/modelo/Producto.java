@@ -5,9 +5,6 @@ public class Producto {
     private String nombre;
     private double precio;
 
-    public Producto() {
-    }
-
     public Producto(int codigo, String nombre, double precio) {
         this.codigo = codigo;
         this.nombre = nombre;
@@ -40,6 +37,10 @@ public class Producto {
 
     @Override
     public String toString() {
-        return nombre + " - $" + String.format("%.2f", precio);
+        return "Producto{" +
+                "codigo='" + codigo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                '}';
     }
 }
