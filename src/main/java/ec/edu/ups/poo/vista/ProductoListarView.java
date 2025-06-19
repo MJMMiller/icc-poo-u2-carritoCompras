@@ -9,7 +9,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
 
-public class ProductoListarView extends JFrame{
+public class ProductoListarView extends JInternalFrame{
 
     private JPanel panelCenter;
     private JLabel txtNameProduct;
@@ -29,7 +29,9 @@ public class ProductoListarView extends JFrame{
         setTitle("List Products");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 400);
-        setLocationRelativeTo(null);
+        setClosable(true);
+        setIconifiable(true);
+        setResizable(true);
 
         modelo = new DefaultTableModel(new Object[]{"Code", "Name", "Price"}, 0);
         tableProdcuts.setModel(modelo);
@@ -63,7 +65,6 @@ public class ProductoListarView extends JFrame{
             tableProdcuts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        setVisible(true);
     }
 
     public JTextField getLblNameProdcutSearch() {

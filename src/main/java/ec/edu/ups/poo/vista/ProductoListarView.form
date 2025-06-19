@@ -27,7 +27,7 @@
             <properties>
               <font name="JetBrains Mono" size="24"/>
               <foreground color="-459777"/>
-              <text value="Search Products"/>
+              <text value="Read Products"/>
             </properties>
           </component>
           <component id="6af33" class="javax.swing.JSeparator">

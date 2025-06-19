@@ -21,6 +21,10 @@ public class ItemCarrito {
         return cantidad;
     }
 
+    public double getTotalItem() {
+        return producto.getPrecio() * cantidad;
+    }
+
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }

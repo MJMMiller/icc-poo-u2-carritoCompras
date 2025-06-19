@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ProductoAnadirView extends JFrame {
+public class ProductoAnadirView extends JInternalFrame {
 
     private JPanel panelAll;
     private JTextField lblCodeProduct;
@@ -26,10 +26,11 @@ public class ProductoAnadirView extends JFrame {
     public ProductoAnadirView() {
         setContentPane(panelAll);
         setTitle("Register New Product");
-        setSize(600, 250);
+        setSize(500, 250);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        setClosable(true);
+        setIconifiable(true);
+        setResizable(true);
     }
 
     public void limpiarCampos() {

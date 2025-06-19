@@ -1,5 +1,7 @@
-package ec.edu.ups.poo.servicio;
+package ec.edu.ups.poo.dao.impl;
 
+import ec.edu.ups.poo.dao.CarritoDAO;
+import ec.edu.ups.poo.modelo.Carrito;
 import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Producto;
 
@@ -7,11 +9,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CarritoServiceImpl implements CarritoService {
+public class CarritoDAOMemoria implements CarritoDAO {
 
     private final List<ItemCarrito> items;
+    private final List<Carrito> carritos = new ArrayList<>();
 
-    public CarritoServiceImpl() {
+    public CarritoDAOMemoria() {
         this.items = new ArrayList<>();
     }
 
@@ -53,5 +56,10 @@ public class CarritoServiceImpl implements CarritoService {
     @Override
     public boolean estaVacio() {
         return items.isEmpty();
+    }
+
+    @Override
+    public void guardarCarrito(Carrito carrito) {
+        carritos.add(carrito);
     }
 }

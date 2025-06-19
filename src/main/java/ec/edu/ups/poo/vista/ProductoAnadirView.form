@@ -28,7 +28,7 @@
             <properties>
               <font name="JetBrains Mono" size="24"/>
               <foreground color="-459777"/>
-              <text value="Register New Product"/>
+              <text value="Create New Product"/>
             </properties>
           </component>
           <component id="9ba6" class="javax.swing.JSeparator">
@@ -149,7 +149,7 @@
             <properties>
               <background color="-12763068"/>
               <foreground color="-459777"/>
-              <text value="Register"/>
+              <text value="Save"/>
             </properties>
           </component>
           <component id="8ff26" class="javax.swing.JButton" binding="btnCleanInputs">
@@ -159,7 +159,7 @@
             <properties>
               <background color="-12763068"/>
               <foreground color="-459777"/>
-              <text value="Clean"/>
+              <text value="New"/>
             </properties>
           </component>
         </children>
