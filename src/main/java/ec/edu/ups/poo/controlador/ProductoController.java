@@ -2,7 +2,11 @@ package ec.edu.ups.poo.controlador;
 
 import ec.edu.ups.poo.dao.ProductoDAO;
 import ec.edu.ups.poo.modelo.Producto;
-import ec.edu.ups.poo.vista.*;
+import ec.edu.ups.poo.vista.carrito.CarritoAnadirView;
+import ec.edu.ups.poo.vista.producto.ProducUpdateView;
+import ec.edu.ups.poo.vista.producto.ProductDelateView;
+import ec.edu.ups.poo.vista.producto.ProductoAnadirView;
+import ec.edu.ups.poo.vista.producto.ProductoListarView;
 
 import javax.swing.*;
 import java.util.List;

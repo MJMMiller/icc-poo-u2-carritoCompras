@@ -62,4 +62,28 @@ public class CarritoDAOMemoria implements CarritoDAO {
     public void guardarCarrito(Carrito carrito) {
         carritos.add(carrito);
     }
+
+    @Override
+    public Carrito obtenerCarrito(int codigoProducto) {
+        for (Carrito carrito : carritos) {
+            for (ItemCarrito item : carrito.getItems()) {
+                if (item.getProducto().getCodigo() == codigoProducto) {
+                    return carrito;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void eliminarCarrtio(int codigoCarrito) {
+        Iterator<Carrito> iterator = carritos.iterator();
+        while (iterator.hasNext()) {
+            Carrito carrito = iterator.next();
+            if (carrito.getId() == codigoCarrito) {
+                iterator.remove();
+                break;
+            }
+        }
+    }
 }

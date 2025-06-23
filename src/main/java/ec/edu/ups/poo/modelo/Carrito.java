@@ -6,13 +6,14 @@ import java.util.List;
 public class Carrito {
 
     private List<ItemCarrito> items;
+    private int id;
     private double subtotal;
     private double iva;
     private double total;
-
     private Date fecha;
 
-    public Carrito(List<ItemCarrito> items, double subtotal, double iva, double total, Date fecha) {
+    public Carrito(int id, List<ItemCarrito> items, double subtotal, double iva, double total, Date fecha) {
+        this.id = id;
         this.items = items;
         this.subtotal = subtotal;
         this.iva = iva;
@@ -26,6 +27,14 @@ public class Carrito {
 
     public void setItems(List<ItemCarrito> items) {
         this.items = items;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getSubtotal() {
@@ -63,7 +72,8 @@ public class Carrito {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Carrito [fecha=").append(fecha)
+        sb.append("Carrito [id=").append(id)
+                .append(", fecha=").append(fecha)
                 .append(", subtotal=").append(subtotal)
                 .append(", iva=").append(iva)
                 .append(", total=").append(total)

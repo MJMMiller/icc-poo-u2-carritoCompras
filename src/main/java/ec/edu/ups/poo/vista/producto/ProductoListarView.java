@@ -1,4 +1,4 @@
-package ec.edu.ups.poo.vista;
+package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
 
@@ -33,7 +33,12 @@ public class ProductoListarView extends JInternalFrame{
         setIconifiable(true);
         setResizable(true);
 
-        modelo = new DefaultTableModel(new Object[]{"Code", "Name", "Price"}, 0);
+        modelo = new DefaultTableModel(new Object[]{"Code", "Name", "Price"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableProdcuts.setModel(modelo);
 
         Color fondo = new Color(29, 30, 32);

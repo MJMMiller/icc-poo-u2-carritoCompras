@@ -1,4 +1,4 @@
-package ec.edu.ups.poo.vista;
+package ec.edu.ups.poo.vista.carrito;
 
 import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Producto;
@@ -50,7 +50,12 @@ public class CarritoAnadirView extends JInternalFrame{
         setIconifiable(true);
         setResizable(true);
 
-        modelo = new DefaultTableModel(new Object[]{"Código", "Nombre", "Precio", "Cantidad", "Total Item"}, 0);
+        modelo = new DefaultTableModel(new Object[]{"Código", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tblProducts.setModel(modelo);
 
         Color fondo = new Color(29, 30, 32);
@@ -64,7 +69,6 @@ public class CarritoAnadirView extends JInternalFrame{
 
         tblProducts.setBackground(fondo);
         tblProducts.setForeground(letras);
-        tblProducts.setSelectionBackground(new Color(50, 50, 60));
         tblProducts.setSelectionForeground(Color.WHITE);
         tblProducts.setGridColor(fondo);
 

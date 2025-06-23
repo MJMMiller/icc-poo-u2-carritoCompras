@@ -1,10 +1,8 @@
-package ec.edu.ups.poo.vista;
+package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class ProductoAnadirView extends JInternalFrame {

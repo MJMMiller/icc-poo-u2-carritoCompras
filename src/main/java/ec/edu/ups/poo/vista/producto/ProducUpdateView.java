@@ -1,4 +1,4 @@
-package ec.edu.ups.poo.vista;
+package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
 

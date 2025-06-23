@@ -15,4 +15,6 @@ public interface CarritoDAO {
     List<ItemCarrito> obtenerItems();
     boolean estaVacio();
     void guardarCarrito(Carrito carrito);
+    Carrito obtenerCarrito(int codigoProducto);
+    void eliminarCarrtio(int codigoCarrito);
 }
