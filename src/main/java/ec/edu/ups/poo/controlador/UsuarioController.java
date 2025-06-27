@@ -16,41 +16,38 @@ import java.util.List;
 
 public class UsuarioController {
 
-    private Usuario usuarioAutenticado;
+    private Usuario usuario;
     private final UsuarioDAO usuarioDAO;
-    private final LogInView logInView;
+    private final LogInView loginView;
 
-    public UsuarioController(UsuarioDAO usuarioDAO, LogInView logInView) {
+    public UsuarioController(UsuarioDAO usuarioDAO, LogInView loginView) {
         this.usuarioDAO = usuarioDAO;
-        this.logInView = logInView;
-        if (logInView != null) {
+        this.loginView = loginView;
+        if (loginView != null) {
             configurarEventosEnVista();
         }
     }
 
-    private void configurarEventosEnVista(){
-        logInView.getBtnLogIn().addActionListener(e -> {
-            autenticarUsuario();
+    private void configurarEventosEnVista() {
+        loginView.getBtnLogIn().addActionListener(e -> {
+            autenticar();
         });
     }
 
-    private void autenticarUsuario() {
-        String userName = logInView.getLblUserName().getText();
-        String contrasena = logInView.getLblPassword().getText();
-
-        usuarioAutenticado = usuarioDAO.autenticarUsuario(userName, contrasena);
-
-        if (usuarioAutenticado != null) {
-            logInView.dispose();
-            logInView.mostrarMensaje("Welcome " + userName, "Success", JOptionPane.INFORMATION_MESSAGE);
-            Main.mostrarMenuPrincipal(usuarioDAO, usuarioAutenticado);
+    private void autenticar() {
+        String username = loginView.getTxtUserName().getText();
+        String contrasenia = new String(loginView.getTxtContrasena().getPassword());
+        usuario = usuarioDAO.autenticarUsuario(username, contrasenia);
+        if (usuario == null) {
+            loginView.mostrarMensaje("Usuario o contraseña incorrectos.", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
         } else {
-            logInView.mostrarMensaje("User or password incorrect", "Error", JOptionPane.ERROR_MESSAGE);
+            loginView.dispose();
+            ec.edu.ups.poo.Main.mostrarMenuPrincipal(usuario);
         }
     }
 
     public Usuario getUsuarioAutenticado() {
-        return usuarioAutenticado;
+        return usuario;
     }
 
     public void configurarUsuarioCrearView(UsuarioCrearView usuarioCrearView) {
@@ -103,7 +100,7 @@ public class UsuarioController {
             }
         }
 
-        if (usuarioAutenticado != null && usuarioAutenticado.getRol() == Rol.USUARIO) {
+        if (usuario != null && usuario.getRol() == Rol.USUARIO) {
             cbxRol.setEnabled(false);
         } else {
             cbxRol.setEnabled(true);
@@ -117,8 +114,8 @@ public class UsuarioController {
                 usuarioEditarView.mostrarMensaje("Ingrese el nombre de usuario para buscar.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            Usuario usuario = usuarioDAO.buscarUsuario(usernameBuscar);
-            if (usuario == null) {
+            Usuario usuarioEncontrado = usuarioDAO.buscarUsuario(usernameBuscar);
+            if (usuarioEncontrado == null) {
                 usuarioEditarView.mostrarMensaje("Usuario no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
                 usuarioEditarView.getLblUsername().setText("");
                 usuarioEditarView.getLblPassword().setText("");
@@ -127,9 +124,9 @@ public class UsuarioController {
                 }
                 usuarioEditarView.getLblUsername().setEditable(true);
             } else {
-                usuarioEditarView.getLblUsername().setText(usuario.getUserName());
-                usuarioEditarView.getLblPassword().setText(usuario.getContrasena());
-                cbxRol.setSelectedItem(usuario.getRol());
+                usuarioEditarView.getLblUsername().setText(usuarioEncontrado.getUserName());
+                usuarioEditarView.getLblPassword().setText(usuarioEncontrado.getContrasena());
+                cbxRol.setSelectedItem(usuarioEncontrado.getRol());
                 usuarioEditarView.getLblUsername().setEditable(false);
             }
         });
@@ -152,7 +149,7 @@ public class UsuarioController {
 
             usuarioExistente.setContrasena(password);
 
-            if (usuarioAutenticado != null && usuarioAutenticado.getRol() != Rol.USUARIO) {
+            if (usuario != null && usuario.getRol() != Rol.USUARIO) {
                 usuarioExistente.setRol(rol);
                 usuarioDAO.actualizar(username, password, rol);
             } else {
@@ -184,16 +181,16 @@ public class UsuarioController {
                 return;
             }
 
-            Usuario usuario = usuarioDAO.buscarUsuario(username);
-            if (usuario == null) {
+            Usuario usuarioEncontrado = usuarioDAO.buscarUsuario(username);
+            if (usuarioEncontrado == null) {
                 usuarioElimiarView.mostrarMensaje("Usuario no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
                 usuarioElimiarView.getLblPassword().setText("");
                 usuarioElimiarView.getCbxRol().removeAllItems();
                 usuarioElimiarView.getDelateButton().setEnabled(false);
             } else {
-                usuarioElimiarView.getLblPassword().setText(usuario.getContrasena());
+                usuarioElimiarView.getLblPassword().setText(usuarioEncontrado.getContrasena());
                 usuarioElimiarView.getCbxRol().removeAllItems();
-                usuarioElimiarView.getCbxRol().addItem(usuario.getRol());
+                usuarioElimiarView.getCbxRol().addItem(usuarioEncontrado.getRol());
                 usuarioElimiarView.getLblUsername().setEditable(false);
                 usuarioElimiarView.getLblPassword().setEditable(false);
                 usuarioElimiarView.getCbxRol().setEnabled(false);
@@ -266,17 +263,17 @@ public class UsuarioController {
                 usuarioListarView.getLblNameSearch().setText("");
                 usuarioListarView.getCbxRol().setSelectedIndex(0);
             } else {
-                Usuario usuario = usuarioDAO.buscarUsuario(username);
-                if (usuario == null) {
+                Usuario usuarioEncontrado = usuarioDAO.buscarUsuario(username);
+                if (usuarioEncontrado == null) {
                     usuarioListarView.mostrarMensaje("Usuario no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    if (buscarPorRol && !usuario.getRol().equals((Rol) rolSeleccionado)) {
+                    if (buscarPorRol && !usuarioEncontrado.getRol().equals((Rol) rolSeleccionado)) {
                         usuarioListarView.mostrarMensaje("El usuario no tiene el rol seleccionado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         modelo.addRow(new Object[]{
-                                usuario.getUserName(),
-                                usuario.getContrasena(),
-                                usuario.getRol().name()
+                                usuarioEncontrado.getUserName(),
+                                usuarioEncontrado.getContrasena(),
+                                usuarioEncontrado.getRol().name()
                         });
                     }
                 }

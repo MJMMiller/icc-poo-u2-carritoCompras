@@ -67,14 +67,12 @@ public class CarritoEditarView extends JInternalFrame{
         Color fondo = new Color(29, 30, 32);
         Color letras = Color.WHITE;
 
-        // Establecer fondo en todos los paneles principales
         if (panelAll != null) panelAll.setBackground(fondo);
         if (panelInferior != null) panelInferior.setBackground(fondo);
         if (panelItems != null) panelItems.setBackground(fondo);
         if (panelProduct != null) panelProduct.setBackground(fondo);
         if (panelTitle != null) panelTitle.setBackground(fondo);
 
-        // Fondo de la tabla y scroll
         if (scroll == null && tblProducts != null) {
             scroll = (JScrollPane) tblProducts.getParent().getParent();
         }
@@ -105,7 +103,6 @@ public class CarritoEditarView extends JInternalFrame{
             }
         }
 
-        // Opcional: Cambiar color de labels y botones principales si quieres
         setColorComponent(lblCodeProductSearch, fondo, letras);
         setColorComponent(lblNameProduct, fondo, letras);
         setColorComponent(lblPriceProduct, fondo, letras);

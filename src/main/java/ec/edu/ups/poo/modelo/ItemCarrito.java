@@ -1,12 +1,13 @@
 package ec.edu.ups.poo.modelo;
 
 public class ItemCarrito {
+
     private Producto producto;
     private int cantidad;
 
     public ItemCarrito(Producto producto, int cantidad) {
-        this.cantidad = cantidad;
         this.producto = producto;
+        this.cantidad = cantidad;
     }
 
     public Producto getProducto() {
@@ -21,12 +22,12 @@ public class ItemCarrito {
         return cantidad;
     }
 
-    public double getTotalItem() {
-        return producto.getPrecio() * cantidad;
-    }
-
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public double getTotalItem() {
+        return producto.getPrecio() * cantidad;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UsuarioDAOMemoria implements UsuarioDAO {
 
-    private List<Usuario> usuarios;
+    private final List<Usuario> usuarios;
 
     public UsuarioDAOMemoria() {
         usuarios = new ArrayList<>();

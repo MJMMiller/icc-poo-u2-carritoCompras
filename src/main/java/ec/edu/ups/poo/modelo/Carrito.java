@@ -1,5 +1,6 @@
 package ec.edu.ups.poo.modelo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -11,14 +12,16 @@ public class Carrito {
     private double iva;
     private double total;
     private Date fecha;
+    private Usuario usuario;
 
-    public Carrito(int id, List<ItemCarrito> items, double subtotal, double iva, double total, Date fecha) {
+    public Carrito(int id, List<ItemCarrito> items, double subtotal, double iva, double total, Date fecha, Usuario usuario) {
         this.id = id;
         this.items = items;
         this.subtotal = subtotal;
         this.iva = iva;
         this.total = total;
         this.fecha = fecha;
+        this.usuario = usuario;
     }
 
     public List<ItemCarrito> getItems() {
@@ -61,27 +64,34 @@ public class Carrito {
         this.total = total;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public String getFecha() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        return sdf.format(fecha);
     }
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Carrito [id=").append(id)
-                .append(", fecha=").append(fecha)
-                .append(", subtotal=").append(subtotal)
-                .append(", iva=").append(iva)
-                .append(", total=").append(total)
-                .append(", items=[");
-        for (ItemCarrito item : items) {
-            sb.append("\n  ").append(item);
-        }
-        sb.append("\n]]");
-        return sb.toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDate = dateFormat.format(fecha);
+        return "Carrito [id=" + id +
+                ", usuario=" + usuario +
+                ", fecha=" + formattedDate +
+                ", subtotal=" + subtotal +
+                ", iva=" + iva +
+                ", total=" + total +
+                ", items=" + items + "]";
     }
 }

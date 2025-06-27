@@ -9,10 +9,14 @@ import java.util.List;
 
 public class ProductoDAOMemoria implements ProductoDAO {
 
-    private List<Producto> productos;
+    private final List<Producto> productos;
 
     public ProductoDAOMemoria() {
         productos = new ArrayList<>();
+        crear(new Producto(1, "Laptop", 1200.00));
+        crear(new Producto(2, "Manzana", 0.50));
+        crear(new Producto(3, "Tablet", 400.00));
+        crear(new Producto(4, "Zapatos", 125.00));
     }
 
     @Override
@@ -46,6 +50,7 @@ public class ProductoDAOMemoria implements ProductoDAO {
         for (int i = 0; i < productos.size(); i++) {
             if (productos.get(i).getCodigo() == producto.getCodigo()) {
                 productos.set(i, producto);
+                break;
             }
         }
     }
@@ -57,6 +62,7 @@ public class ProductoDAOMemoria implements ProductoDAO {
             Producto producto = iterator.next();
             if (producto.getCodigo() == codigo) {
                 iterator.remove();
+                break;
             }
         }
     }

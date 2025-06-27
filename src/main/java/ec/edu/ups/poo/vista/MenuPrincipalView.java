@@ -1,5 +1,7 @@
 package ec.edu.ups.poo.vista;
 
+import ec.edu.ups.poo.modelo.Usuario;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,6 +10,9 @@ public class MenuPrincipalView extends JFrame {
     private JMenu menuProducto;
     private JMenu menuCarrito;
     private JMenu menuUsuarios;
+    private JMenu menuSesion;
+    private JMenu menuIdioma;
+    private JMenuItem menuItemLogout;
 
     private JMenuItem menuItemCrearProducto;
     private JMenuItem menuItemEliminarProducto;
@@ -24,10 +29,13 @@ public class MenuPrincipalView extends JFrame {
     private JMenuItem menuItemEliminarUsuario;
     private JMenuItem menuItemListarUsuarios;
 
-    private JDesktopPane jDesktopPane;
-    private JButton btnLogout;
+    private JMenuItem menuItemEspanol;
+    private JMenuItem menuItemIngles;
+    private JMenuItem menuItemFrances;
 
-    public MenuPrincipalView() {
+    private JDesktopPane jDesktopPane;
+
+    public MenuPrincipalView(Usuario usuarioAutenticado) {
         setLayout(new BorderLayout());
 
         jDesktopPane = new JDesktopPane() {
@@ -44,55 +52,61 @@ public class MenuPrincipalView extends JFrame {
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         centerPanel.setOpaque(false);
 
-        JLabel lblBienvenida = new JLabel("Welcome to the Shopping Cart System", SwingConstants.CENTER);
+        JLabel lblBienvenida = new JLabel("Bienvenido al sistema de compras: " + usuarioAutenticado.getUserName(), SwingConstants.CENTER);
         lblBienvenida.setFont(new Font("Arial", Font.BOLD, 26));
         lblBienvenida.setForeground(Color.WHITE);
         lblBienvenida.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
         lblBienvenida.setOpaque(false);
         centerPanel.add(lblBienvenida);
 
-        btnLogout = new JButton("Logout");
-        btnLogout.setBackground(Color.WHITE);
-        btnLogout.setForeground(Color.BLACK);
-        btnLogout.setFocusPainted(false);
-        btnLogout.setFont(new Font("Arial", Font.BOLD, 14));
-        btnLogout.setPreferredSize(new Dimension(90, 32));
-        btnLogout.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-
         panelNorth.add(centerPanel, BorderLayout.CENTER);
-        panelNorth.add(btnLogout, BorderLayout.EAST);
 
         menuBar = new JMenuBar();
         menuBar.setBackground(new Color(33, 37, 43));
         menuBar.setForeground(Color.WHITE);
 
-        menuProducto = new JMenu("Product");
+        menuProducto = new JMenu("Producto");
         menuProducto.setForeground(Color.WHITE);
 
-        menuCarrito = new JMenu("Cart");
+        menuCarrito = new JMenu("Carrito");
         menuCarrito.setForeground(Color.WHITE);
 
-        menuUsuarios = new JMenu("Users");
+        menuUsuarios = new JMenu("Usuario");
         menuUsuarios.setForeground(Color.WHITE);
 
-        menuItemCrearProducto = new JMenuItem("Create Product");
-        menuItemEditarProducto = new JMenuItem("Edit Product");
-        menuItemBuscarProducto = new JMenuItem("Search Product");
-        menuItemEliminarProducto = new JMenuItem("Delete Product");
+        menuSesion = new JMenu("Sesión");
+        menuSesion.setForeground(Color.WHITE);
 
-        menuItemCrearCarrito = new JMenuItem("Create Cart");
-        menuItemEditarCarrito = new JMenuItem("Edit Cart");
-        menuItemEliminarCarrito = new JMenuItem("Delete Cart");
-        menuItemListarCarritos = new JMenuItem("List Carts");
+        menuIdioma = new JMenu("Idioma");
+        menuIdioma.setForeground(Color.WHITE);
 
-        menuItemCrearUsuario = new JMenuItem("Create User");
-        menuItemEditarUsuario = new JMenuItem("Edit User");
-        menuItemEliminarUsuario = new JMenuItem("Delete User");
-        menuItemListarUsuarios = new JMenuItem("List Users");
+        menuItemCrearProducto = new JMenuItem("Crear Producto");
+        menuItemEditarProducto = new JMenuItem("Editar Producto");
+        menuItemBuscarProducto = new JMenuItem("Listar Productos");
+        menuItemEliminarProducto = new JMenuItem("Borrar Producto");
+
+        menuItemCrearCarrito = new JMenuItem("Crear Carrito");
+        menuItemEditarCarrito = new JMenuItem("Editar Carrito");
+        menuItemEliminarCarrito = new JMenuItem("Borrar Carrito");
+        menuItemListarCarritos = new JMenuItem("Listar Carrtitos");
+
+        menuItemCrearUsuario = new JMenuItem("Crear Usuario");
+        menuItemEditarUsuario = new JMenuItem("Editar  Usuario");
+        menuItemEliminarUsuario = new JMenuItem("Borrar Usuario");
+        menuItemListarUsuarios = new JMenuItem("Listar Usuarios");
+
+        menuItemEspanol = new JMenuItem("Espanol");
+        menuItemIngles = new JMenuItem("Ingles");
+        menuItemFrances = new JMenuItem("Frances");
+
+
+        menuItemLogout = new JMenuItem("Cerrar Sesión");
+        menuSesion.add(menuItemLogout);
 
         menuBar.add(menuProducto);
         menuBar.add(menuCarrito);
         menuBar.add(menuUsuarios);
+        menuBar.add(menuSesion);
 
         menuProducto.add(menuItemCrearProducto);
         menuProducto.add(menuItemEditarProducto);
@@ -109,13 +123,17 @@ public class MenuPrincipalView extends JFrame {
         menuUsuarios.add(menuItemListarUsuarios);
         menuUsuarios.add(menuItemEliminarUsuario);
 
+        menuIdioma.add(menuItemEspanol);
+        menuIdioma.add(menuItemIngles);
+        menuIdioma.add(menuItemFrances);
+
         setJMenuBar(menuBar);
 
         add(panelNorth, BorderLayout.NORTH);
         add(jDesktopPane, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Online Shopping Cart System");
+        setTitle("Sistema de Carrito de Compras");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
     }
@@ -156,6 +174,15 @@ public class MenuPrincipalView extends JFrame {
     public JDesktopPane getjDesktopPane() { return jDesktopPane; }
     public void setjDesktopPane(JDesktopPane jDesktopPane) { this.jDesktopPane = jDesktopPane; }
 
-    public JButton getBtnLogout() { return btnLogout; }
-    public void setBtnLogout(JButton btnLogout) { this.btnLogout = btnLogout; }
+    public JMenu getMenuIdioma() { return menuIdioma; }
+    public void setMenuIdioma(JMenu menuIdioma) { this.menuIdioma = menuIdioma; }
+    public JMenuItem getMenuItemEspanol() { return menuItemEspanol; }
+    public void setMenuItemEspanol(JMenuItem menuItemEspanol) { this.menuItemEspanol = menuItemEspanol; }
+    public JMenuItem getMenuItemIngles() { return menuItemIngles; }
+    public void setMenuItemIngles(JMenuItem menuItemIngles) { this.menuItemIngles = menuItemIngles; }
+    public JMenuItem getMenuItemFrances() { return menuItemFrances; }
+    public void setMenuItemFrances(JMenuItem menuItemFrances) { this.menuItemFrances = menuItemFrances; }
+
+    public JMenuItem getMenuItemLogout() { return menuItemLogout; }
+    public void setMenuItemLogout(JMenuItem menuItemLogout) { this.menuItemLogout = menuItemLogout; }
 }

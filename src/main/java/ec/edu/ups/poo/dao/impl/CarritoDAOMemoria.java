@@ -20,6 +20,12 @@ public class CarritoDAOMemoria implements CarritoDAO {
 
     @Override
     public void agregarProducto(Producto producto, int cantidad) {
+        for (ItemCarrito item : items) {
+            if (item.getProducto().getCodigo() == producto.getCodigo()) {
+                item.setCantidad(item.getCantidad() + cantidad);
+                return;
+            }
+        }
         items.add(new ItemCarrito(producto, cantidad));
     }
 
@@ -64,12 +70,10 @@ public class CarritoDAOMemoria implements CarritoDAO {
     }
 
     @Override
-    public Carrito obtenerCarrito(int codigoProducto) {
+    public Carrito obtenerCarrito(int idCarrito) {
         for (Carrito carrito : carritos) {
-            for (ItemCarrito item : carrito.getItems()) {
-                if (item.getProducto().getCodigo() == codigoProducto) {
-                    return carrito;
-                }
+            if (carrito.getId() == idCarrito) {
+                return carrito;
             }
         }
         return null;
@@ -85,5 +89,10 @@ public class CarritoDAOMemoria implements CarritoDAO {
                 break;
             }
         }
+    }
+
+    @Override
+    public List<Carrito> listarCarritos() {
+        return new ArrayList<>(carritos);
     }
 }

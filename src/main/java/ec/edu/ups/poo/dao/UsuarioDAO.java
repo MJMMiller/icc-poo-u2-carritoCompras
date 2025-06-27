@@ -2,11 +2,9 @@ package ec.edu.ups.poo.dao;
 
 import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
-
 import java.util.List;
 
 public interface UsuarioDAO {
-
 
     Usuario autenticarUsuario(String userName, String contrasena);
 
@@ -21,4 +19,5 @@ public interface UsuarioDAO {
     List<Usuario> listarUsuariosTodos();
 
     List<Usuario> buscarUsuariosPorRol(Rol rol);
+
 }

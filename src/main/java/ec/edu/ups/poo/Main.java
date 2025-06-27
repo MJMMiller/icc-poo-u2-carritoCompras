@@ -16,6 +16,7 @@ import ec.edu.ups.poo.vista.*;
 import ec.edu.ups.poo.vista.carrito.CarritoAnadirView;
 import ec.edu.ups.poo.vista.carrito.CarritoEditarView;
 import ec.edu.ups.poo.vista.carrito.CarritoEliminarView;
+import ec.edu.ups.poo.vista.carrito.CarritoListarView;
 import ec.edu.ups.poo.vista.inicio.LogInView;
 import ec.edu.ups.poo.vista.inicio.RegisterView;
 import ec.edu.ups.poo.vista.producto.ProducUpdateView;
@@ -29,17 +30,21 @@ import ec.edu.ups.poo.vista.usuario.UsuarioListarView;
 
 public class Main {
     private static UsuarioController usuarioController;
+    public static UsuarioDAO usuarioDAO;
+    public static ProductoDAO productoDAO;
+    public static CarritoDAO carritoDAO;
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
-            UsuarioDAO usuarioDAO = new UsuarioDAOMemoria();
-            mostrarLogin(usuarioDAO);
+            usuarioDAO = new UsuarioDAOMemoria();
+            productoDAO = new ProductoDAOMemoria();
+            carritoDAO = new CarritoDAOMemoria();
+            mostrarLogin();
         });
     }
 
-    public static void mostrarLogin(UsuarioDAO usuarioDAO) {
+    public static void mostrarLogin() {
         LogInView logInView = new LogInView();
-
         usuarioController = new UsuarioController(usuarioDAO, logInView);
 
         logInView.getBtnRegister().addActionListener(e -> {
@@ -55,11 +60,8 @@ public class Main {
         logInView.setVisible(true);
     }
 
-    public static void mostrarMenuPrincipal(UsuarioDAO usuarioDAO, Usuario usuarioAutenticado) {
-        ProductoDAO productoDAO = new ProductoDAOMemoria();
-        CarritoDAO carritoDAO = new CarritoDAOMemoria();
-
-        MenuPrincipalView principalView = new MenuPrincipalView();
+    public static void mostrarMenuPrincipal(Usuario usuarioAutenticado) {
+        MenuPrincipalView principalView = new MenuPrincipalView(usuarioAutenticado);
 
         // PRODUCTO
         ProductoAnadirView productoAnadirView = new ProductoAnadirView();
@@ -72,6 +74,7 @@ public class Main {
         CarritoEditarView carritoEditarView = new CarritoEditarView();
         carritoEditarView.init();
         CarritoEliminarView carritoEliminarView = new CarritoEliminarView();
+        CarritoListarView carritoListarView = new CarritoListarView();
 
         // USUARIO
         UsuarioCrearView usuarioCrearView = new UsuarioCrearView();
@@ -80,7 +83,7 @@ public class Main {
         UsuarioElimiarView usuarioElimiarView = new UsuarioElimiarView();
 
         new ProductoController(productoDAO, productoAnadirView, productoListaView, productoGestionView, productDelateView, carritoAnadirView);
-        CarritoController carritoController = new CarritoController(carritoDAO, productoDAO, carritoAnadirView, carritoEditarView);
+        CarritoController carritoController = new CarritoController(carritoDAO, productoDAO, carritoAnadirView, carritoEditarView, usuarioAutenticado);
 
         if (usuarioAutenticado.getRol() == Rol.USUARIO) {
             principalView.getMenuItemCrearProducto().setEnabled(false);
@@ -134,18 +137,27 @@ public class Main {
                 principalView.getjDesktopPane().add(carritoAnadirView);
             }
         });
+
         principalView.getMenuItemEditarCarrito().addActionListener(event -> {
             if (!carritoEditarView.isVisible()) {
                 principalView.getjDesktopPane().add(carritoEditarView);
                 carritoEditarView.setVisible(true);
-                carritoController.configurarEventosEditar();
             }
         });
+
         principalView.getMenuItemEliminarCarrito().addActionListener(event -> {
             if (!carritoEliminarView.isVisible()) {
-                carritoController.configurarEliminarCarritoView(carritoEliminarView);
+                carritoController.configurarEventosEliminar(carritoEliminarView);
                 carritoEliminarView.setVisible(true);
                 principalView.getjDesktopPane().add(carritoEliminarView);
+            }
+        });
+
+        principalView.getMenuItemListarCarritos().addActionListener(event -> {
+            if (!carritoListarView.isVisible()) {
+                principalView.getjDesktopPane().add(carritoListarView);
+                carritoListarView.setVisible(true);
+                carritoController.configurarEventosListar(carritoListarView);
             }
         });
 
@@ -179,9 +191,9 @@ public class Main {
             }
         });
 
-        principalView.getBtnLogout().addActionListener(ev -> {
+        principalView.getMenuItemLogout().addActionListener(ev -> {
             principalView.dispose();
-            mostrarLogin(usuarioDAO);
+            mostrarLogin();
         });
 
         principalView.setVisible(true);

@@ -4,58 +4,44 @@ import javax.swing.*;
 
 public class LogInView extends JFrame {
     private JPanel panelAll;
-    private JTextField lblUserName;
-    private JLabel txtUserName;
-    private JLabel txtPassword;
+    private JTextField txtUserName;
+    private JLabel lblUsername;
+    private JLabel lblContrasena;
     private JButton btnLogIn;
     private JButton btnExit;
-    private JPasswordField lblPassword;
+    private JPasswordField txtContrasena;
     private JButton btnRegister;
     private JPanel panelFinal;
     private JPanel panelCentro;
     private JPanel panelArriba;
     private JLabel txtSettingsProduc;
+    private JComboBox cbxIdioma;
 
     public LogInView() {
-        setTitle("Log In");
+        setTitle("Inicio de Sesión");
         setContentPane(panelAll);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 225);
+        setSize(500, 225);
         setLocationRelativeTo(null);
         setResizable(false);
 
+        cambiarIdioma();
     }
 
-    public JPanel getPanelAll() {
-        return panelAll;
-    }
-
-    public void setPanelAll(JPanel panelAll) {
-        this.panelAll = panelAll;
-    }
-
-    public JTextField getLblUserName() {
-        return lblUserName;
-    }
-
-    public void setLblUserName(JTextField lblUserName) {
-        this.lblUserName = lblUserName;
-    }
-
-    public JLabel getTxtUserName() {
+    public JTextField getTxtUserName() {
         return txtUserName;
     }
 
-    public void setTxtUserName(JLabel txtUserName) {
+    public void setTxtUserName(JTextField txtUserName) {
         this.txtUserName = txtUserName;
     }
 
-    public JLabel getTxtPassword() {
-        return txtPassword;
+    public JPasswordField getTxtContrasena() {
+        return txtContrasena;
     }
 
-    public void setTxtPassword(JLabel txtPassword) {
-        this.txtPassword = txtPassword;
+    public void setTxtContrasena(JPasswordField txtContrasena) {
+        this.txtContrasena = txtContrasena;
     }
 
     public JButton getBtnLogIn() {
@@ -74,20 +60,20 @@ public class LogInView extends JFrame {
         this.btnExit = btnExit;
     }
 
-    public JPasswordField getLblPassword() {
-        return lblPassword;
-    }
-
-    public void setLblPassword(JPasswordField lblPassword) {
-        this.lblPassword = lblPassword;
-    }
-
     public JButton getBtnRegister() {
         return btnRegister;
     }
 
     public void setBtnRegister(JButton btnRegister) {
         this.btnRegister = btnRegister;
+    }
+
+    public JPanel getPanelAll() {
+        return panelAll;
+    }
+
+    public void setPanelAll(JPanel panelAll) {
+        this.panelAll = panelAll;
     }
 
     public JPanel getPanelFinal() {
@@ -112,6 +98,43 @@ public class LogInView extends JFrame {
 
     public void setPanelArriba(JPanel panelArriba) {
         this.panelArriba = panelArriba;
+    }
+
+    public JLabel getLblUsername() {
+        return lblUsername;
+    }
+
+    public void setLblUsername(JLabel lblUsername) {
+        this.lblUsername = lblUsername;
+    }
+
+    public JLabel getLblContrasena() {
+        return lblContrasena;
+    }
+
+    public void setLblContrasena(JLabel lblContrasena) {
+        this.lblContrasena = lblContrasena;
+    }
+
+    public JLabel getTxtSettingsProduc() {
+        return txtSettingsProduc;
+    }
+
+    public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
+        this.txtSettingsProduc = txtSettingsProduc;
+    }
+
+    public JComboBox getCbxIdioma() {
+        return cbxIdioma;
+    }
+    public void setCbxIdioma(JComboBox cbxIdioma) {
+        this.cbxIdioma = cbxIdioma;
+    }
+    public void cambiarIdioma() {
+        cbxIdioma.removeAllItems();
+        cbxIdioma.addItem("Español");
+        cbxIdioma.addItem("Ingles");
+        cbxIdioma.addItem("Frances");
     }
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
