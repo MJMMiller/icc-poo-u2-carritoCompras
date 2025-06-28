@@ -33,18 +33,12 @@ public class MenuPrincipalView extends JFrame {
     private JMenuItem menuItemIngles;
     private JMenuItem menuItemFrances;
 
-    private JDesktopPane jDesktopPane;
+    private MiJDesktopPane desktop;
 
     public MenuPrincipalView(Usuario usuarioAutenticado) {
         setLayout(new BorderLayout());
 
-        jDesktopPane = new JDesktopPane() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                setBackground(new Color(40, 44, 52));
-            }
-        };
+        desktop = new MiJDesktopPane();
 
         JPanel panelNorth = new JPanel(new BorderLayout());
         panelNorth.setBackground(new Color(33, 37, 43));
@@ -99,13 +93,13 @@ public class MenuPrincipalView extends JFrame {
         menuItemIngles = new JMenuItem("Ingles");
         menuItemFrances = new JMenuItem("Frances");
 
-
         menuItemLogout = new JMenuItem("Cerrar Sesión");
         menuSesion.add(menuItemLogout);
 
         menuBar.add(menuProducto);
         menuBar.add(menuCarrito);
         menuBar.add(menuUsuarios);
+        menuBar.add(menuIdioma);
         menuBar.add(menuSesion);
 
         menuProducto.add(menuItemCrearProducto);
@@ -130,13 +124,16 @@ public class MenuPrincipalView extends JFrame {
         setJMenuBar(menuBar);
 
         add(panelNorth, BorderLayout.NORTH);
-        add(jDesktopPane, BorderLayout.CENTER);
+        add(desktop, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Sistema de Carrito de Compras");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
     }
+
+    public JDesktopPane getjDesktopPane() { return desktop; }
+    public void setjDesktopPane(MiJDesktopPane desktop) { this.desktop = desktop; }
 
     public JMenuItem getMenuItemCrearProducto() { return menuItemCrearProducto; }
     public void setMenuItemCrearProducto(JMenuItem menuItemCrearProducto) { this.menuItemCrearProducto = menuItemCrearProducto; }
@@ -171,8 +168,6 @@ public class MenuPrincipalView extends JFrame {
     public void setMenuProducto(JMenu menuProducto) { this.menuProducto = menuProducto; }
     public JMenu getMenuCarrito() { return menuCarrito; }
     public void setMenuCarrito(JMenu menuCarrito) { this.menuCarrito = menuCarrito; }
-    public JDesktopPane getjDesktopPane() { return jDesktopPane; }
-    public void setjDesktopPane(JDesktopPane jDesktopPane) { this.jDesktopPane = jDesktopPane; }
 
     public JMenu getMenuIdioma() { return menuIdioma; }
     public void setMenuIdioma(JMenu menuIdioma) { this.menuIdioma = menuIdioma; }

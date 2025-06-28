@@ -99,6 +99,8 @@ public class Main {
             principalView.getMenuItemEditarUsuario().setEnabled(true);
             principalView.getMenuItemEliminarUsuario().setEnabled(false);
             principalView.getMenuItemListarUsuarios().setEnabled(false);
+
+            principalView.getMenuIdioma().setEnabled(true);
         }
 
         // PRODUCTOS

@@ -1,5 +1,7 @@
 package ec.edu.ups.poo.vista.inicio;
 
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class LogInView extends JFrame {
@@ -16,6 +18,7 @@ public class LogInView extends JFrame {
     private JPanel panelArriba;
     private JLabel txtSettingsProduc;
     private JComboBox cbxIdioma;
+    private MensajeInternacionalizacionHandler mInter;
 
     public LogInView() {
         setTitle("Inicio de Sesión");

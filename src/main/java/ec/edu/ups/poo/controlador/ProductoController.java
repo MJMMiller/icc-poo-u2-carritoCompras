@@ -20,10 +20,14 @@ public class ProductoController extends JInternalFrame {
     private final ProductDelateView productDelateView;
     private final CarritoAnadirView carritoAnadirView;
 
-    public ProductoController(ProductoDAO productoDAO,
-                              ProductoAnadirView productoAnadirView,
-                              ProductoListarView productoListaView,
-                              ProducUpdateView productoGestionView, ProductDelateView productDelateView, CarritoAnadirView carritoAnadirView) {
+    public ProductoController(
+            ProductoDAO productoDAO,
+            ProductoAnadirView productoAnadirView,
+            ProductoListarView productoListaView,
+            ProducUpdateView productoGestionView,
+            ProductDelateView productDelateView,
+            CarritoAnadirView carritoAnadirView
+    ) {
         this.productoDAO = productoDAO;
         this.productoAnadirView = productoAnadirView;
         this.productoListaView = productoListaView;
@@ -39,6 +43,7 @@ public class ProductoController extends JInternalFrame {
         productoAnadirView.getBtnCleanInputs().addActionListener(e -> {
             productoAnadirView.limpiarCampos();
             productoAnadirView.habilitarCampos();
+            setearNuevoIdProducto();
         });
 
         productoListaView.getBtnSearch().addActionListener(e ->
@@ -54,6 +59,25 @@ public class ProductoController extends JInternalFrame {
 
         carritoAnadirView.getBtnSearchProduct().addActionListener(e -> buscarProductoEnCarrito());
 
+        if (productoAnadirView != null) {
+            setearNuevoIdProducto();
+        }
+    }
+
+    private void setearNuevoIdProducto() {
+        int nuevoId = obtenerSiguienteIdProducto();
+        productoAnadirView.getLblCodeProduct().setText(String.valueOf(nuevoId));
+        productoAnadirView.getLblCodeProduct().setEditable(false);
+    }
+
+    private int obtenerSiguienteIdProducto() {
+        int maxId = 0;
+        for (Producto producto : productoDAO.listarTodos()) {
+            if (producto.getCodigo() > maxId) {
+                maxId = producto.getCodigo();
+            }
+        }
+        return maxId + 1;
     }
 
     public void guardarProducto() {
@@ -63,7 +87,8 @@ public class ProductoController extends JInternalFrame {
 
         Producto existente = productoDAO.buscarPorCodigo(codigo);
         if (existente != null) {
-            productoAnadirView.mostrarMensaje("ID Existente, Ingrese nuevamente " , "Error", 0);
+            productoAnadirView.mostrarMensaje("ID Existente, Ingrese nuevamente ", "Error", 0);
+            setearNuevoIdProducto();
             return;
         }
 
@@ -71,6 +96,7 @@ public class ProductoController extends JInternalFrame {
         productoAnadirView.mostrarMensaje("Producto guardado correctamente", "Información", 1);
         productoAnadirView.inhabilitarCampos();
         productoAnadirView.mostrarProductos(productoDAO.listarTodos());
+        setearNuevoIdProducto();
     }
 
     private void buscarProducto(String nombre) {
@@ -85,13 +111,11 @@ public class ProductoController extends JInternalFrame {
         } else {
             productoListaView.mostrarMensaje("Ingresa un nombre para buscar", "Advertencia", 2);
         }
-
     }
 
     public void listarProductos() {
         List<Producto> productos = productoDAO.listarTodos();
         productoListaView.mostrarProductos(productos);
-
     }
 
     private void buscarProductoGestionDelate() {
@@ -157,12 +181,9 @@ public class ProductoController extends JInternalFrame {
         } else {
             productoGestionView.mostrarMensaje("Ingresa un código para actualizar", "Advertencia", 2);
         }
-
-
     }
 
     private void eliminarProductoDelate() {
-
         String txtCod = productDelateView.getLblCodeProductSearch().getText();
         if (!txtCod.isEmpty()) {
             int codigo = Integer.parseInt(txtCod);
@@ -175,6 +196,5 @@ public class ProductoController extends JInternalFrame {
         } else {
             productDelateView.mostrarMensaje("Ingresa un código para eliminar", "Advertencia", 2);
         }
-
     }
 }
