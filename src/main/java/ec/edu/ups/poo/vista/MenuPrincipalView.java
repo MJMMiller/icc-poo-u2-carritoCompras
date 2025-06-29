@@ -39,6 +39,7 @@ public class MenuPrincipalView extends JFrame {
         setLayout(new BorderLayout());
 
         desktop = new MiJDesktopPane();
+        desktop.setBackground(new Color(33, 37, 43));
 
         JPanel panelNorth = new JPanel(new BorderLayout());
         panelNorth.setBackground(new Color(33, 37, 43));
