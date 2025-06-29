@@ -7,28 +7,31 @@ import javax.swing.*;
 public class LogInView extends JFrame {
     private JPanel panelAll;
     private JTextField txtUserName;
-    private JLabel lblUsername;
+    private JLabel lblUsuario;
     private JLabel lblContrasena;
-    private JButton btnLogIn;
-    private JButton btnExit;
+    private JButton btnInicioSesion;
+    private JButton btnSalir;
     private JPasswordField txtContrasena;
-    private JButton btnRegister;
+    private JButton btnRegistro;
     private JPanel panelFinal;
     private JPanel panelCentro;
     private JPanel panelArriba;
-    private JLabel txtSettingsProduc;
+    private JLabel lblTitulo;
     private JComboBox cbxIdioma;
-    private MensajeInternacionalizacionHandler mInter;
+    private JLabel lblIdioma;
+    private MensajeInternacionalizacionHandler i18n;
 
     public LogInView() {
+    }
+    public LogInView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setTitle("Inicio de Sesión");
         setContentPane(panelAll);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 225);
+        setSize(600, 300);
         setLocationRelativeTo(null);
-        setResizable(false);
-
-        cambiarIdioma();
+        aplicarIdioma();
+        actualizarOpcionesIdioma();
     }
 
     public JTextField getTxtUserName() {
@@ -48,27 +51,27 @@ public class LogInView extends JFrame {
     }
 
     public JButton getBtnLogIn() {
-        return btnLogIn;
+        return btnInicioSesion;
     }
 
     public void setBtnLogIn(JButton btnLogIn) {
-        this.btnLogIn = btnLogIn;
+        this.btnInicioSesion = btnLogIn;
     }
 
     public JButton getBtnExit() {
-        return btnExit;
+        return btnSalir;
     }
 
     public void setBtnExit(JButton btnExit) {
-        this.btnExit = btnExit;
+        this.btnSalir = btnExit;
     }
 
     public JButton getBtnRegister() {
-        return btnRegister;
+        return btnRegistro;
     }
 
     public void setBtnRegister(JButton btnRegister) {
-        this.btnRegister = btnRegister;
+        this.btnRegistro = btnRegister;
     }
 
     public JPanel getPanelAll() {
@@ -104,11 +107,11 @@ public class LogInView extends JFrame {
     }
 
     public JLabel getLblUsername() {
-        return lblUsername;
+        return lblUsuario;
     }
 
     public void setLblUsername(JLabel lblUsername) {
-        this.lblUsername = lblUsername;
+        this.lblUsuario = lblUsername;
     }
 
     public JLabel getLblContrasena() {
@@ -120,27 +123,41 @@ public class LogInView extends JFrame {
     }
 
     public JLabel getTxtSettingsProduc() {
-        return txtSettingsProduc;
+        return lblTitulo;
     }
 
     public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.txtSettingsProduc = txtSettingsProduc;
+        this.lblTitulo = txtSettingsProduc;
     }
 
-    public JComboBox getCbxIdioma() {
-        return cbxIdioma;
-    }
+    public JComboBox getCbxIdioma() {return cbxIdioma;}
     public void setCbxIdioma(JComboBox cbxIdioma) {
         this.cbxIdioma = cbxIdioma;
     }
-    public void cambiarIdioma() {
-        cbxIdioma.removeAllItems();
-        cbxIdioma.addItem("Español");
-        cbxIdioma.addItem("Ingles");
-        cbxIdioma.addItem("Frances");
-    }
+
+    public JLabel getLblIdioma() {return lblIdioma;}
+
+    public void setLblIdioma(JLabel lblIdioma) {this.lblIdioma = lblIdioma;}
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
+
+    public void actualizarOpcionesIdioma() {
+            cbxIdioma.removeAllItems();
+            cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.es"));
+            cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.en"));
+            cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.fr"));
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("login.title"));
+        lblTitulo.setText(i18n.get("login.lblTitulo"));
+        lblIdioma.setText(i18n.get("login.lblIdioma"));
+        lblUsuario.setText(i18n.get("login.lblUsuario"));
+        lblContrasena.setText(i18n.get("login.lblContrasena"));
+        btnInicioSesion.setText(i18n.get("login.btnInicioSesion"));
+        btnSalir.setText(i18n.get("login.btnSalir"));
+        btnRegistro.setText(i18n.get("login.btnRegistro"));
+        cbxIdioma.setToolTipText(i18n.get("login.cbxIdioma.tooltip"));    }
 }

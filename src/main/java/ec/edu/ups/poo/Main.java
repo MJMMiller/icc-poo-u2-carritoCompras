@@ -12,6 +12,7 @@ import ec.edu.ups.poo.dao.impl.ProductoDAOMemoria;
 import ec.edu.ups.poo.dao.impl.UsuarioDAOMemoria;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.*;
 import ec.edu.ups.poo.vista.carrito.CarritoAnadirView;
 import ec.edu.ups.poo.vista.carrito.CarritoEditarView;
@@ -44,8 +45,30 @@ public class Main {
     }
 
     public static void mostrarLogin() {
-        LogInView logInView = new LogInView();
+        MensajeInternacionalizacionHandler i18n = new MensajeInternacionalizacionHandler("es", "EC");
+        LogInView logInView = new LogInView(i18n);
         usuarioController = new UsuarioController(usuarioDAO, logInView);
+
+        logInView.actualizarOpcionesIdioma();
+
+        logInView.getCbxIdioma().addActionListener(e -> {
+            int selectedIndex = logInView.getCbxIdioma().getSelectedIndex();
+            switch (selectedIndex) {
+                case 0:
+                    i18n.setLenguaje("es", "EC");
+                    break;
+                case 1:
+                    i18n.setLenguaje("en", "US");
+                    break;
+                case 2:
+                    i18n.setLenguaje("fr", "FR");
+                    break;
+                default:
+                    i18n.setLenguaje("en", "US");
+            }
+            logInView.aplicarIdioma();
+            logInView.actualizarOpcionesIdioma();
+        });
 
         logInView.getBtnRegister().addActionListener(e -> {
             RegisterView registerView = new RegisterView();
