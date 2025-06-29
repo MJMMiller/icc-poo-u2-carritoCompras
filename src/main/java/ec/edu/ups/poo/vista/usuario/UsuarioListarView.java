@@ -19,22 +19,24 @@ public class UsuarioListarView extends JInternalFrame {
     private JPanel panelAll;
     private JScrollPane scroll;
     private JPanel panelItulo;
-    private JLabel txtSettingsProduc;
-    private JButton btnSearch;
-    private JTextField lblNameSearch;
+    private JLabel lblTitulo;
+    private JButton btnBuscar;
+    private JTextField txtUsuario;
     private JComboBox<Object> cbxRol;
+    private JLabel lblUsuario;
+    private JLabel lblRol;
     private DefaultTableModel modelo;
 
     public UsuarioListarView() {
         setContentPane(panelAll);
-        setTitle("List Users");
+        setTitle("Listar Usuarios");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 400);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
 
-        modelo = new DefaultTableModel(new Object[]{"User", "Password", "Rol"}, 0) {
+        modelo = new DefaultTableModel(new Object[]{"Usuario", "Contrasena", "Rol"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -84,30 +86,6 @@ public class UsuarioListarView extends JInternalFrame {
         }
     }
 
-    public JComboBox<Object> getCbxRol() {
-        return cbxRol;
-    }
-
-    public void setCbxRol(JComboBox<Object> cbxRol) {
-        this.cbxRol = cbxRol;
-    }
-
-    public JTextField getLblNameSearch() {
-        return lblNameSearch;
-    }
-
-    public void setLblNameSearch(JTextField lblNameSearch) {
-        this.lblNameSearch = lblNameSearch;
-    }
-
-    public JButton getBtnSearch() {
-        return btnSearch;
-    }
-
-    public void setBtnSearch(JButton btnSearch) {
-        this.btnSearch = btnSearch;
-    }
-
     public JPanel getPanelSuperio() {
         return panelSuperio;
     }
@@ -154,6 +132,62 @@ public class UsuarioListarView extends JInternalFrame {
 
     public void setScroll(JScrollPane scroll) {
         this.scroll = scroll;
+    }
+
+    public JPanel getPanelItulo() {
+        return panelItulo;
+    }
+
+    public void setPanelItulo(JPanel panelItulo) {
+        this.panelItulo = panelItulo;
+    }
+
+    public JLabel getTxtSettingsProduc() {
+        return lblTitulo;
+    }
+
+    public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
+        this.lblTitulo = txtSettingsProduc;
+    }
+
+    public JButton getBtnBuscar() {
+        return btnBuscar;
+    }
+
+    public void setBtnBuscar(JButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
+    }
+
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
+    }
+
+    public JComboBox<Object> getCbxRol() {
+        return cbxRol;
+    }
+
+    public void setCbxRol(JComboBox<Object> cbxRol) {
+        this.cbxRol = cbxRol;
+    }
+
+    public JLabel getLblUsuario() {
+        return lblUsuario;
+    }
+
+    public void setLblUsuario(JLabel lblUsuario) {
+        this.lblUsuario = lblUsuario;
+    }
+
+    public JLabel getLblRol() {
+        return lblRol;
+    }
+
+    public void setLblRol(JLabel lblRol) {
+        this.lblRol = lblRol;
     }
 
     public DefaultTableModel getModelo() {

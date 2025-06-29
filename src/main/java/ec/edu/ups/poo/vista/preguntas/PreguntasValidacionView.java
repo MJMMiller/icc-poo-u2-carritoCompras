@@ -21,6 +21,7 @@ public class PreguntasValidacionView extends JFrame{
     private JButton btnClean;
     private JTextField txtNuevaContra;
     private JLabel lblNuevaContra;
+    private JLabel lblTitulo;
 
     public PreguntasValidacionView(Usuario usuario, UsuarioDAO usuarioDAO) {
         setTitle("Registro de Preguntas de Validación");
@@ -29,18 +30,6 @@ public class PreguntasValidacionView extends JFrame{
         setLocationRelativeTo(null);
         lblNuevaContra.setVisible(false);
         txtNuevaContra.setVisible(false);
-    }
-
-    public JTextField getTxtNuevaContra() {return txtNuevaContra;}
-
-    public void setTxtNuevaContra(JTextField txtNuevaContra) {this.txtNuevaContra = txtNuevaContra;}
-
-    public JLabel getLblNuevaContra() {
-        return lblNuevaContra;
-    }
-
-    public void setLblNuevaContra(JLabel lblNuevaContra) {
-        this.lblNuevaContra = lblNuevaContra;
     }
 
     public JPanel getPanelAll() {
@@ -115,27 +104,51 @@ public class PreguntasValidacionView extends JFrame{
         this.lblPregunta3 = lblPregunta3;
     }
 
-    public JButton getGuardarButton() {
+    public JButton getBtnEnviar() {
         return btnEnviar;
     }
 
-    public void setGuardarButton(JButton guardarButton) {
-        this.btnEnviar = guardarButton;
+    public void setBtnEnviar(JButton btnEnviar) {
+        this.btnEnviar = btnEnviar;
     }
 
-    public JButton getLimpiarButton() {
+    public JButton getBtnClean() {
         return btnClean;
     }
 
-    public void setLimpiarButton(JButton limpiarButton) {
-        this.btnClean = limpiarButton;
+    public void setBtnClean(JButton btnClean) {
+        this.btnClean = btnClean;
+    }
+
+    public JTextField getTxtNuevaContra() {
+        return txtNuevaContra;
+    }
+
+    public void setTxtNuevaContra(JTextField txtNuevaContra) {
+        this.txtNuevaContra = txtNuevaContra;
+    }
+
+    public JLabel getLblNuevaContra() {
+        return lblNuevaContra;
+    }
+
+    public void setLblNuevaContra(JLabel lblNuevaContra) {
+        this.lblNuevaContra = lblNuevaContra;
+    }
+
+    public JLabel getLblTitulo() {
+        return lblTitulo;
+    }
+
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
     }
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 
-    public int mostrarMensajeDelate(String mensaje, String titulo, int tipo) {
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
         Object[] botones = {"Confirm", "Cancel"};
         return JOptionPane.showOptionDialog(
                 this, mensaje, titulo,

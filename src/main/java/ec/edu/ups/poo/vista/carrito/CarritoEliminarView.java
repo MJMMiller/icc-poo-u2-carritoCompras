@@ -8,18 +8,24 @@ import java.awt.*;
 
 public class CarritoEliminarView extends JInternalFrame {
     private JPanel panelTitle;
-    private JLabel txtSettingsProduc;
+    private JLabel lblTitulo;
     private JPanel panelProduct;
-    private JTextField lblCodeSerachCart;
-    private JButton btnCodeSearchCart;
+    private JTextField txtCodigo;
+    private JButton btnBuscar;
     private JScrollPane scroll;
     private JTable tblProducts;
-    private JTextField lblTax;
-    private JTextField lblTotal;
+    private JTextField txtIva;
+    private JTextField txtTotal;
     private JButton btnDelateItem;
-    private JTextField lblSubTotal;
-    private JButton btnDelate;
+    private JTextField txtSubTotal;
+    private JButton btnEliminar;
     private JPanel panelAll;
+    private JLabel lblCodigo;
+    private JLabel lblSubTotal;
+    private JLabel lblIva;
+    private JLabel lblTotal;
+    private JLabel lblItemsCarrito;
+    private JPanel panelFinal;
 
     public CarritoEliminarView() {
         setContentPane(panelAll);
@@ -49,38 +55,151 @@ public class CarritoEliminarView extends JInternalFrame {
         ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
     }
 
-    public JPanel getPanelTitle() { return panelTitle; }
-    public void setPanelTitle(JPanel panelTitle) { this.panelTitle = panelTitle; }
-    public JLabel getTxtSettingsProduc() { return txtSettingsProduc; }
-    public void setTxtSettingsProduc(JLabel txtSettingsProduc) { this.txtSettingsProduc = txtSettingsProduc; }
-    public JPanel getPanelProduct() { return panelProduct; }
-    public void setPanelProduct(JPanel panelProduct) { this.panelProduct = panelProduct; }
-    public JTextField getLblCodeSerachCart() { return lblCodeSerachCart; }
-    public void setLblCodeSerachCart(JTextField lblCodeSerachCart) { this.lblCodeSerachCart = lblCodeSerachCart; }
-    public JButton getBtnCodeSearchCart() { return btnCodeSearchCart; }
-    public void setBtnCodeSearchCart(JButton btnCodeSearchCart) { this.btnCodeSearchCart = btnCodeSearchCart; }
-    public JScrollPane getScroll() { return scroll; }
-    public void setScroll(JScrollPane scroll) { this.scroll = scroll; }
-    public JTable getTblProducts() { return tblProducts; }
-    public void setTblProducts(JTable tblProducts) { this.tblProducts = tblProducts; }
-    public JTextField getLblTax() { return lblTax; }
-    public void setLblTax(JTextField lblTax) { this.lblTax = lblTax; }
-    public JTextField getLblTotal() { return lblTotal; }
-    public void setLblTotal(JTextField lblTotal) { this.lblTotal = lblTotal; }
-    public JButton getBtnDelateItem() { return btnDelateItem; }
-    public void setBtnDelateItem(JButton btnDelateItem) { this.btnDelateItem = btnDelateItem; }
-    public JTextField getLblSubTotal() { return lblSubTotal; }
-    public void setLblSubTotal(JTextField lblSubTotal) { this.lblSubTotal = lblSubTotal; }
-    public JButton getBtnDelate() { return btnDelate; }
-    public void setBtnDelate(JButton btnDelate) { this.btnDelate = btnDelate; }
-    public JPanel getPanelAll() { return panelAll; }
-    public void setPanelAll(JPanel panelAll) { this.panelAll = panelAll; }
+    public JPanel getPanelTitle() {
+        return panelTitle;
+    }
 
-    public int mostrarMensajeDelate(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirm", "Cancel"};
+    public void setPanelTitle(JPanel panelTitle) {
+        this.panelTitle = panelTitle;
+    }
+
+    public JLabel getLblTitulo() {
+        return lblTitulo;
+    }
+
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
+    }
+
+    public JPanel getPanelProduct() {
+        return panelProduct;
+    }
+
+    public void setPanelProduct(JPanel panelProduct) {
+        this.panelProduct = panelProduct;
+    }
+
+    public JTextField getTxtCodigo() {
+        return txtCodigo;
+    }
+
+    public void setTxtCodigo(JTextField txtCodigo) {
+        this.txtCodigo = txtCodigo;
+    }
+
+    public JButton getBtnBuscar() {
+        return btnBuscar;
+    }
+
+    public void setBtnBuscar(JButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
+    }
+
+    public JScrollPane getScroll() {
+        return scroll;
+    }
+
+    public void setScroll(JScrollPane scroll) {
+        this.scroll = scroll;
+    }
+
+    public JTable getTblProducts() {
+        return tblProducts;
+    }
+
+    public void setTblProducts(JTable tblProducts) {
+        this.tblProducts = tblProducts;
+    }
+
+    public JTextField getTxtIva() {
+        return txtIva;
+    }
+
+    public void setTxtIva(JTextField txtIva) {
+        this.txtIva = txtIva;
+    }
+
+    public JTextField getTxtTotal() {
+        return txtTotal;
+    }
+
+    public void setTxtTotal(JTextField txtTotal) {
+        this.txtTotal = txtTotal;
+    }
+
+    public JButton getBtnDelateItem() {
+        return btnDelateItem;
+    }
+
+    public void setBtnDelateItem(JButton btnDelateItem) {
+        this.btnDelateItem = btnDelateItem;
+    }
+
+    public JTextField getTxtSubTotal() {
+        return txtSubTotal;
+    }
+
+    public void setTxtSubTotal(JTextField txtSubTotal) {
+        this.txtSubTotal = txtSubTotal;
+    }
+
+    public JButton getBtnEliminar() {
+        return btnEliminar;
+    }
+
+    public void setBtnEliminar(JButton btnEliminar) {
+        this.btnEliminar = btnEliminar;
+    }
+
+    public JPanel getPanelAll() {
+        return panelAll;
+    }
+
+    public void setPanelAll(JPanel panelAll) {
+        this.panelAll = panelAll;
+    }
+
+    public JLabel getLblCodigo() {
+        return lblCodigo;
+    }
+
+    public void setLblCodigo(JLabel lblCodigo) {
+        this.lblCodigo = lblCodigo;
+    }
+
+    public JLabel getLblSubTotal() {
+        return lblSubTotal;
+    }
+
+    public void setLblSubTotal(JLabel lblSubTotal) {
+        this.lblSubTotal = lblSubTotal;
+    }
+
+    public JLabel getLblIva() {
+        return lblIva;
+    }
+
+    public void setLblIva(JLabel lblIva) {
+        this.lblIva = lblIva;
+    }
+
+    public JLabel getLblTotal() {
+        return lblTotal;
+    }
+
+    public void setLblTotal(JLabel lblTotal) {
+        this.lblTotal = lblTotal;
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirmar", "Cancelar"};
         return JOptionPane.showOptionDialog(
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 }

@@ -27,7 +27,7 @@
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
-          <component id="1cf92" class="javax.swing.JButton" binding="btnSearch">
+          <component id="1cf92" class="javax.swing.JButton" binding="btnBuscar">
             <constraints>
               <grid row="0" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -35,7 +35,7 @@
               <text value="Search"/>
             </properties>
           </component>
-          <component id="20e08" class="javax.swing.JTextField" binding="lblNameSearch">
+          <component id="20e08" class="javax.swing.JTextField" binding="txtUsuario">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -46,16 +46,16 @@
               <foreground color="-394241"/>
             </properties>
           </component>
-          <component id="a0229" class="javax.swing.JLabel">
+          <component id="a0229" class="javax.swing.JLabel" binding="lblUsuario">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <foreground color="-394241"/>
-              <text value="Name"/>
+              <text value="Usuario"/>
             </properties>
           </component>
-          <component id="198a" class="javax.swing.JLabel">
+          <component id="198a" class="javax.swing.JLabel" binding="lblRol">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -80,7 +80,7 @@
             <properties>
               <background color="-12763068"/>
               <foreground color="-394241"/>
-              <text value="List"/>
+              <text value="Listar"/>
             </properties>
           </component>
         </children>
@@ -139,14 +139,14 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="8e28c" class="javax.swing.JLabel" binding="txtSettingsProduc">
+          <component id="8e28c" class="javax.swing.JLabel" binding="lblTitulo">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font/>
               <foreground color="-394241"/>
-              <text value="List Users"/>
+              <text value="Lista Usuarios"/>
             </properties>
           </component>
         </children>

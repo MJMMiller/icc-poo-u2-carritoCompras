@@ -20,14 +20,14 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="431e5" class="javax.swing.JLabel" binding="txtSettingsProduc">
+          <component id="431e5" class="javax.swing.JLabel" binding="lblTitulo">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font/>
               <foreground color="-394241"/>
-              <text value="Delate User"/>
+              <text value="Eliminar Usuario"/>
             </properties>
           </component>
         </children>
@@ -42,7 +42,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="73b35" class="javax.swing.JLabel">
+          <component id="73b35" class="javax.swing.JLabel" binding="lblUsuario">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -51,7 +51,7 @@
               <text value="Username"/>
             </properties>
           </component>
-          <component id="dc315" class="javax.swing.JTextField" binding="lblUsername">
+          <component id="dc315" class="javax.swing.JTextField" binding="txtUsuario">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -62,7 +62,7 @@
               <foreground color="-394241"/>
             </properties>
           </component>
-          <component id="a5750" class="javax.swing.JLabel">
+          <component id="a5750" class="javax.swing.JLabel" binding="lblContrasena">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -71,7 +71,7 @@
               <text value="Passoword"/>
             </properties>
           </component>
-          <component id="12518" class="javax.swing.JTextField" binding="lblPassword">
+          <component id="12518" class="javax.swing.JTextField" binding="txtContrasena">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -82,7 +82,7 @@
               <foreground color="-394241"/>
             </properties>
           </component>
-          <component id="b941a" class="javax.swing.JLabel">
+          <component id="b941a" class="javax.swing.JLabel" binding="lblRol">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -101,12 +101,12 @@
               <foreground color="-459777"/>
             </properties>
           </component>
-          <component id="861b7" class="javax.swing.JButton" binding="btnSearch">
+          <component id="861b7" class="javax.swing.JButton" binding="btnBuscar">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Search"/>
+              <text value="Buscar"/>
             </properties>
           </component>
         </children>
@@ -121,14 +121,14 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="680c0" class="javax.swing.JButton" binding="delateButton" default-binding="true">
+          <component id="680c0" class="javax.swing.JButton" binding="btnEliminar">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-12763068"/>
               <foreground color="-394241"/>
-              <text value="Delate"/>
+              <text value="Eliminar"/>
             </properties>
           </component>
         </children>

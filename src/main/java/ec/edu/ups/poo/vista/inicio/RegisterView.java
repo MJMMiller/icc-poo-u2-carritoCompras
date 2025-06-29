@@ -5,7 +5,7 @@ import javax.swing.*;
 public class RegisterView extends JFrame {
     private JPanel panelAll;
     private JPanel panelSuperior;
-    private JLabel txtSettingsProduc;
+    private JLabel lblTitulo;
     private JPanel panelCentral;
     private JTextField txtUsuario;
     private JTextField txtContrasena;
@@ -26,7 +26,6 @@ public class RegisterView extends JFrame {
     public RegisterView() {
         setTitle("Log In");
         setContentPane(panelAll);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 500);
         setLocationRelativeTo(null);
     }
@@ -48,11 +47,11 @@ public class RegisterView extends JFrame {
     }
 
     public JLabel getTxtSettingsProduc() {
-        return txtSettingsProduc;
+        return lblTitulo;
     }
 
     public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.txtSettingsProduc = txtSettingsProduc;
+        this.lblTitulo = txtSettingsProduc;
     }
 
     public JPanel getPanelCentral() {
@@ -185,5 +184,13 @@ public class RegisterView extends JFrame {
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirmar", "Cancelar"};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
     }
 }

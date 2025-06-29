@@ -14,27 +14,28 @@ import java.util.List;
 
 public class CarritoListarItemsView extends JInternalFrame {
     private JPanel panelTitle;
-    private JLabel txtSettingsProduc;
+    private JLabel lblTitulo;
     private JPanel panelProduct;
-    private JLabel txtCodeProduct;
-    private JTextField txtCodeCart;
-    private JLabel txtNameProduct;
+    private JLabel lblCodigo;
+    private JTextField txtCodigo;
+    private JLabel lblUsuario;
     private JTextField txtRolUser;
     private JTextField txtFecha;
-    private JLabel txtPriceProduct;
+    private JLabel lblFecha;
     private JPanel panelItems;
     private JScrollPane scroll;
     private JTable tblProducts;
-    private JLabel txtSubTotal;
-    private JLabel txtTax;
-    private JTextField lblTax;
-    private JLabel txtTotal;
-    private JTextField lblTotal;
-    private JTextField lblSubTotal;
+    private JLabel lblSubtotal;
+    private JLabel lblva;
+    private JTextField txtIva;
+    private JLabel lblTotal;
+    private JTextField txtTotal;
+    private JTextField txtSubTotal;
     private JPanel panelInferior;
-    private JButton btnExit;
+    private JButton btnSalir;
     private JPanel panelAll;
-    private JTextField txtUsername;
+    private JTextField txtUsuario;
+    private JLabel lblItemsCarrito;
     private DefaultTableModel modelo;
 
     public CarritoListarItemsView(
@@ -55,7 +56,7 @@ public class CarritoListarItemsView extends JInternalFrame {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        modelo = new DefaultTableModel(new Object[]{"Item", "Name", "Price", "Amount", "Total Item"}, 0) {
+        modelo = new DefaultTableModel(new Object[]{"Item", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -96,7 +97,7 @@ public class CarritoListarItemsView extends JInternalFrame {
             }
         }
 
-        btnExit.addActionListener(new ActionListener() {
+        btnSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -113,12 +114,12 @@ public class CarritoListarItemsView extends JInternalFrame {
         this.panelTitle = panelTitle;
     }
 
-    public JLabel getTxtSettingsProduc() {
-        return txtSettingsProduc;
+    public JLabel getLblTitulo() {
+        return lblTitulo;
     }
 
-    public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.txtSettingsProduc = txtSettingsProduc;
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
     }
 
     public JPanel getPanelProduct() {
@@ -129,52 +130,52 @@ public class CarritoListarItemsView extends JInternalFrame {
         this.panelProduct = panelProduct;
     }
 
-    public JLabel getTxtCodeProduct() {
-        return txtCodeProduct;
+    public JLabel getLblCodigo() {
+        return lblCodigo;
     }
 
-    public void setTxtCodeProduct(JLabel txtCodeProduct) {
-        this.txtCodeProduct = txtCodeProduct;
+    public void setLblCodigo(JLabel lblCodigo) {
+        this.lblCodigo = lblCodigo;
     }
 
-    public JTextField getLblCodeProductSearch() {
-        return txtCodeCart;
+    public JTextField getTxtCodigo() {
+        return txtCodigo;
     }
 
-    public void setLblCodeProductSearch(JTextField lblCodeProductSearch) {
-        this.txtCodeCart = lblCodeProductSearch;
+    public void setTxtCodigo(JTextField txtCodigo) {
+        this.txtCodigo = txtCodigo;
     }
 
-    public JLabel getTxtNameProduct() {
-        return txtNameProduct;
+    public JLabel getLblUsuario() {
+        return lblUsuario;
     }
 
-    public void setTxtNameProduct(JLabel txtNameProduct) {
-        this.txtNameProduct = txtNameProduct;
+    public void setLblUsuario(JLabel lblUsuario) {
+        this.lblUsuario = lblUsuario;
     }
 
-    public JTextField getLblNameProduct() {
+    public JTextField getTxtRolUser() {
         return txtRolUser;
     }
 
-    public void setLblNameProduct(JTextField lblNameProduct) {
-        this.txtRolUser = lblNameProduct;
+    public void setTxtRolUser(JTextField txtRolUser) {
+        this.txtRolUser = txtRolUser;
     }
 
-    public JTextField getLblPriceProduct() {
+    public JTextField getTxtFecha() {
         return txtFecha;
     }
 
-    public void setLblPriceProduct(JTextField lblPriceProduct) {
-        this.txtFecha = lblPriceProduct;
+    public void setTxtFecha(JTextField txtFecha) {
+        this.txtFecha = txtFecha;
     }
 
-    public JLabel getTxtPriceProduct() {
-        return txtPriceProduct;
+    public JLabel getLblFecha() {
+        return lblFecha;
     }
 
-    public void setTxtPriceProduct(JLabel txtPriceProduct) {
-        this.txtPriceProduct = txtPriceProduct;
+    public void setLblFecha(JLabel lblFecha) {
+        this.lblFecha = lblFecha;
     }
 
     public JPanel getPanelItems() {
@@ -201,52 +202,52 @@ public class CarritoListarItemsView extends JInternalFrame {
         this.tblProducts = tblProducts;
     }
 
-    public JLabel getTxtSubTotal() {
-        return txtSubTotal;
+    public JLabel getLblSubtotal() {
+        return lblSubtotal;
     }
 
-    public void setTxtSubTotal(JLabel txtSubTotal) {
-        this.txtSubTotal = txtSubTotal;
+    public void setLblSubtotal(JLabel lblSubtotal) {
+        this.lblSubtotal = lblSubtotal;
     }
 
-    public JLabel getTxtTax() {
-        return txtTax;
+    public JLabel getLblva() {
+        return lblva;
     }
 
-    public void setTxtTax(JLabel txtTax) {
-        this.txtTax = txtTax;
+    public void setLblva(JLabel lblva) {
+        this.lblva = lblva;
     }
 
-    public JTextField getLblTax() {
-        return lblTax;
+    public JTextField getTxtIva() {
+        return txtIva;
     }
 
-    public void setLblTax(JTextField lblTax) {
-        this.lblTax = lblTax;
+    public void setTxtIva(JTextField txtIva) {
+        this.txtIva = txtIva;
     }
 
-    public JLabel getTxtTotal() {
-        return txtTotal;
-    }
-
-    public void setTxtTotal(JLabel txtTotal) {
-        this.txtTotal = txtTotal;
-    }
-
-    public JTextField getLblTotal() {
+    public JLabel getLblTotal() {
         return lblTotal;
     }
 
-    public void setLblTotal(JTextField lblTotal) {
+    public void setLblTotal(JLabel lblTotal) {
         this.lblTotal = lblTotal;
     }
 
-    public JTextField getLblSubTotal() {
-        return lblSubTotal;
+    public JTextField getTxtTotal() {
+        return txtTotal;
     }
 
-    public void setLblSubTotal(JTextField lblSubTotal) {
-        this.lblSubTotal = lblSubTotal;
+    public void setTxtTotal(JTextField txtTotal) {
+        this.txtTotal = txtTotal;
+    }
+
+    public JTextField getTxtSubTotal() {
+        return txtSubTotal;
+    }
+
+    public void setTxtSubTotal(JTextField txtSubTotal) {
+        this.txtSubTotal = txtSubTotal;
     }
 
     public JPanel getPanelInferior() {
@@ -257,12 +258,12 @@ public class CarritoListarItemsView extends JInternalFrame {
         this.panelInferior = panelInferior;
     }
 
-    public JButton getBtnSave() {
-        return btnExit;
+    public JButton getBtnSalir() {
+        return btnSalir;
     }
 
-    public void setBtnSave(JButton btnSave) {
-        this.btnExit = btnSave;
+    public void setBtnSalir(JButton btnSalir) {
+        this.btnSalir = btnSalir;
     }
 
     public JPanel getPanelAll() {
@@ -273,12 +274,20 @@ public class CarritoListarItemsView extends JInternalFrame {
         this.panelAll = panelAll;
     }
 
-    public JTextField getTextField1() {
-        return txtUsername;
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
     }
 
-    public void setTextField1(JTextField textField1) {
-        this.txtUsername = textField1;
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
+    }
+
+    public JLabel getLblItemsCarrito() {
+        return lblItemsCarrito;
+    }
+
+    public void setLblItemsCarrito(JLabel lblItemsCarrito) {
+        this.lblItemsCarrito = lblItemsCarrito;
     }
 
     public DefaultTableModel getModelo() {
@@ -311,12 +320,16 @@ public class CarritoListarItemsView extends JInternalFrame {
                 });
             }
         }
-        if (lblSubTotal != null) lblSubTotal.setText(String.format("%.2f", subtotal));
-        if (lblTax != null) lblTax.setText(String.format("%.2f", iva));
-        if (lblTotal != null) lblTotal.setText(String.format("%.2f", total));
-        if (txtCodeCart != null) txtCodeCart.setText(String.valueOf(carritoId));
-        if (txtUsername != null) txtUsername.setText(username);
+        if (txtSubTotal != null) txtSubTotal.setText(String.format("%.2f", subtotal));
+        if (txtIva != null) txtIva.setText(String.format("%.2f", iva));
+        if (txtTotal != null) txtTotal.setText(String.format("%.2f", total));
+        if (txtCodigo != null) txtCodigo.setText(String.valueOf(carritoId));
+        if (txtUsuario != null) txtUsuario.setText(username);
         if (txtRolUser != null && rol != null) txtRolUser.setText(rol.toString());
         if (txtFecha != null) txtFecha.setText(fecha);
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 }

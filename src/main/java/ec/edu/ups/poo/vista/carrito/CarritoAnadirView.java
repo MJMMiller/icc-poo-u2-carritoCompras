@@ -10,26 +10,26 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
 
-public class CarritoAnadirView extends JInternalFrame{
+public class CarritoAnadirView extends JInternalFrame {
     private JPanel panelAll;
     private JTextField lblCodeProductSearch;
-    private JTextField lblNameProduct;
-    private JTextField lblPriceProduct;
+    private JTextField txtNombre;
+    private JTextField txtPrecio;
     private JTable tblProducts;
-    private JButton btnAddProduct;
+    private JButton btnAnadir;
     private JTextField lblSubTotal;
-    private JComboBox cbxAmountProduct;
+    private JComboBox cbxCantidad;
     private JButton btnSave;
     private JButton btnCancel;
     private JLabel txtTotal;
     private JLabel txtShoppingCart;
-    private JLabel txtCodeProduct;
-    private JLabel txtNameProduct;
-    private JLabel txtPriceProduct;
+    private JLabel lblCodigoProducto;
+    private JLabel lblNombre;
+    private JLabel lblPrecio;
     private JLabel txtAmountProduct;
-    private JButton btnSearchProduct;
+    private JButton btnBuscar;
     private JLabel txtSubTotal;
-    private JLabel txtTax;
+    private JLabel lblIva;
     private JTextField lblTax;
     private JTextField lblTotal;
     private JPanel panelInferior;
@@ -37,8 +37,14 @@ public class CarritoAnadirView extends JInternalFrame{
     private JPanel panelProduct;
     private JPanel panelTitle;
     private JScrollPane scroll;
-    private JButton btnDeleteItem;
-    private JLabel txtSettingsProduc;
+    private JButton btnEliminarItem;
+    private JLabel lblTitulo;
+    private JLabel lblItemsCarrito;
+    private JTextField txtSubTot;
+    private JTextField txtIva;
+    private JTextField txtTot;
+    private JLabel lblTot;
+    private JLabel lblSubTot;
     private DefaultTableModel modelo;
 
     public CarritoAnadirView() {
@@ -105,36 +111,36 @@ public class CarritoAnadirView extends JInternalFrame{
         this.lblCodeProductSearch = lblCodeProductSearch;
     }
 
-    public JTextField getLblNameProduct() {
-        return lblNameProduct;
+    public JTextField getTxtNombre() {
+        return txtNombre;
     }
 
-    public void setLblNameProduct(JTextField lblNameProduct) {
-        this.lblNameProduct = lblNameProduct;
+    public void setTxtNombre(JTextField txtNombre) {
+        this.txtNombre = txtNombre;
     }
 
-    public JTextField getLblPriceProduct() {
-        return lblPriceProduct;
+    public JTextField getTxtPrecio() {
+        return txtPrecio;
     }
 
-    public void setLblPriceProduct(JTextField lblPriceProduct) {
-        this.lblPriceProduct = lblPriceProduct;
+    public void setTxtPrecio(JTextField txtPrecio) {
+        this.txtPrecio = txtPrecio;
     }
 
-    public JTable getTblItems() {
+    public JTable getTblProducts() {
         return tblProducts;
     }
 
-    public void setTblItems(JTable tblProducts) {
+    public void setTblProducts(JTable tblProducts) {
         this.tblProducts = tblProducts;
     }
 
-    public JButton getBtnAddProduct() {
-        return btnAddProduct;
+    public JButton getBtnAnadir() {
+        return btnAnadir;
     }
 
-    public void setBtnAddProduct(JButton btnAddProduct) {
-        this.btnAddProduct = btnAddProduct;
+    public void setBtnAnadir(JButton btnAnadir) {
+        this.btnAnadir = btnAnadir;
     }
 
     public JTextField getLblSubTotal() {
@@ -145,12 +151,12 @@ public class CarritoAnadirView extends JInternalFrame{
         this.lblSubTotal = lblSubTotal;
     }
 
-    public JComboBox getCbxAmountProduct() {
-        return cbxAmountProduct;
+    public JComboBox getCbxCantidad() {
+        return cbxCantidad;
     }
 
-    public void setCbxAmountProduct(JComboBox cbxAmountProduct) {
-        this.cbxAmountProduct = cbxAmountProduct;
+    public void setCbxCantidad(JComboBox cbxCantidad) {
+        this.cbxCantidad = cbxCantidad;
     }
 
     public JButton getBtnSave() {
@@ -185,28 +191,28 @@ public class CarritoAnadirView extends JInternalFrame{
         this.txtShoppingCart = txtShoppingCart;
     }
 
-    public JLabel getTxtCodeProduct() {
-        return txtCodeProduct;
+    public JLabel getLblCodigoProducto() {
+        return lblCodigoProducto;
     }
 
-    public void setTxtCodeProduct(JLabel txtCodeProduct) {
-        this.txtCodeProduct = txtCodeProduct;
+    public void setLblCodigoProducto(JLabel lblCodigoProducto) {
+        this.lblCodigoProducto = lblCodigoProducto;
     }
 
-    public JLabel getTxtNameProduct() {
-        return txtNameProduct;
+    public JLabel getLblNombre() {
+        return lblNombre;
     }
 
-    public void setTxtNameProduct(JLabel txtNameProduct) {
-        this.txtNameProduct = txtNameProduct;
+    public void setLblNombre(JLabel lblNombre) {
+        this.lblNombre = lblNombre;
     }
 
-    public JLabel getTxtPriceProduct() {
-        return txtPriceProduct;
+    public JLabel getLblPrecio() {
+        return lblPrecio;
     }
 
-    public void setTxtPriceProduct(JLabel txtPriceProduct) {
-        this.txtPriceProduct = txtPriceProduct;
+    public void setLblPrecio(JLabel lblPrecio) {
+        this.lblPrecio = lblPrecio;
     }
 
     public JLabel getTxtAmountProduct() {
@@ -217,12 +223,12 @@ public class CarritoAnadirView extends JInternalFrame{
         this.txtAmountProduct = txtAmountProduct;
     }
 
-    public JButton getBtnSearchProduct() {
-        return btnSearchProduct;
+    public JButton getBtnBuscar() {
+        return btnBuscar;
     }
 
-    public void setBtnSearchProduct(JButton btnSearchProduct) {
-        this.btnSearchProduct = btnSearchProduct;
+    public void setBtnBuscar(JButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
     }
 
     public JLabel getTxtSubTotal() {
@@ -233,12 +239,12 @@ public class CarritoAnadirView extends JInternalFrame{
         this.txtSubTotal = txtSubTotal;
     }
 
-    public JLabel getTxtTax() {
-        return txtTax;
+    public JLabel getLblIva() {
+        return lblIva;
     }
 
-    public void setTxtTax(JLabel txtTax) {
-        this.txtTax = txtTax;
+    public void setLblIva(JLabel lblIva) {
+        this.lblIva = lblIva;
     }
 
     public JTextField getLblTax() {
@@ -297,20 +303,68 @@ public class CarritoAnadirView extends JInternalFrame{
         this.scroll = scroll;
     }
 
-    public JTable getTblProducts() {
-        return tblProducts;
+    public JButton getBtnEliminarItem() {
+        return btnEliminarItem;
     }
 
-    public void setTblProducts(JTable tblProducts) {
-        this.tblProducts = tblProducts;
+    public void setBtnEliminarItem(JButton btnEliminarItem) {
+        this.btnEliminarItem = btnEliminarItem;
     }
 
-    public JButton getBtnDeleteItem() {
-        return btnDeleteItem;
+    public JLabel getLblTitulo() {
+        return lblTitulo;
     }
 
-    public void setBtnDeleteItem(JButton btnDeleteItem) {
-        this.btnDeleteItem = btnDeleteItem;
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
+    }
+
+    public JLabel getLblItemsCarrito() {
+        return lblItemsCarrito;
+    }
+
+    public void setLblItemsCarrito(JLabel lblItemsCarrito) {
+        this.lblItemsCarrito = lblItemsCarrito;
+    }
+
+    public JTextField getTxtSubTot() {
+        return txtSubTot;
+    }
+
+    public void setTxtSubTot(JTextField txtSubTot) {
+        this.txtSubTot = txtSubTot;
+    }
+
+    public JTextField getTxtIva() {
+        return txtIva;
+    }
+
+    public void setTxtIva(JTextField txtIva) {
+        this.txtIva = txtIva;
+    }
+
+    public JTextField getTxtTot() {
+        return txtTot;
+    }
+
+    public void setTxtTot(JTextField txtTot) {
+        this.txtTot = txtTot;
+    }
+
+    public JLabel getLblTot() {
+        return lblTot;
+    }
+
+    public void setLblTot(JLabel lblTot) {
+        this.lblTot = lblTot;
+    }
+
+    public JLabel getLblSubTot() {
+        return lblSubTot;
+    }
+
+    public void setLblSubTot(JLabel lblSubTot) {
+        this.lblSubTot = lblSubTot;
     }
 
     public DefaultTableModel getModelo() {
@@ -321,21 +375,20 @@ public class CarritoAnadirView extends JInternalFrame{
         this.modelo = modelo;
     }
 
-    public void cargarDatosCombobox(){
-        cbxAmountProduct.removeAllItems();
+    public void cargarDatosCombobox() {
+        cbxCantidad.removeAllItems();
         for (int i = 1; i <= 20; i++) {
-            cbxAmountProduct.addItem(i);
+            cbxCantidad.addItem(i);
         }
     }
 
     public void mostrarProductos(List<Producto> productos) {
         if (productos != null && !productos.isEmpty()) {
-            lblNameProduct.setText(productos.get(0).getNombre());
-            lblPriceProduct.setText(String.valueOf(productos.get(0).getPrecio()));
+            txtNombre.setText(productos.get(0).getNombre());
+            txtPrecio.setText(String.valueOf(productos.get(0).getPrecio()));
         } else {
-            lblNameProduct.setText("");
-            lblPriceProduct.setText("");
-            JOptionPane.showMessageDialog(this, "No products found.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            txtNombre.setText("");
+            txtPrecio.setText("");
         }
     }
 
@@ -344,9 +397,10 @@ public class CarritoAnadirView extends JInternalFrame{
     }
 
     public void limpiarCampos() {
+        cbxCantidad.setSelectedIndex(0);
         lblCodeProductSearch.setText("");
-        lblNameProduct.setText("");
-        lblPriceProduct.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
     }
 
     public void mostrarItemsCarrito(List<ItemCarrito> items) {
@@ -363,19 +417,11 @@ public class CarritoAnadirView extends JInternalFrame{
         }
     }
 
-    public int mostrarMensajeDelate(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirm", "Cancel"};
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirmar", "Cancelar"};
         return JOptionPane.showOptionDialog(
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
     }
-
-    public int mostrarMensajeGuardar(String mesaje, String titulo, int tipo){
-        Object[] botones = {"Confirm", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mesaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
-    };
 }

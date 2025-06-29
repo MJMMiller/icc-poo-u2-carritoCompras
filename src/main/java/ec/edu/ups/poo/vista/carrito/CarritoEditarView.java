@@ -12,37 +12,42 @@ import java.util.List;
 
 public class CarritoEditarView extends JInternalFrame{
     private JPanel panelAll;
-    private JTextField lblCodeProductSearch;
-    private JTextField lblNameProduct;
-    private JTextField lblPriceProduct;
+    private JTextField txtCodigoProducto;
+    private JTextField txtNombre;
+    private JTextField txtPrecio;
     private JTable tblProducts;
-    private JButton btnAddProduct;
-    private JTextField lblSubTotal;
-    private JComboBox cbxAmountProduct;
-    private JButton btnSave;
+    private JButton btnAnadir;
+    private JComboBox cbxCantidad;
+    private JButton btnActualizar;
     private JButton btnCancel;
     private JLabel txtTotal;
     private JLabel txtShoppingCart;
-    private JLabel txtCodeProduct;
-    private JLabel txtNameProduct;
-    private JLabel txtPriceProduct;
-    private JLabel txtAmountProduct;
-    private JButton btnSearchProduct;
-    private JLabel txtSubTotal;
+    private JLabel lblCodigoProducto;
+    private JLabel lblNombre;
+    private JLabel lblPrecio;
+    private JLabel lblCantidad;
+    private JButton btnBuscarProducto;
     private JLabel txtTax;
-    private JTextField lblTax;
-    private JTextField lblTotal;
+    private JTextField txtIva;
     private JPanel panelInferior;
     private JPanel panelItems;
     private JPanel panelProduct;
     private JPanel panelTitle;
     private JScrollPane scroll;
-    private JButton btnDeleteItem;
-    private JLabel txtSettingsProduc;
+    private JButton btnEliminarItem;
+    private JLabel lblTitulo;
     private DefaultTableModel modelo;
-    private JTextField lblCodeSerachCart;
-    private JButton btnCodeSearchCart;
+    private JTextField txtCodigoCarrito;
+    private JButton btnBuscarCarrito;
     private JButton btnClean;
+    private JPanel panelFinal;
+    private JLabel lblItemsCarrito;
+    private JLabel lblCordigocCarrito;
+    private JTextField txtSub;
+    private JLabel lblTot;
+    private JTextField txtTot;
+    private JLabel lblIva;
+    private JLabel lblSubTot;
     private JButton btnDelateItem;
 
     public CarritoEditarView() {
@@ -103,293 +108,7 @@ public class CarritoEditarView extends JInternalFrame{
             }
         }
 
-        setColorComponent(lblCodeProductSearch, fondo, letras);
-        setColorComponent(lblNameProduct, fondo, letras);
-        setColorComponent(lblPriceProduct, fondo, letras);
-        setColorComponent(lblSubTotal, fondo, letras);
-        setColorComponent(lblTax, fondo, letras);
-        setColorComponent(lblTotal, fondo, letras);
-        setColorComponent(lblCodeSerachCart, fondo, letras);
-
-        // Labels
-        setColorLabel(txtTotal, letras);
-        setColorLabel(txtShoppingCart, letras);
-        setColorLabel(txtCodeProduct, letras);
-        setColorLabel(txtNameProduct, letras);
-        setColorLabel(txtPriceProduct, letras);
-        setColorLabel(txtAmountProduct, letras);
-        setColorLabel(txtSubTotal, letras);
-        setColorLabel(txtTax, letras);
-        setColorLabel(txtSettingsProduc, letras);
-
         cargarDatosCombobox();
-    }
-
-    // Métodos para cambiar colores de componentes
-    private void setColorComponent(JComponent comp, Color fondo, Color letras) {
-        if (comp != null) {
-            comp.setBackground(fondo);
-            comp.setForeground(letras);
-        }
-    }
-    private void setColorLabel(JLabel label, Color letras) {
-        if (label != null) label.setForeground(letras);
-    }
-
-    public JButton getBtnDelateItem() {
-        return btnDelateItem;
-    }
-
-    public void setBtnDelateItem(JButton btnDelateItem) {
-        this.btnDelateItem = btnDelateItem;
-    }
-
-    public JButton getBtnClean() {
-        return btnClean;
-    }
-
-    public void setBtnClean(JButton btnClean) {
-        this.btnClean = btnClean;
-    }
-
-    public JButton getBtnCodeSearchCart() {
-        return btnCodeSearchCart;
-    }
-
-    public void setBtnCodeSearchCart(JButton btnCodeSearchCart) {
-        this.btnCodeSearchCart = btnCodeSearchCart;
-    }
-
-    public JTextField getLblCodeSerachCart() {
-        return lblCodeSerachCart;
-    }
-
-    public void setLblCodeSerachCart(JTextField lblCodeSerachCart) {
-        this.lblCodeSerachCart = lblCodeSerachCart;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(DefaultTableModel modelo) {
-        this.modelo = modelo;
-    }
-
-    public JLabel getTxtSettingsProduc() {
-        return txtSettingsProduc;
-    }
-
-    public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.txtSettingsProduc = txtSettingsProduc;
-    }
-
-    public JButton getBtnDeleteItem() {
-        return btnDeleteItem;
-    }
-
-    public void setBtnDeleteItem(JButton btnDeleteItem) {
-        this.btnDeleteItem = btnDeleteItem;
-    }
-
-    public JScrollPane getScroll() {
-        return scroll;
-    }
-
-    public void setScroll(JScrollPane scroll) {
-        this.scroll = scroll;
-    }
-
-    public JPanel getPanelTitle() {
-        return panelTitle;
-    }
-
-    public void setPanelTitle(JPanel panelTitle) {
-        this.panelTitle = panelTitle;
-    }
-
-    public JPanel getPanelProduct() {
-        return panelProduct;
-    }
-
-    public void setPanelProduct(JPanel panelProduct) {
-        this.panelProduct = panelProduct;
-    }
-
-    public JPanel getPanelItems() {
-        return panelItems;
-    }
-
-    public void setPanelItems(JPanel panelItems) {
-        this.panelItems = panelItems;
-    }
-
-    public JPanel getPanelInferior() {
-        return panelInferior;
-    }
-
-    public void setPanelInferior(JPanel panelInferior) {
-        this.panelInferior = panelInferior;
-    }
-
-    public JTextField getLblTotal() {
-        return lblTotal;
-    }
-
-    public void setLblTotal(JTextField lblTotal) {
-        this.lblTotal = lblTotal;
-    }
-
-    public JTextField getLblTax() {
-        return lblTax;
-    }
-
-    public void setLblTax(JTextField lblTax) {
-        this.lblTax = lblTax;
-    }
-
-    public JLabel getTxtTax() {
-        return txtTax;
-    }
-
-    public void setTxtTax(JLabel txtTax) {
-        this.txtTax = txtTax;
-    }
-
-    public JLabel getTxtSubTotal() {
-        return txtSubTotal;
-    }
-
-    public void setTxtSubTotal(JLabel txtSubTotal) {
-        this.txtSubTotal = txtSubTotal;
-    }
-
-    public JButton getBtnSearchProduct() {
-        return btnSearchProduct;
-    }
-
-    public void setBtnSearchProduct(JButton btnSearchProduct) {
-        this.btnSearchProduct = btnSearchProduct;
-    }
-
-    public JLabel getTxtAmountProduct() {
-        return txtAmountProduct;
-    }
-
-    public void setTxtAmountProduct(JLabel txtAmountProduct) {
-        this.txtAmountProduct = txtAmountProduct;
-    }
-
-    public JLabel getTxtPriceProduct() {
-        return txtPriceProduct;
-    }
-
-    public void setTxtPriceProduct(JLabel txtPriceProduct) {
-        this.txtPriceProduct = txtPriceProduct;
-    }
-
-    public JLabel getTxtNameProduct() {
-        return txtNameProduct;
-    }
-
-    public void setTxtNameProduct(JLabel txtNameProduct) {
-        this.txtNameProduct = txtNameProduct;
-    }
-
-    public JLabel getTxtCodeProduct() {
-        return txtCodeProduct;
-    }
-
-    public void setTxtCodeProduct(JLabel txtCodeProduct) {
-        this.txtCodeProduct = txtCodeProduct;
-    }
-
-    public JLabel getTxtShoppingCart() {
-        return txtShoppingCart;
-    }
-
-    public void setTxtShoppingCart(JLabel txtShoppingCart) {
-        this.txtShoppingCart = txtShoppingCart;
-    }
-
-    public JLabel getTxtTotal() {
-        return txtTotal;
-    }
-
-    public void setTxtTotal(JLabel txtTotal) {
-        this.txtTotal = txtTotal;
-    }
-
-    public JButton getBtnCancel() {
-        return btnCancel;
-    }
-
-    public void setBtnCancel(JButton btnCancel) {
-        this.btnCancel = btnCancel;
-    }
-
-    public JButton getBtnSave() {
-        return btnSave;
-    }
-
-    public void setBtnSave(JButton btnSave) {
-        this.btnSave = btnSave;
-    }
-
-    public JComboBox getCbxAmountProduct() {
-        return cbxAmountProduct;
-    }
-
-    public void setCbxAmountProduct(JComboBox cbxAmountProduct) {
-        this.cbxAmountProduct = cbxAmountProduct;
-    }
-
-    public JTextField getLblSubTotal() {
-        return lblSubTotal;
-    }
-
-    public void setLblSubTotal(JTextField lblSubTotal) {
-        this.lblSubTotal = lblSubTotal;
-    }
-
-    public JButton getBtnAddProduct() {
-        return btnAddProduct;
-    }
-
-    public void setBtnAddProduct(JButton btnAddProduct) {
-        this.btnAddProduct = btnAddProduct;
-    }
-
-    public JTable getTblProducts() {
-        return tblProducts;
-    }
-
-    public void setTblProducts(JTable tblProducts) {
-        this.tblProducts = tblProducts;
-    }
-
-    public JTextField getLblPriceProduct() {
-        return lblPriceProduct;
-    }
-
-    public void setLblPriceProduct(JTextField lblPriceProduct) {
-        this.lblPriceProduct = lblPriceProduct;
-    }
-
-    public JTextField getLblNameProduct() {
-        return lblNameProduct;
-    }
-
-    public void setLblNameProduct(JTextField lblNameProduct) {
-        this.lblNameProduct = lblNameProduct;
-    }
-
-    public JTextField getLblCodeProductSearch() {
-        return lblCodeProductSearch;
-    }
-
-    public void setLblCodeProductSearch(JTextField lblCodeProductSearch) {
-        this.lblCodeProductSearch = lblCodeProductSearch;
     }
 
     public JPanel getPanelAll() {
@@ -400,10 +119,306 @@ public class CarritoEditarView extends JInternalFrame{
         this.panelAll = panelAll;
     }
 
+    public JTextField getTxtCodigoProducto() {
+        return txtCodigoProducto;
+    }
+
+    public void setTxtCodigoProducto(JTextField txtCodigoProducto) {
+        this.txtCodigoProducto = txtCodigoProducto;
+    }
+
+    public JTextField getTxtNombre() {
+        return txtNombre;
+    }
+
+    public void setTxtNombre(JTextField txtNombre) {
+        this.txtNombre = txtNombre;
+    }
+
+    public JTextField getTxtPrecio() {
+        return txtPrecio;
+    }
+
+    public void setTxtPrecio(JTextField txtPrecio) {
+        this.txtPrecio = txtPrecio;
+    }
+
+    public JTable getTblProducts() {
+        return tblProducts;
+    }
+
+    public void setTblProducts(JTable tblProducts) {
+        this.tblProducts = tblProducts;
+    }
+
+    public JButton getBtnAnadir() {
+        return btnAnadir;
+    }
+
+    public void setBtnAnadir(JButton btnAnadir) {
+        this.btnAnadir = btnAnadir;
+    }
+
+    public JComboBox getCbxCantidad() {
+        return cbxCantidad;
+    }
+
+    public void setCbxCantidad(JComboBox cbxCantidad) {
+        this.cbxCantidad = cbxCantidad;
+    }
+
+    public JButton getBtnActualizar() {
+        return btnActualizar;
+    }
+
+    public void setBtnActualizar(JButton btnActualizar) {
+        this.btnActualizar = btnActualizar;
+    }
+
+    public JButton getBtnCancel() {
+        return btnCancel;
+    }
+
+    public void setBtnCancel(JButton btnCancel) {
+        this.btnCancel = btnCancel;
+    }
+
+    public JLabel getTxtTotal() {
+        return txtTotal;
+    }
+
+    public void setTxtTotal(JLabel txtTotal) {
+        this.txtTotal = txtTotal;
+    }
+
+    public JLabel getTxtShoppingCart() {
+        return txtShoppingCart;
+    }
+
+    public void setTxtShoppingCart(JLabel txtShoppingCart) {
+        this.txtShoppingCart = txtShoppingCart;
+    }
+
+    public JLabel getLblCodigoProducto() {
+        return lblCodigoProducto;
+    }
+
+    public void setLblCodigoProducto(JLabel lblCodigoProducto) {
+        this.lblCodigoProducto = lblCodigoProducto;
+    }
+
+    public JLabel getLblNombre() {
+        return lblNombre;
+    }
+
+    public void setLblNombre(JLabel lblNombre) {
+        this.lblNombre = lblNombre;
+    }
+
+    public JLabel getLblPrecio() {
+        return lblPrecio;
+    }
+
+    public void setLblPrecio(JLabel lblPrecio) {
+        this.lblPrecio = lblPrecio;
+    }
+
+    public JLabel getLblCantidad() {
+        return lblCantidad;
+    }
+
+    public void setLblCantidad(JLabel lblCantidad) {
+        this.lblCantidad = lblCantidad;
+    }
+
+    public JButton getBtnBuscarProducto() {
+        return btnBuscarProducto;
+    }
+
+    public void setBtnBuscarProducto(JButton btnBuscarProducto) {
+        this.btnBuscarProducto = btnBuscarProducto;
+    }
+
+    public JLabel getTxtTax() {
+        return txtTax;
+    }
+
+    public void setTxtTax(JLabel txtTax) {
+        this.txtTax = txtTax;
+    }
+
+    public JTextField getTxtIva() {
+        return txtIva;
+    }
+
+    public void setTxtIva(JTextField txtIva) {
+        this.txtIva = txtIva;
+    }
+
+    public JPanel getPanelInferior() {
+        return panelInferior;
+    }
+
+    public void setPanelInferior(JPanel panelInferior) {
+        this.panelInferior = panelInferior;
+    }
+
+    public JPanel getPanelItems() {
+        return panelItems;
+    }
+
+    public void setPanelItems(JPanel panelItems) {
+        this.panelItems = panelItems;
+    }
+
+    public JPanel getPanelProduct() {
+        return panelProduct;
+    }
+
+    public void setPanelProduct(JPanel panelProduct) {
+        this.panelProduct = panelProduct;
+    }
+
+    public JPanel getPanelTitle() {
+        return panelTitle;
+    }
+
+    public void setPanelTitle(JPanel panelTitle) {
+        this.panelTitle = panelTitle;
+    }
+
+    public JScrollPane getScroll() {
+        return scroll;
+    }
+
+    public void setScroll(JScrollPane scroll) {
+        this.scroll = scroll;
+    }
+
+    public JButton getBtnEliminarItem() {
+        return btnEliminarItem;
+    }
+
+    public void setBtnEliminarItem(JButton btnEliminarItem) {
+        this.btnEliminarItem = btnEliminarItem;
+    }
+
+    public JLabel getLblTitulo() {
+        return lblTitulo;
+    }
+
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
+    }
+
+    public DefaultTableModel getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(DefaultTableModel modelo) {
+        this.modelo = modelo;
+    }
+
+    public JTextField getTxtCodigoCarrito() {
+        return txtCodigoCarrito;
+    }
+
+    public void setTxtCodigoCarrito(JTextField txtCodigoCarrito) {
+        this.txtCodigoCarrito = txtCodigoCarrito;
+    }
+
+    public JButton getBtnBuscarCarrito() {
+        return btnBuscarCarrito;
+    }
+
+    public void setBtnBuscarCarrito(JButton btnBuscarCarrito) {
+        this.btnBuscarCarrito = btnBuscarCarrito;
+    }
+
+    public JButton getBtnClean() {
+        return btnClean;
+    }
+
+    public void setBtnClean(JButton btnClean) {
+        this.btnClean = btnClean;
+    }
+
+    public JPanel getPanelFinal() {
+        return panelFinal;
+    }
+
+    public void setPanelFinal(JPanel panelFinal) {
+        this.panelFinal = panelFinal;
+    }
+
+    public JLabel getLblItemsCarrito() {
+        return lblItemsCarrito;
+    }
+
+    public void setLblItemsCarrito(JLabel lblItemsCarrito) {
+        this.lblItemsCarrito = lblItemsCarrito;
+    }
+
+    public JLabel getLblCordigocCarrito() {
+        return lblCordigocCarrito;
+    }
+
+    public void setLblCordigocCarrito(JLabel lblCordigocCarrito) {
+        this.lblCordigocCarrito = lblCordigocCarrito;
+    }
+
+    public JTextField getTxtSub() {
+        return txtSub;
+    }
+
+    public void setTxtSub(JTextField txtSub) {
+        this.txtSub = txtSub;
+    }
+
+    public JLabel getLblTot() {
+        return lblTot;
+    }
+
+    public void setLblTot(JLabel lblTot) {
+        this.lblTot = lblTot;
+    }
+
+    public JTextField getTxtTot() {
+        return txtTot;
+    }
+
+    public void setTxtTot(JTextField txtTot) {
+        this.txtTot = txtTot;
+    }
+
+    public JLabel getLblIva() {
+        return lblIva;
+    }
+
+    public void setLblIva(JLabel lblIva) {
+        this.lblIva = lblIva;
+    }
+
+    public JLabel getLblSubTot() {
+        return lblSubTot;
+    }
+
+    public void setLblSubTot(JLabel lblSubTot) {
+        this.lblSubTot = lblSubTot;
+    }
+
+    public JButton getBtnDelateItem() {
+        return btnDelateItem;
+    }
+
+    public void setBtnDelateItem(JButton btnDelateItem) {
+        this.btnDelateItem = btnDelateItem;
+    }
+
     public void cargarDatosCombobox(){
-        cbxAmountProduct.removeAllItems();
+        cbxCantidad.removeAllItems();
         for (int i = 1; i <= 20; i++) {
-            cbxAmountProduct.addItem(i);
+            cbxCantidad.addItem(i);
         }
     }
 
@@ -412,9 +427,9 @@ public class CarritoEditarView extends JInternalFrame{
     }
 
     public void limpiarCampos() {
-        lblCodeProductSearch.setText("");
-        lblNameProduct.setText("");
-        lblPriceProduct.setText("");
+        txtCodigoProducto.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
     }
 
     public void mostrarItemsCarrito(List<ItemCarrito> items) {
@@ -431,19 +446,11 @@ public class CarritoEditarView extends JInternalFrame{
         }
     }
 
-    public int mostrarMensajeDelateItem(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirm", "Cancel"};
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirmar", "Cancelar"};
         return JOptionPane.showOptionDialog(
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
     }
-
-    public int mostrarMensajeGuardarCambios(String mesaje, String titulo, int tipo){
-        Object[] botones = {"Confirm", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mesaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
-    };
 }

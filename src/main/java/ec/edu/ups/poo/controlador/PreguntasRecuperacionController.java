@@ -34,7 +34,7 @@ public class PreguntasRecuperacionController {
         preguntasView.getTxtNuevaContra().setVisible(false);
         preguntasView.getTxtNuevaContra().setEnabled(false);
 
-        preguntasView.getGuardarButton().addActionListener(e -> {
+        preguntasView.getBtnEnviar().addActionListener(e -> {
             String respuesta1 = preguntasView.getTxtPregunta1().getText().trim();
             String respuesta2 = preguntasView.getTxtPregunta2().getText().trim();
             String respuesta3 = preguntasView.getTxtPregunta3().getText().trim();
@@ -56,13 +56,13 @@ public class PreguntasRecuperacionController {
                 preguntasView.getTxtNuevaContra().setEnabled(true);
                 preguntasView.getTxtNuevaContra().setEditable(true);
 
-                preguntasView.getGuardarButton().setText("Cambiar contraseña");
+                preguntasView.getBtnEnviar().setText("Cambiar contraseña");
 
-                for (ActionListener al : preguntasView.getGuardarButton().getActionListeners()) {
-                    preguntasView.getGuardarButton().removeActionListener(al);
+                for (ActionListener al : preguntasView.getBtnEnviar().getActionListeners()) {
+                    preguntasView.getBtnEnviar().removeActionListener(al);
                 }
 
-                preguntasView.getGuardarButton().addActionListener(ev -> {
+                preguntasView.getBtnEnviar().addActionListener(ev -> {
                     String nuevaContrasena = preguntasView.getTxtNuevaContra().getText().trim();
                     if (nuevaContrasena.isEmpty()) {
                         preguntasView.mostrarMensaje("Por favor, ingrese una nueva contraseña.", "Advertencia", JOptionPane.WARNING_MESSAGE);

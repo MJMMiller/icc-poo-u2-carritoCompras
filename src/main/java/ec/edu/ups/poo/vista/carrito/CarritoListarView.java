@@ -9,12 +9,12 @@ import java.awt.*;
 public class CarritoListarView extends JInternalFrame{
     private JPanel panelAll;
     private JPanel panelSuperior;
-    private JLabel txtSettingsProduc;
+    private JLabel lblTitulo;
     private JPanel panelCenter;
-    private JLabel txtNameProduct;
-    private JTextField lblNameProdcutSearch;
-    private JButton btnSearch;
-    private JButton btnListCarts;
+    private JLabel lblCodigo;
+    private JTextField txtCodigo;
+    private JButton btnBuscar;
+    private JButton btnListar;
     private JTable tblCarritos;
     private JButton btnVerCarrito;
     private JPanel panelTabla;
@@ -89,12 +89,12 @@ public class CarritoListarView extends JInternalFrame{
         this.panelSuperior = panelSuperior;
     }
 
-    public JLabel getTxtSettingsProduc() {
-        return txtSettingsProduc;
+    public JLabel getLblTitulo() {
+        return lblTitulo;
     }
 
-    public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.txtSettingsProduc = txtSettingsProduc;
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
     }
 
     public JPanel getPanelCenter() {
@@ -105,36 +105,36 @@ public class CarritoListarView extends JInternalFrame{
         this.panelCenter = panelCenter;
     }
 
-    public JLabel getTxtNameProduct() {
-        return txtNameProduct;
+    public JLabel getLblCodigo() {
+        return lblCodigo;
     }
 
-    public void setTxtNameProduct(JLabel txtNameProduct) {
-        this.txtNameProduct = txtNameProduct;
+    public void setLblCodigo(JLabel lblCodigo) {
+        this.lblCodigo = lblCodigo;
     }
 
-    public JTextField getLblNameProdcutSearch() {
-        return lblNameProdcutSearch;
+    public JTextField getTxtCodigo() {
+        return txtCodigo;
     }
 
-    public void setLblNameProdcutSearch(JTextField lblNameProdcutSearch) {
-        this.lblNameProdcutSearch = lblNameProdcutSearch;
+    public void setTxtCodigo(JTextField txtCodigo) {
+        this.txtCodigo = txtCodigo;
     }
 
-    public JButton getBtnSearch() {
-        return btnSearch;
+    public JButton getBtnBuscar() {
+        return btnBuscar;
     }
 
-    public void setBtnSearch(JButton btnSearch) {
-        this.btnSearch = btnSearch;
+    public void setBtnBuscar(JButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
     }
 
-    public JButton getBtnListCarts() {
-        return btnListCarts;
+    public JButton getBtnListar() {
+        return btnListar;
     }
 
-    public void setBtnListCarts(JButton btnListCarts) {
-        this.btnListCarts = btnListCarts;
+    public void setBtnListar(JButton btnListar) {
+        this.btnListar = btnListar;
     }
 
     public JTable getTblCarritos() {
@@ -185,7 +185,7 @@ public class CarritoListarView extends JInternalFrame{
         this.modelo = modelo;
     }
 
-    public int mostrarMensajeAbrir(String mensaje, String titulo, int tipo) {
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
         Object[] botones = {"Confirm", "Cancel"};
         return JOptionPane.showOptionDialog(
                 this, mensaje, titulo,

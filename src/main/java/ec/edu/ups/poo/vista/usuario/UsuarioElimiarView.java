@@ -4,29 +4,28 @@ import javax.swing.*;
 
 public class UsuarioElimiarView extends JInternalFrame {
     private JPanel panelAll;
-    private JLabel txtSettingsProduc;
+    private JLabel lblTitulo;
     private JPanel panelSuperioir;
     private JPanel panelCentral;
-    private JTextField lblUsername;
-    private JTextField lblPassword;
+    private JTextField txtUsuario;
+    private JTextField txtContrasena;
     private JComboBox cbxRol;
-    private JButton delateButton;
+    private JButton btnEliminar;
     private JPanel panelInferioir;
-    private JButton btnSearch;
+    private JButton btnBuscar;
+    private JLabel lblUsuario;
+    private JLabel lblContrasena;
+    private JLabel lblRol;
 
     public UsuarioElimiarView() {
         setContentPane(panelAll);
-        setTitle("Delate Products");
+        setTitle("Eliminar Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 250);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
     }
-
-    public JButton getBtnSearch() {return btnSearch;}
-
-    public void setBtnSearch(JButton btnSearch) {this.btnSearch = btnSearch;}
 
     public JPanel getPanelAll() {
         return panelAll;
@@ -37,11 +36,11 @@ public class UsuarioElimiarView extends JInternalFrame {
     }
 
     public JLabel getTxtSettingsProduc() {
-        return txtSettingsProduc;
+        return lblTitulo;
     }
 
     public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.txtSettingsProduc = txtSettingsProduc;
+        this.lblTitulo = txtSettingsProduc;
     }
 
     public JPanel getPanelSuperioir() {
@@ -60,32 +59,36 @@ public class UsuarioElimiarView extends JInternalFrame {
         this.panelCentral = panelCentral;
     }
 
-    public JTextField getLblUsername() {
-        return lblUsername;
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
     }
 
-    public void setLblUsername(JTextField lblUsername) {
-        this.lblUsername = lblUsername;
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
     }
 
-    public JTextField getLblPassword() {
-        return lblPassword;
+    public JTextField getTxtContrasena() {
+        return txtContrasena;
     }
 
-    public void setLblPassword(JTextField lblPassword) {
-        this.lblPassword = lblPassword;
+    public void setTxtContrasena(JTextField txtContrasena) {
+        this.txtContrasena = txtContrasena;
     }
 
-    public JComboBox getCbxRol() {return cbxRol;}
-
-    public void setCbxRol(JComboBox cbxRol) {this.cbxRol = cbxRol;}
-
-    public JButton getDelateButton() {
-        return delateButton;
+    public JComboBox getCbxRol() {
+        return cbxRol;
     }
 
-    public void setDelateButton(JButton delateButton) {
-        this.delateButton = delateButton;
+    public void setCbxRol(JComboBox cbxRol) {
+        this.cbxRol = cbxRol;
+    }
+
+    public JButton getBtnEliminar() {
+        return btnEliminar;
+    }
+
+    public void setBtnEliminar(JButton btnEliminar) {
+        this.btnEliminar = btnEliminar;
     }
 
     public JPanel getPanelInferioir() {
@@ -96,12 +99,44 @@ public class UsuarioElimiarView extends JInternalFrame {
         this.panelInferioir = panelInferioir;
     }
 
+    public JButton getBtnBuscar() {
+        return btnBuscar;
+    }
+
+    public void setBtnBuscar(JButton btnBuscar) {
+        this.btnBuscar = btnBuscar;
+    }
+
+    public JLabel getLblUsuario() {
+        return lblUsuario;
+    }
+
+    public void setLblUsuario(JLabel lblUsuario) {
+        this.lblUsuario = lblUsuario;
+    }
+
+    public JLabel getLblContrasena() {
+        return lblContrasena;
+    }
+
+    public void setLblContrasena(JLabel lblContrasena) {
+        this.lblContrasena = lblContrasena;
+    }
+
+    public JLabel getLblRol() {
+        return lblRol;
+    }
+
+    public void setLblRol(JLabel lblRol) {
+        this.lblRol = lblRol;
+    }
+
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 
-    public int mostrarMensajeDelate(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirm", "Cancel"};
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirmar", "Cancelar"};
         return JOptionPane.showOptionDialog(
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,

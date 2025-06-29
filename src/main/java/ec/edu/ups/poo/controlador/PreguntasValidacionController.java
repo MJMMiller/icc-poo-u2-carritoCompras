@@ -31,7 +31,7 @@ public class PreguntasValidacionController {
         preguntasView.getTxtPregunta2().setText("");
         preguntasView.getTxtPregunta3().setText("");
 
-        preguntasView.getGuardarButton().addActionListener(e -> {
+        preguntasView.getBtnEnviar().addActionListener(e -> {
             String respuesta1 = preguntasView.getTxtPregunta1().getText().trim();
             String respuesta2 = preguntasView.getTxtPregunta2().getText().trim();
             String respuesta3 = preguntasView.getTxtPregunta3().getText().trim();
@@ -53,7 +53,7 @@ public class PreguntasValidacionController {
             preguntasView.dispose();
         });
 
-        preguntasView.getLimpiarButton().addActionListener(e -> {
+        preguntasView.getBtnClean().addActionListener(e -> {
             preguntasView.getTxtPregunta1().setText("");
             preguntasView.getTxtPregunta2().setText("");
             preguntasView.getTxtPregunta3().setText("");

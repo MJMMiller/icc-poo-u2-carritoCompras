@@ -22,14 +22,14 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="a1f82" class="javax.swing.JLabel" binding="txtSettingsProduc">
+          <component id="a1f82" class="javax.swing.JLabel" binding="lblTitulo">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <font/>
               <foreground color="-394241"/>
-              <text value="Edit User"/>
+              <text value="Editar Usuario"/>
             </properties>
           </component>
         </children>
@@ -45,16 +45,16 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="d4aca" class="javax.swing.JLabel">
+          <component id="d4aca" class="javax.swing.JLabel" binding="lblUsuario">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <foreground color="-394241"/>
-              <text value="Username"/>
+              <text value="Usuario"/>
             </properties>
           </component>
-          <component id="df478" class="javax.swing.JTextField" binding="lblUsername">
+          <component id="df478" class="javax.swing.JTextField" binding="txtUsuario">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -66,7 +66,7 @@
               <foreground color="-394241"/>
             </properties>
           </component>
-          <component id="a32c7" class="javax.swing.JTextField" binding="lblPassword">
+          <component id="a32c7" class="javax.swing.JTextField" binding="txtContrasena">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -78,16 +78,7 @@
               <foreground color="-394241"/>
             </properties>
           </component>
-          <component id="d507f" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <foreground color="-394241"/>
-              <text value="Password"/>
-            </properties>
-          </component>
-          <component id="f6b4c" class="javax.swing.JLabel">
+          <component id="f6b4c" class="javax.swing.JLabel" binding="lblRol">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -111,7 +102,16 @@
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Search"/>
+              <text value="Buscar"/>
+            </properties>
+          </component>
+          <component id="d507f" class="javax.swing.JLabel" binding="lblContrasena">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <foreground color="-394241"/>
+              <text value="Password"/>
             </properties>
           </component>
         </children>
@@ -127,7 +127,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="a528f" class="javax.swing.JButton" binding="btnSave">
+          <component id="a528f" class="javax.swing.JButton" binding="btnActualizar">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -135,7 +135,7 @@
               <background color="-12763068"/>
               <enabled value="true"/>
               <foreground color="-394241"/>
-              <text value="Save"/>
+              <text value="Actualizar"/>
             </properties>
           </component>
           <component id="5106c" class="javax.swing.JButton" binding="btnClean">
@@ -146,7 +146,7 @@
               <background color="-12763068"/>
               <enabled value="true"/>
               <foreground color="-394241"/>
-              <text value="Clean"/>
+              <text value="Limpiar"/>
             </properties>
           </component>
         </children>

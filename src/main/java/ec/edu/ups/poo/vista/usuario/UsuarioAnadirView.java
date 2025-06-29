@@ -2,23 +2,24 @@ package ec.edu.ups.poo.vista.usuario;
 
 import javax.swing.*;
 
-public class UsuarioEditarView extends JInternalFrame {
+public class UsuarioAnadirView extends JInternalFrame {
     private JPanel panelAll;
     private JPanel panelSuperior;
     private JLabel lblTitulo;
+    private JPanel panelCenter;
     private JTextField txtUsuario;
-    private JTextField txtContrasena;
-    private JComboBox cbxRol;
-    private JButton btnActualizar;
-    private JButton btnClean;
-    private JButton btnBuscar;
     private JLabel lblUsuario;
+    private JTextField txtContrasena;
     private JLabel lblContrasena;
+    private JComboBox cbxRol;
+    private JButton btnRegistrar;
+    private JButton btnClean;
+    private JPanel panelInferior;
     private JLabel lblRol;
 
-    public UsuarioEditarView() {
+    public UsuarioAnadirView() {
         setContentPane(panelAll);
-        setTitle("Editar Usuario");
+        setTitle("Crear Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 250);
         setClosable(true);
@@ -42,12 +43,20 @@ public class UsuarioEditarView extends JInternalFrame {
         this.panelSuperior = panelSuperior;
     }
 
-    public JLabel getTxtSettingsProduc() {
+    public JLabel getLblTitulo() {
         return lblTitulo;
     }
 
-    public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.lblTitulo = txtSettingsProduc;
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
+    }
+
+    public JPanel getPanelCenter() {
+        return panelCenter;
+    }
+
+    public void setPanelCenter(JPanel panelCenter) {
+        this.panelCenter = panelCenter;
     }
 
     public JTextField getTxtUsuario() {
@@ -58,12 +67,28 @@ public class UsuarioEditarView extends JInternalFrame {
         this.txtUsuario = txtUsuario;
     }
 
+    public JLabel getLblUsuario() {
+        return lblUsuario;
+    }
+
+    public void setLblUsuario(JLabel lblUsuario) {
+        this.lblUsuario = lblUsuario;
+    }
+
     public JTextField getTxtContrasena() {
         return txtContrasena;
     }
 
     public void setTxtContrasena(JTextField txtContrasena) {
         this.txtContrasena = txtContrasena;
+    }
+
+    public JLabel getLblContrasena() {
+        return lblContrasena;
+    }
+
+    public void setLblContrasena(JLabel lblContrasena) {
+        this.lblContrasena = lblContrasena;
     }
 
     public JComboBox getCbxRol() {
@@ -74,12 +99,12 @@ public class UsuarioEditarView extends JInternalFrame {
         this.cbxRol = cbxRol;
     }
 
-    public JButton getBtnActualizar() {
-        return btnActualizar;
+    public JButton getBtnRegistrar() {
+        return btnRegistrar;
     }
 
-    public void setBtnActualizar(JButton btnActualizar) {
-        this.btnActualizar = btnActualizar;
+    public void setBtnRegistrar(JButton btnRegistrar) {
+        this.btnRegistrar = btnRegistrar;
     }
 
     public JButton getBtnClean() {
@@ -90,28 +115,12 @@ public class UsuarioEditarView extends JInternalFrame {
         this.btnClean = btnClean;
     }
 
-    public JButton getBtnBuscar() {
-        return btnBuscar;
+    public JPanel getPanelInferior() {
+        return panelInferior;
     }
 
-    public void setBtnBuscar(JButton btnBuscar) {
-        this.btnBuscar = btnBuscar;
-    }
-
-    public JLabel getLblUsuario() {
-        return lblUsuario;
-    }
-
-    public void setLblUsuario(JLabel lblUsuario) {
-        this.lblUsuario = lblUsuario;
-    }
-
-    public JLabel getLblContrasena() {
-        return lblContrasena;
-    }
-
-    public void setLblContrasena(JLabel lblContrasena) {
-        this.lblContrasena = lblContrasena;
+    public void setPanelInferior(JPanel panelInferior) {
+        this.panelInferior = panelInferior;
     }
 
     public JLabel getLblRol() {
