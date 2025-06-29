@@ -1,6 +1,8 @@
 package ec.edu.ups.poo.dao.impl;
 
 import ec.edu.ups.poo.dao.UsuarioDAO;
+import ec.edu.ups.poo.modelo.BancoPreguntaValidacion;
+import ec.edu.ups.poo.modelo.PreguntaUsuario;
 import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 
@@ -14,8 +16,14 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
 
     public UsuarioDAOMemoria() {
         usuarios = new ArrayList<>();
-        crearUsuario("admin", "admin123", Rol.ADMINISTRADOR);
-        crearUsuario("user", "user123", Rol.USUARIO);
+        Usuario usuarioAdmin = new Usuario("admin", "admin123", Rol.ADMINISTRADOR);
+        usuarioAdmin.setPreguntaValidacion(List.of(
+                new PreguntaUsuario(BancoPreguntaValidacion.COLOR_FAVORITO, "Rojo"),
+                new PreguntaUsuario(BancoPreguntaValidacion.CIUDAD_NACIMIENTO, "Cuenca"),
+                new PreguntaUsuario(BancoPreguntaValidacion.COMIDA_FAVORITA, "Pizza")
+        ));
+        crearUsuario(usuarioAdmin);
+        crearUsuario(new Usuario("user", "user123", Rol.USUARIO));
     }
 
     @Override
@@ -29,15 +37,15 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
     }
 
     @Override
-    public void crearUsuario(String userName, String contrasena, Rol rol) {
-        usuarios.add(new Usuario(userName, contrasena, rol));
+    public void crearUsuario(Usuario usuario) {
+        usuarios.add(usuario);
     }
 
     @Override
-    public Usuario buscarUsuario(String userName) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getUserName().equals(userName)) {
-                return usuario;
+    public Usuario buscarUsuario(String username) {
+        for (Usuario u : usuarios) {
+            if (u.getUserName().equalsIgnoreCase(username)) {
+                return u;
             }
         }
         return null;
@@ -61,6 +69,15 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         if (usuario != null) {
             usuario.setContrasena(contrasena);
             usuario.setRol(rol);
+        }
+    }
+
+    public void actualizarUsuario(Usuario usuarioActualizado) {
+        Usuario usuario = buscarUsuario(usuarioActualizado.getUserName());
+        if (usuario != null) {
+            usuario.setContrasena(usuarioActualizado.getContrasena());
+            usuario.setRol(usuarioActualizado.getRol());
+            usuario.setPreguntaValidacion(usuarioActualizado.getPreguntaValidacion());
         }
     }
 

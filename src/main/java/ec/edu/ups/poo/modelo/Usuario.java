@@ -9,6 +9,7 @@ public class Usuario {
     private String contrasena;
     private Rol rol;
     private List<Carrito> carritos;
+    private List<PreguntaUsuario> preguntaValidacion = new ArrayList<>();
 
     public Usuario(String userName, String contrasena, Rol rol) {
         this.userName = userName;
@@ -49,24 +50,26 @@ public class Usuario {
         return carritos;
     }
 
-    public void agregarCarrito(Carrito carrito) {
-        carritos.add(carrito);
+    public void setCarritos(List<Carrito> carritos) {
+        this.carritos = carritos;
     }
 
-    public void eliminarCarrito(Carrito carrito) {
-        carritos.remove(carrito);
+    public List<PreguntaUsuario> getPreguntaValidacion() {
+        return preguntaValidacion;
     }
 
-    public void eliminarUsuario() {
-        carritos.clear();
+    public void setPreguntaValidacion(List<PreguntaUsuario> preguntaValidacion) {
+        this.preguntaValidacion = preguntaValidacion;
     }
 
     @Override
     public String toString() {
         return "Usuario{" +
-                "nombreDeUsuario='" + userName + '\'' +
+                "userName='" + userName + '\'' +
                 ", contrasena='" + contrasena + '\'' +
                 ", rol=" + rol +
+                ", carritos=" + carritos +
+                ", preguntaValidacion=" + preguntaValidacion +
                 '}';
     }
 }

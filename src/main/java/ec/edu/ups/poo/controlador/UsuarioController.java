@@ -1,6 +1,5 @@
 package ec.edu.ups.poo.controlador;
 
-import ec.edu.ups.poo.Main;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
@@ -46,10 +45,6 @@ public class UsuarioController {
         }
     }
 
-    public Usuario getUsuarioAutenticado() {
-        return usuario;
-    }
-
     public void configurarUsuarioCrearView(UsuarioCrearView usuarioCrearView) {
         JComboBox cbxRol = usuarioCrearView.getCbxRol();
         if (cbxRol.getItemCount() == 0) {
@@ -59,8 +54,8 @@ public class UsuarioController {
         }
 
         usuarioCrearView.getBtnSave().addActionListener(e -> {
-            String username = usuarioCrearView.getLblUsername().getText().trim();
-            String password = usuarioCrearView.getLblPassword().getText().trim();
+            String username = usuarioCrearView.getTxtUsername().getText().trim();
+            String password = usuarioCrearView.getTxtPassword().getText().trim();
             Rol rol = (Rol) usuarioCrearView.getCbxRol().getSelectedItem();
 
             if (username.isEmpty() || password.isEmpty() || rol == null) {
@@ -73,19 +68,21 @@ public class UsuarioController {
                 return;
             }
 
-            usuarioDAO.crearUsuario(username, password, rol);
+            Usuario nuevoUsuario = new Usuario(username, password, rol);
+            usuarioDAO.crearUsuario(nuevoUsuario);
+
             usuarioCrearView.mostrarMensaje("Usuario creado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-            usuarioCrearView.getLblUsername().setText("");
-            usuarioCrearView.getLblPassword().setText("");
+            usuarioCrearView.getTxtUsername().setText("");
+            usuarioCrearView.getTxtPassword().setText("");
             if (cbxRol.getItemCount() > 0) {
                 cbxRol.setSelectedIndex(0);
             }
         });
 
         usuarioCrearView.getBtnClean().addActionListener(e -> {
-            usuarioCrearView.getLblUsername().setText("");
-            usuarioCrearView.getLblPassword().setText("");
+            usuarioCrearView.getTxtUsername().setText("");
+            usuarioCrearView.getTxtPassword().setText("");
             if (cbxRol.getItemCount() > 0) {
                 cbxRol.setSelectedIndex(0);
             }

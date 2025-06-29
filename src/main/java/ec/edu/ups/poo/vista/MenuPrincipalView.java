@@ -42,7 +42,7 @@ public class MenuPrincipalView extends JFrame {
         desktop.setBackground(new Color(33, 37, 43));
 
         JPanel panelNorth = new JPanel(new BorderLayout());
-        panelNorth.setBackground(new Color(33, 37, 43));
+        panelNorth.setBackground(new Color(35, 38, 43));
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         centerPanel.setOpaque(false);
@@ -57,7 +57,7 @@ public class MenuPrincipalView extends JFrame {
         panelNorth.add(centerPanel, BorderLayout.CENTER);
 
         menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(33, 37, 43));
+        menuBar.setBackground(new Color(29, 30, 32));
         menuBar.setForeground(Color.WHITE);
 
         menuProducto = new JMenu("Producto");
@@ -127,7 +127,6 @@ public class MenuPrincipalView extends JFrame {
         add(panelNorth, BorderLayout.NORTH);
         add(desktop, BorderLayout.CENTER);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Sistema de Carrito de Compras");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);

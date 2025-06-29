@@ -19,6 +19,7 @@ public class LogInView extends JFrame {
     private JLabel lblTitulo;
     private JComboBox cbxIdioma;
     private JLabel lblIdioma;
+    private JButton btnRecuContra;
     private MensajeInternacionalizacionHandler i18n;
 
     public LogInView() {
@@ -32,6 +33,14 @@ public class LogInView extends JFrame {
         setLocationRelativeTo(null);
         aplicarIdioma();
         actualizarOpcionesIdioma();
+    }
+
+    public JButton getBtnRecuContra() {
+        return btnRecuContra;
+    }
+
+    public void setBtnRecuContra(JButton btnRecuContra) {
+        this.btnRecuContra = btnRecuContra;
     }
 
     public JTextField getTxtUserName() {
@@ -141,6 +150,14 @@ public class LogInView extends JFrame {
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeAlert(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirm", "Cancel"};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
     }
 
     public void actualizarOpcionesIdioma() {

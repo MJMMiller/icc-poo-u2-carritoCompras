@@ -1,39 +1,26 @@
 package ec.edu.ups.poo;
 
-import ec.edu.ups.poo.controlador.CarritoController;
-import ec.edu.ups.poo.controlador.ProductoController;
-import ec.edu.ups.poo.controlador.RegisterController;
-import ec.edu.ups.poo.controlador.UsuarioController;
+import ec.edu.ups.poo.controlador.*;
 import ec.edu.ups.poo.dao.CarritoDAO;
 import ec.edu.ups.poo.dao.ProductoDAO;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.dao.impl.CarritoDAOMemoria;
 import ec.edu.ups.poo.dao.impl.ProductoDAOMemoria;
 import ec.edu.ups.poo.dao.impl.UsuarioDAOMemoria;
-import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
-import ec.edu.ups.poo.vista.*;
-import ec.edu.ups.poo.vista.carrito.CarritoAnadirView;
-import ec.edu.ups.poo.vista.carrito.CarritoEditarView;
-import ec.edu.ups.poo.vista.carrito.CarritoEliminarView;
-import ec.edu.ups.poo.vista.carrito.CarritoListarView;
+import ec.edu.ups.poo.vista.MenuPrincipalView;
+import ec.edu.ups.poo.vista.carrito.*;
 import ec.edu.ups.poo.vista.inicio.LogInView;
-import ec.edu.ups.poo.vista.inicio.RegisterView;
-import ec.edu.ups.poo.vista.producto.ProducUpdateView;
-import ec.edu.ups.poo.vista.producto.ProductDelateView;
-import ec.edu.ups.poo.vista.producto.ProductoAnadirView;
-import ec.edu.ups.poo.vista.producto.ProductoListarView;
-import ec.edu.ups.poo.vista.usuario.UsuarioCrearView;
-import ec.edu.ups.poo.vista.usuario.UsuarioEditarView;
-import ec.edu.ups.poo.vista.usuario.UsuarioElimiarView;
-import ec.edu.ups.poo.vista.usuario.UsuarioListarView;
+import ec.edu.ups.poo.vista.producto.*;
+import ec.edu.ups.poo.vista.usuario.*;
 
 public class Main {
-    private static UsuarioController usuarioController;
     public static UsuarioDAO usuarioDAO;
     public static ProductoDAO productoDAO;
     public static CarritoDAO carritoDAO;
+    private static UsuarioController usuarioController;
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
@@ -47,37 +34,17 @@ public class Main {
     public static void mostrarLogin() {
         MensajeInternacionalizacionHandler i18n = new MensajeInternacionalizacionHandler("es", "EC");
         LogInView logInView = new LogInView(i18n);
-        usuarioController = new UsuarioController(usuarioDAO, logInView);
 
-        logInView.actualizarOpcionesIdioma();
-
-        logInView.getCbxIdioma().addActionListener(e -> {
-            int selectedIndex = logInView.getCbxIdioma().getSelectedIndex();
-            switch (selectedIndex) {
-                case 0:
-                    i18n.setLenguaje("es", "EC");
-                    break;
-                case 1:
-                    i18n.setLenguaje("en", "US");
-                    break;
-                case 2:
-                    i18n.setLenguaje("fr", "FR");
-                    break;
-                default:
-                    i18n.setLenguaje("en", "US");
+        new LogInController(usuarioDAO, logInView, i18n, new LogInController.MainAppCallback() {
+            @Override
+            public void mostrarMenuPrincipal(Usuario usuarioAutenticado) {
+                Main.mostrarMenuPrincipal(usuarioAutenticado);
             }
-            logInView.aplicarIdioma();
-            logInView.actualizarOpcionesIdioma();
-        });
 
-        logInView.getBtnRegister().addActionListener(e -> {
-            RegisterView registerView = new RegisterView();
-            new RegisterController(usuarioDAO, registerView);
-            registerView.setVisible(true);
-        });
-
-        logInView.getBtnExit().addActionListener(e -> {
-            System.exit(0);
+            @Override
+            public void mostrarLogin() {
+                Main.mostrarLogin();
+            }
         });
 
         logInView.setVisible(true);
@@ -105,6 +72,7 @@ public class Main {
         UsuarioEditarView usuarioEditarView = new UsuarioEditarView();
         UsuarioElimiarView usuarioElimiarView = new UsuarioElimiarView();
 
+        usuarioController = new UsuarioController(usuarioDAO, null);
         new ProductoController(productoDAO, productoAnadirView, productoListaView, productoGestionView, productDelateView, carritoAnadirView);
         CarritoController carritoController = new CarritoController(carritoDAO, productoDAO, carritoAnadirView, carritoEditarView, usuarioAutenticado);
 

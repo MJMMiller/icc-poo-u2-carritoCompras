@@ -7,20 +7,28 @@ public class RegisterView extends JFrame {
     private JPanel panelSuperior;
     private JLabel txtSettingsProduc;
     private JPanel panelCentral;
-    private JTextField lblUsername;
-    private JTextField lblPassword;
-    private JButton btnRegister;
+    private JTextField txtUsuario;
+    private JTextField txtContrasena;
+    private JButton btnRegistro;
     private JButton btnClean;
-    private JButton btnExit;
+    private JButton btnSalir;
     private JPanel panelInferior;
+    private JLabel lblUsuario;
+    private JLabel lblContrasena;
+    private JPanel panelForm;
+    private JLabel lblPregunta1;
+    private JTextField txtPregunta1;
+    private JTextField txtPregunta2;
+    private JTextField txtPregunta3;
+    private JLabel lblPregunta2;
+    private JLabel lblPregunta3;
 
     public RegisterView() {
         setTitle("Log In");
         setContentPane(panelAll);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 225);
+        setSize(400, 500);
         setLocationRelativeTo(null);
-        setResizable(false);
     }
 
     public JPanel getPanelAll() {
@@ -55,28 +63,28 @@ public class RegisterView extends JFrame {
         this.panelCentral = panelCentral;
     }
 
-    public JTextField getLblUsername() {
-        return lblUsername;
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
     }
 
-    public void setLblUsername(JTextField lblUsername) {
-        this.lblUsername = lblUsername;
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
     }
 
-    public JTextField getLblPassword() {
-        return lblPassword;
+    public JTextField getTxtContrasena() {
+        return txtContrasena;
     }
 
-    public void setLblPassword(JTextField lblPassword) {
-        this.lblPassword = lblPassword;
+    public void setTxtContrasena(JTextField txtContrasena) {
+        this.txtContrasena = txtContrasena;
     }
 
-    public JButton getBtnRegister() {
-        return btnRegister;
+    public JButton getBtnRegistro() {
+        return btnRegistro;
     }
 
-    public void setBtnRegister(JButton btnRegister) {
-        this.btnRegister = btnRegister;
+    public void setBtnRegistro(JButton btnRegistro) {
+        this.btnRegistro = btnRegistro;
     }
 
     public JButton getBtnClean() {
@@ -87,12 +95,12 @@ public class RegisterView extends JFrame {
         this.btnClean = btnClean;
     }
 
-    public JButton getBtnExit() {
-        return btnExit;
+    public JButton getBtnSalir() {
+        return btnSalir;
     }
 
-    public void setBtnExit(JButton btnExit) {
-        this.btnExit = btnExit;
+    public void setBtnSalir(JButton btnSalir) {
+        this.btnSalir = btnSalir;
     }
 
     public JPanel getPanelInferior() {
@@ -103,13 +111,79 @@ public class RegisterView extends JFrame {
         this.panelInferior = panelInferior;
     }
 
+    public JLabel getLblUsuario() {
+        return lblUsuario;
+    }
+
+    public void setLblUsuario(JLabel lblUsuario) {
+        this.lblUsuario = lblUsuario;
+    }
+
+    public JLabel getLblContrasena() {
+        return lblContrasena;
+    }
+
+    public void setLblContrasena(JLabel lblContrasena) {
+        this.lblContrasena = lblContrasena;
+    }
+
+    public JPanel getPanelForm() {
+        return panelForm;
+    }
+
+    public void setPanelForm(JPanel panelForm) {
+        this.panelForm = panelForm;
+    }
+
+    public JLabel getLblPregunta1() {
+        return lblPregunta1;
+    }
+
+    public void setLblPregunta1(JLabel lblPregunta1) {
+        this.lblPregunta1 = lblPregunta1;
+    }
+
+    public JTextField getTxtPregunta1() {
+        return txtPregunta1;
+    }
+
+    public void setTxtPregunta1(JTextField txtPregunta1) {
+        this.txtPregunta1 = txtPregunta1;
+    }
+
+    public JTextField getTxtPregunta2() {
+        return txtPregunta2;
+    }
+
+    public void setTxtPregunta2(JTextField txtPregunta2) {
+        this.txtPregunta2 = txtPregunta2;
+    }
+
+    public JTextField getTxtPregunta3() {
+        return txtPregunta3;
+    }
+
+    public void setTxtPregunta3(JTextField txtPregunta3) {
+        this.txtPregunta3 = txtPregunta3;
+    }
+
+    public JLabel getLblPregunta2() {
+        return lblPregunta2;
+    }
+
+    public void setLblPregunta2(JLabel lblPregunta2) {
+        this.lblPregunta2 = lblPregunta2;
+    }
+
+    public JLabel getLblPregunta3() {
+        return lblPregunta3;
+    }
+
+    public void setLblPregunta3(JLabel lblPregunta3) {
+        this.lblPregunta3 = lblPregunta3;
+    }
+
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
-
-    public void limpiarCampos() {
-        lblUsername.setText("");
-        lblPassword.setText("");
-    }
-
 }
