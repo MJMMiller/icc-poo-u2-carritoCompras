@@ -1,9 +1,10 @@
 package ec.edu.ups.poo.controlador;
 
 import ec.edu.ups.poo.dao.UsuarioDAO;
+import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.modelo.Usuario;
+import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
-import ec.edu.ups.poo.modelo.BancoPreguntaValidacion;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.preguntas.PreguntasValidacionView;
 
@@ -14,18 +15,21 @@ public class PreguntasValidacionController {
 
     private final Usuario usuario;
     private final UsuarioDAO usuarioDAO;
+    private final PreguntaDAO preguntaDAO;
     private final PreguntasValidacionView preguntasView;
-    private final List<BancoPreguntaValidacion> preguntasRandom;
+    private final List<Pregunta> preguntasRandom;
     private final MensajeInternacionalizacionHandler i18n;
 
     public PreguntasValidacionController(
             Usuario usuario,
             UsuarioDAO usuarioDAO,
+            PreguntaDAO preguntaDAO,
             PreguntasValidacionView preguntasView,
             MensajeInternacionalizacionHandler i18n
     ) {
         this.usuario = usuario;
         this.usuarioDAO = usuarioDAO;
+        this.preguntaDAO = preguntaDAO;
         this.preguntasView = preguntasView;
         this.i18n = i18n;
 
@@ -72,9 +76,9 @@ public class PreguntasValidacionController {
     }
 
     private void mostrarPreguntasEnVista() {
-        preguntasView.getLblPregunta1().setText(i18n.get(preguntasRandom.get(0).getKey()));
-        preguntasView.getLblPregunta2().setText(i18n.get(preguntasRandom.get(1).getKey()));
-        preguntasView.getLblPregunta3().setText(i18n.get(preguntasRandom.get(2).getKey()));
+        preguntasView.getLblPregunta1().setText(preguntasRandom.get(0).getTexto());
+        preguntasView.getLblPregunta2().setText(preguntasRandom.get(1).getTexto());
+        preguntasView.getLblPregunta3().setText(preguntasRandom.get(2).getTexto());
     }
 
     private void limpiarCampos() {
@@ -83,8 +87,8 @@ public class PreguntasValidacionController {
         preguntasView.getTxtPregunta3().setText("");
     }
 
-    private List<BancoPreguntaValidacion> getPreguntasRandom() {
-        List<BancoPreguntaValidacion> lista = new ArrayList<>(Arrays.asList(BancoPreguntaValidacion.values()));
+    private List<Pregunta> getPreguntasRandom() {
+        List<Pregunta> lista = new ArrayList<>(preguntaDAO.listarTodas());
         Collections.shuffle(lista);
         return lista.subList(0, 3);
     }

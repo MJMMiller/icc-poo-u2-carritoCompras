@@ -18,6 +18,14 @@ public class UsuarioElimiarView extends JInternalFrame {
     private JLabel lblContrasena;
     private JLabel lblRol;
     private JTextField txtRol;
+    private JLabel lblNombreCompleto;
+    private JTextField txtNombreCompleto;
+    private JLabel lblFechaNacimiento;
+    private JTextField txtDia;
+    private JTextField txtMes;
+    private JTextField txtAnio;
+    private JTextField txtTelefono;
+    private JTextField txtCorreo;
     private MensajeInternacionalizacionHandler i18n;
 
     public UsuarioElimiarView(MensajeInternacionalizacionHandler i18n) {
@@ -31,6 +39,28 @@ public class UsuarioElimiarView extends JInternalFrame {
         setResizable(true);
 
         aplicarIdioma();
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirmar", "Cancelar"};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("usuario.listar.titulo"));
+        lblTitulo.setText(i18n.get("usuario.eliminar.titulo"));
+        lblUsuario.setText(i18n.get("usuario.eliminar.lbl.usuario"));
+        lblContrasena.setText(i18n.get("usuario.eliminar.lbl.contrasena"));
+        lblRol.setText(i18n.get("usuario.eliminar.lbl.rol"));
+        btnBuscar.setText(i18n.get("usuario.eliminar.btn.buscar"));
+        btnEliminar.setText(i18n.get("usuario.eliminar.btn.eliminar"));
     }
 
     public JPanel getPanelAll() {
@@ -137,25 +167,75 @@ public class UsuarioElimiarView extends JInternalFrame {
         this.txtRol = txtRol;
     }
 
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    public JLabel getLblNombreCompleto() {
+        return lblNombreCompleto;
     }
 
-    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirmar", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
+    public void setLblNombreCompleto(JLabel lblNombreCompleto) {
+        this.lblNombreCompleto = lblNombreCompleto;
     }
 
-    public void aplicarIdioma() {
-        setTitle(i18n.get("usuario.listar.titulo"));
-        lblTitulo.setText(i18n.get("usuario.eliminar.titulo"));
-        lblUsuario.setText(i18n.get("usuario.eliminar.lbl.usuario"));
-        lblContrasena.setText(i18n.get("usuario.eliminar.lbl.contrasena"));
-        lblRol.setText(i18n.get("usuario.eliminar.lbl.rol"));
-        btnBuscar.setText(i18n.get("usuario.eliminar.btn.buscar"));
-        btnEliminar.setText(i18n.get("usuario.eliminar.btn.eliminar"));
+    public JTextField getTxtNombreCompleto() {
+        return txtNombreCompleto;
+    }
+
+    public void setTxtNombreCompleto(JTextField txtNombreCompleto) {
+        this.txtNombreCompleto = txtNombreCompleto;
+    }
+
+    public JLabel getLblFechaNacimiento() {
+        return lblFechaNacimiento;
+    }
+
+    public void setLblFechaNacimiento(JLabel lblFechaNacimiento) {
+        this.lblFechaNacimiento = lblFechaNacimiento;
+    }
+
+    public JTextField getTxtDia() {
+        return txtDia;
+    }
+
+    public void setTxtDia(JTextField txtDia) {
+        this.txtDia = txtDia;
+    }
+
+    public JTextField getTxtMes() {
+        return txtMes;
+    }
+
+    public void setTxtMes(JTextField txtMes) {
+        this.txtMes = txtMes;
+    }
+
+    public JTextField getTxtAnio() {
+        return txtAnio;
+    }
+
+    public void setTxtAnio(JTextField txtAnio) {
+        this.txtAnio = txtAnio;
+    }
+
+    public MensajeInternacionalizacionHandler getI18n() {
+        return i18n;
+    }
+
+    public void setI18n(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
+    }
+
+    public JTextField getTxtTelefono() {
+        return txtTelefono;
+    }
+
+    public void setTxtTelefono(JTextField txtTelefono) {
+        this.txtTelefono = txtTelefono;
+    }
+
+    public JTextField getTxtCorreo() {
+        return txtCorreo;
+    }
+
+    public void setTxtCorreo(JTextField txtCorreo) {
+        this.txtCorreo = txtCorreo;
     }
 }

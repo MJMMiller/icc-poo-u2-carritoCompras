@@ -1,7 +1,7 @@
 package ec.edu.ups.poo.vista.carrito;
 
 import ec.edu.ups.poo.modelo.ItemCarrito;
-import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Locale;
 
 public class CarritoListarItemsView extends JInternalFrame {
     private JPanel panelTitle;

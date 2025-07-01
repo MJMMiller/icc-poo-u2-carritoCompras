@@ -1,12 +1,14 @@
 package ec.edu.ups.poo.dao.impl;
 
 import ec.edu.ups.poo.dao.UsuarioDAO;
-import ec.edu.ups.poo.modelo.BancoPreguntaValidacion;
+import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
-import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,16 +16,57 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
 
     private final List<Usuario> usuarios;
 
-    public UsuarioDAOMemoria() {
+    public UsuarioDAOMemoria(List<Pregunta> preguntas) {
         usuarios = new ArrayList<>();
-        Usuario usuarioAdmin = new Usuario("admin", "admin123", Rol.ADMINISTRADOR);
-        usuarioAdmin.setPreguntaValidacion(List.of(
-                new PreguntaUsuario(BancoPreguntaValidacion.COLOR_FAVORITO, "Rojo"),
-                new PreguntaUsuario(BancoPreguntaValidacion.CIUDAD_NACIMIENTO, "Cuenca"),
-                new PreguntaUsuario(BancoPreguntaValidacion.COMIDA_FAVORITA, "Pizza")
-        ));
+
+        // Usuario ADMIN
+        String nombreAdmin = "Administrador General";
+        Date fechaAdmin = getDate(2006, 6, 16); // 1 enero 1980
+        String correoAdmin = "admin@admin.com";
+        String telefonoAdmin = "0999999999";
+        Usuario usuarioAdmin = new Usuario(
+                "admin",
+                "admin123",
+                Rol.ADMINISTRADOR,
+                nombreAdmin,
+                fechaAdmin,
+                correoAdmin,
+                telefonoAdmin
+        );
+        List<PreguntaUsuario> preguntasAdmin = new ArrayList<>();
+        preguntasAdmin.add(new PreguntaUsuario(preguntas.get(0), "Rocky"));
+        preguntasAdmin.add(new PreguntaUsuario(preguntas.get(1), "Cuenca"));
+        preguntasAdmin.add(new PreguntaUsuario(preguntas.get(2), "Pizza"));
+        usuarioAdmin.setPreguntaValidacion(preguntasAdmin);
         crearUsuario(usuarioAdmin);
-        crearUsuario(new Usuario("user", "user123", Rol.USUARIO));
+
+        // Usuario NORMAL
+        String nombreUser = "Usuario de Prueba";
+        Date fechaUser = getDate(1990, 5, 15);
+        String correoUser = "user@user.com";
+        String telefonoUser = "0888888888";
+        Usuario usuarioNormal = new Usuario(
+                "user",
+                "user123",
+                Rol.USUARIO,
+                nombreUser,
+                fechaUser,
+                correoUser,
+                telefonoUser
+        );
+        List<PreguntaUsuario> preguntasUser = new ArrayList<>();
+        preguntasUser.add(new PreguntaUsuario(preguntas.get(3), "Juan"));
+        preguntasUser.add(new PreguntaUsuario(preguntas.get(4), "Escuela Central"));
+        preguntasUser.add(new PreguntaUsuario(preguntas.get(5), "Azul"));
+        usuarioNormal.setPreguntaValidacion(preguntasUser);
+        crearUsuario(usuarioNormal);
+    }
+
+    private Date getDate(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
     }
 
     @Override
@@ -78,6 +121,10 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
             usuario.setContrasena(usuarioActualizado.getContrasena());
             usuario.setRol(usuarioActualizado.getRol());
             usuario.setPreguntaValidacion(usuarioActualizado.getPreguntaValidacion());
+            usuario.setNombreCompleto(usuarioActualizado.getNombreCompleto());
+            usuario.setFechaNacimiento(usuarioActualizado.getFechaNacimiento());
+            usuario.setCorreo(usuarioActualizado.getCorreo());
+            usuario.setTelefono(usuarioActualizado.getTelefono());
         }
     }
 

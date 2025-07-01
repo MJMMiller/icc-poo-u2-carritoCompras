@@ -1,307 +1,214 @@
 package ec.edu.ups.poo.controlador;
 
-import ec.edu.ups.poo.Main;
 import ec.edu.ups.poo.dao.UsuarioDAO;
-import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.modelo.Usuario;
-import ec.edu.ups.poo.vista.inicio.LogInView;
-import ec.edu.ups.poo.vista.usuario.UsuarioAnadirView;
-import ec.edu.ups.poo.vista.usuario.UsuarioEditarView;
-import ec.edu.ups.poo.vista.usuario.UsuarioElimiarView;
-import ec.edu.ups.poo.vista.usuario.UsuarioListarView;
+import ec.edu.ups.poo.modelo.Pregunta;
+import ec.edu.ups.poo.modelo.PreguntaUsuario;
+import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.vista.usuario.*;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.util.List;
+import java.util.*;
 
 public class UsuarioController {
 
-    private Usuario usuario;
     private final UsuarioDAO usuarioDAO;
-    private final LogInView loginView;
+    private final PreguntaDAO preguntaDAO;
     private final MensajeInternacionalizacionHandler i18n;
 
-    public UsuarioController(UsuarioDAO usuarioDAO, LogInView loginView, MensajeInternacionalizacionHandler i18n) {
+    public UsuarioController(UsuarioDAO usuarioDAO, PreguntaDAO preguntaDAO, MensajeInternacionalizacionHandler i18n) {
         this.usuarioDAO = usuarioDAO;
-        this.loginView = loginView;
+        this.preguntaDAO = preguntaDAO;
         this.i18n = i18n;
-        if (loginView != null) {
-            configurarEventosLogin();
+    }
+
+    // --- Login ---
+    public Usuario autenticarUsuario(String username, String contrasena) {
+        return usuarioDAO.autenticarUsuario(username, contrasena);
+    }
+
+    // --- Registro de usuario con preguntas de seguridad y nuevos atributos ---
+    public boolean registrarUsuario(
+            String username,
+            String password,
+            Rol rol,
+            String nombreCompleto,
+            Date fechaNacimiento,
+            String correo,
+            String telefono,
+            List<String> respuestas
+    ) {
+        if (usuarioDAO.buscarUsuario(username) != null)
+            return false;
+        List<Pregunta> preguntas = obtenerPreguntasRandom();
+        List<PreguntaUsuario> preguntasUsuario = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            preguntasUsuario.add(new PreguntaUsuario(preguntas.get(i), respuestas.get(i)));
         }
+        Usuario usuario = new Usuario(username, password, rol, nombreCompleto, fechaNacimiento, correo, telefono);
+        usuario.setPreguntaValidacion(preguntasUsuario);
+        usuarioDAO.crearUsuario(usuario);
+        return true;
     }
 
-    private void configurarEventosLogin() {
-        loginView.getBtnLogIn().addActionListener(e -> autenticarUsuario());
+    // --- Obtener 3 preguntas aleatorias del banco ---
+    public List<Pregunta> obtenerPreguntasRandom() {
+        List<Pregunta> preguntas = preguntaDAO.listarTodas();
+        Collections.shuffle(preguntas);
+        return preguntas.subList(0, 3);
     }
 
-    private void autenticarUsuario() {
-        String username = loginView.getTxtUserName().getText();
-        String contrasenia = new String(loginView.getTxtContrasena().getPassword());
-        usuario = usuarioDAO.autenticarUsuario(username, contrasenia);
-        if (usuario == null) {
-            loginView.mostrarMensaje(
-                    i18n.get("usuario.error.autenticacion"),
-                    i18n.get("global.error"),
-                    JOptionPane.ERROR_MESSAGE
-            );
-        } else {
-            loginView.dispose();
-            Main.mostrarMenuPrincipal(usuario);
-        }
-    }
-
-    public void configurarUsuarioCrearView(UsuarioAnadirView usuarioAnadirView) {
-        JComboBox cbxRol = usuarioAnadirView.getCbxRol();
+    // --- Métodos para vistas CRUD de usuario ---
+    public void configurarUsuarioCrearView(UsuarioAnadirView view) {
+        JComboBox cbxRol = view.getCbxRol();
         llenarComboRoles(cbxRol);
 
-        usuarioAnadirView.getBtnRegistrar().addActionListener(e -> {
-            String username = usuarioAnadirView.getTxtUsuario().getText().trim();
-            String password = usuarioAnadirView.getTxtContrasena().getText().trim();
-            Rol rol = (Rol) usuarioAnadirView.getCbxRol().getSelectedItem();
+        view.getBtnRegistrar().addActionListener(e -> {
+            String username = view.getTxtUsuario().getText().trim();
+            String password = view.getTxtContrasena().getText().trim();
+            Rol rol = (Rol) cbxRol.getSelectedItem();
+            String nombreCompleto = view.getTxtNombreCompleto().getText().trim();
+            Date fechaNacimiento = view.getFechaNacimiento(); // Asegúrate de que es un Date o ajusta el getter
+            String correo = view.getTxtCorreo().getText().trim();
+            String telefono = view.getTxtTelefono().getText().trim();
 
-            if (camposVacios(username, password, rol)) {
-                usuarioAnadirView.mostrarMensaje(
-                        i18n.get("usuario.error.campos_obligatorios"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
+            if (camposVacios(username, password, nombreCompleto, fechaNacimiento, correo, telefono, rol)) {
+                view.mostrarMensaje(i18n.get("usuario.error.campos_obligatorios"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
             if (usuarioDAO.buscarUsuario(username) != null) {
-                usuarioAnadirView.mostrarMensaje(
-                        i18n.get("usuario.error.existe"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
+                view.mostrarMensaje(i18n.get("usuario.error.existe"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-            Usuario nuevoUsuario = new Usuario(username, password, rol);
+            Usuario nuevoUsuario = new Usuario(username, password, rol, nombreCompleto, fechaNacimiento, correo, telefono);
             usuarioDAO.crearUsuario(nuevoUsuario);
-
-            usuarioAnadirView.mostrarMensaje(
-                    i18n.get("usuario.exito.creado"),
-                    i18n.get("global.success"),
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-            limpiarCamposCrear(usuarioAnadirView, cbxRol);
+            view.mostrarMensaje(i18n.get("usuario.exito.creado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
+            limpiarCamposCrear(view, cbxRol);
         });
 
-        usuarioAnadirView.getBtnClean().addActionListener(e -> limpiarCamposCrear(usuarioAnadirView, cbxRol));
+        view.getBtnClean().addActionListener(e -> limpiarCamposCrear(view, cbxRol));
     }
 
-    public void configurarUsuarioEditarView(UsuarioEditarView usuarioEditarView) {
-        JComboBox cbxRol = usuarioEditarView.getCbxRol();
+    public void configurarUsuarioEditarView(UsuarioEditarView view) {
+        JComboBox cbxRol = view.getCbxRol();
         llenarComboRoles(cbxRol);
+        view.getTxtUsuario().setEditable(true);
 
-        cbxRol.setEnabled(!(usuario != null && usuario.getRol() == Rol.USUARIO));
-        usuarioEditarView.getTxtUsuario().setEditable(true);
-
-        usuarioEditarView.getBtnBuscar().addActionListener(e -> {
-            String usernameBuscar = usuarioEditarView.getTxtUsuario().getText().trim();
+        view.getBtnBuscar().addActionListener(e -> {
+            String usernameBuscar = view.getTxtUsuario().getText().trim();
             if (usernameBuscar.isEmpty()) {
-                usuarioEditarView.mostrarMensaje(
-                        i18n.get("usuario.error.ingrese_usuario_buscar"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
+                view.mostrarMensaje(i18n.get("usuario.error.ingrese_usuario_buscar"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             Usuario usuarioEncontrado = usuarioDAO.buscarUsuario(usernameBuscar);
             if (usuarioEncontrado == null) {
-                usuarioEditarView.mostrarMensaje(
-                        i18n.get("usuario.error.no_encontrado"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
-                limpiarCamposEditar(usuarioEditarView, cbxRol);
+                view.mostrarMensaje(i18n.get("usuario.error.no_encontrado"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+                limpiarCamposEditar(view, cbxRol);
             } else {
-                usuarioEditarView.getTxtUsuario().setText(usuarioEncontrado.getUserName());
-                usuarioEditarView.getTxtContrasena().setText(usuarioEncontrado.getContrasena());
+                view.getTxtUsuario().setText(usuarioEncontrado.getUserName());
+                view.getTxtContrasena().setText(usuarioEncontrado.getContrasena());
+                view.getTxtCorreo().setText(usuarioEncontrado.getCorreo());
+                view.getTxtTelefono().setText(usuarioEncontrado.getTelefono());
                 cbxRol.setSelectedItem(usuarioEncontrado.getRol());
-                usuarioEditarView.getTxtUsuario().setEditable(false);
+                view.getTxtUsuario().setEditable(false);
             }
         });
 
-        usuarioEditarView.getBtnActualizar().addActionListener(e -> {
-            String username = usuarioEditarView.getTxtUsuario().getText().trim();
-            String password = usuarioEditarView.getTxtContrasena().getText().trim();
-            Rol rol = (Rol) usuarioEditarView.getCbxRol().getSelectedItem();
+        view.getBtnActualizar().addActionListener(e -> {
+            String username = view.getTxtUsuario().getText().trim();
+            String password = view.getTxtContrasena().getText().trim();
+            String correo = view.getTxtCorreo().getText().trim();
+            String telefono = view.getTxtTelefono().getText().trim();
+            String nombreCompleto = view.getTxtNombreCompleto().getText().trim();
+            Date fechaNacimiento = view.getFechaNacimiento();
+            Rol rol = (Rol) cbxRol.getSelectedItem();
 
-            if (camposVacios(username, password, rol)) {
-                usuarioEditarView.mostrarMensaje(
-                        i18n.get("usuario.error.campos_obligatorios"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
+            if (camposVacios(username, password, nombreCompleto, fechaNacimiento, correo, telefono, rol)) {
+                view.mostrarMensaje(i18n.get("usuario.error.campos_obligatorios"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
             Usuario usuarioExistente = usuarioDAO.buscarUsuario(username);
             if (usuarioExistente == null) {
-                usuarioEditarView.mostrarMensaje(
-                        i18n.get("usuario.error.no_existe"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
+                view.mostrarMensaje(i18n.get("usuario.error.no_existe"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
             usuarioExistente.setContrasena(password);
-
-            if (usuario != null && usuario.getRol() != Rol.USUARIO) {
-                usuarioExistente.setRol(rol);
-                usuarioDAO.actualizar(username, password, rol);
-            } else {
-                usuarioDAO.actualizar(username, password, usuarioExistente.getRol());
-            }
-            usuarioEditarView.mostrarMensaje(
-                    i18n.get("usuario.exito.actualizado"),
-                    i18n.get("global.success"),
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            usuarioExistente.setCorreo(correo);
+            usuarioExistente.setTelefono(telefono);
+            usuarioExistente.setRol(rol);
+            usuarioDAO.actualizar(username, password, rol);
+            view.mostrarMensaje(i18n.get("usuario.exito.actualizado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
         });
 
-        usuarioEditarView.getBtnClean().addActionListener(e -> limpiarCamposEditar(usuarioEditarView, cbxRol));
+        view.getBtnClean().addActionListener(e -> limpiarCamposEditar(view, cbxRol));
     }
 
-    public void configurarUsuarioEliminarView(UsuarioElimiarView usuarioElimiarView) {
-
-        usuarioElimiarView.getBtnBuscar().addActionListener(e -> {
-            String username = usuarioElimiarView.getTxtUsuario().getText().trim();
+    public void configurarUsuarioEliminarView(UsuarioElimiarView view) {
+        view.getBtnBuscar().addActionListener(e -> {
+            String username = view.getTxtUsuario().getText().trim();
             if (username.isEmpty()) {
-                usuarioElimiarView.mostrarMensaje(
-                        i18n.get("usuario.error.ingrese_usuario_eliminar"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
+                view.mostrarMensaje(i18n.get("usuario.error.ingrese_usuario_eliminar"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
             Usuario usuarioEncontrado = usuarioDAO.buscarUsuario(username);
             if (usuarioEncontrado == null) {
-                usuarioElimiarView.mostrarMensaje(
-                        i18n.get("usuario.error.no_encontrado"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
-                usuarioElimiarView.getTxtContrasena().setText("");
-                usuarioElimiarView.getTxtRol().setText("");
-                usuarioElimiarView.getBtnEliminar().setEnabled(false);
+                view.mostrarMensaje(i18n.get("usuario.error.no_encontrado"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+                view.getTxtContrasena().setText("");
+                view.getTxtCorreo().setText("");
+                view.getTxtTelefono().setText("");
+                view.getTxtRol().setText("");
+                view.getBtnEliminar().setEnabled(false);
             } else {
-                usuarioElimiarView.getTxtContrasena().setText(usuarioEncontrado.getContrasena());
-                usuarioElimiarView.getTxtRol().setText(usuarioEncontrado.getRol().toString());
-                usuarioElimiarView.getTxtUsuario().setEditable(false);
-                usuarioElimiarView.getBtnEliminar().setEnabled(true);
+                view.getTxtContrasena().setText(usuarioEncontrado.getContrasena());
+                view.getTxtCorreo().setText(usuarioEncontrado.getCorreo());
+                view.getTxtTelefono().setText(usuarioEncontrado.getTelefono());
+                view.getTxtRol().setText(usuarioEncontrado.getRol().toString());
+                view.getTxtUsuario().setEditable(false);
+                view.getBtnEliminar().setEnabled(true);
             }
         });
 
-        usuarioElimiarView.getBtnEliminar().addActionListener(e -> {
-            String username = usuarioElimiarView.getTxtUsuario().getText().trim();
+        view.getBtnEliminar().addActionListener(e -> {
+            String username = view.getTxtUsuario().getText().trim();
             if (username.isEmpty()) {
-                usuarioElimiarView.mostrarMensaje(
-                        i18n.get("usuario.error.no_usuario_eliminar"),
-                        i18n.get("global.error"),
-                        JOptionPane.ERROR_MESSAGE
-                );
+                view.mostrarMensaje(i18n.get("usuario.error.no_usuario_eliminar"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            int confirmacion = usuarioElimiarView.mostrarMensajeConfirmacion(
-                    i18n.get("usuario.confirmacion.eliminar"),
-                    i18n.get("global.confirm"),
-                    JOptionPane.WARNING_MESSAGE
-            );
+            int confirmacion = view.mostrarMensajeConfirmacion(i18n.get("usuario.confirmacion.eliminar"), i18n.get("global.confirm"), JOptionPane.WARNING_MESSAGE);
             if (confirmacion == 0) {
                 usuarioDAO.eliminarUsuario(username);
-                usuarioElimiarView.mostrarMensaje(
-                        i18n.get("usuario.exito.eliminado"),
-                        i18n.get("global.success"),
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-                usuarioElimiarView.getTxtUsuario().setText("");
-                usuarioElimiarView.getTxtContrasena().setText("");
-                usuarioElimiarView.getTxtRol().setText("");
-                usuarioElimiarView.getTxtUsuario().setEditable(true);
-                usuarioElimiarView.getBtnEliminar().setEnabled(false);
+                view.mostrarMensaje(i18n.get("usuario.exito.eliminado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
+                view.getTxtUsuario().setText("");
+                view.getTxtContrasena().setText("");
+                view.getTxtCorreo().setText("");
+                view.getTxtTelefono().setText("");
+                view.getTxtRol().setText("");
+                view.getTxtUsuario().setEditable(true);
+                view.getBtnEliminar().setEnabled(false);
             }
         });
     }
 
-    public void configurarUsuarioListarView(UsuarioListarView usuarioListarView) {
-        DefaultTableModel modelo = usuarioListarView.getModelo();
-        Runnable llenarTabla = () -> {
-            modelo.setRowCount(0);
+    public void configurarUsuarioListarView(UsuarioListarView view) {
+        view.getBtnListar().addActionListener(e -> {
             List<Usuario> usuarios = usuarioDAO.listarUsuariosTodos();
-            for (Usuario usuario : usuarios) {
-                modelo.addRow(new Object[]{
-                        usuario.getUserName(),
-                        usuario.getContrasena(),
-                        usuario.getRol().name()
-                });
-            }
-        };
-
-        usuarioListarView.getBtnListar().addActionListener(e -> llenarTabla.run());
-
-        usuarioListarView.getBtnBuscar().addActionListener(e -> {
-            String username = usuarioListarView.getTxtUsuario().getText().trim();
-            Object rolSeleccionado = usuarioListarView.getCbxRol().getSelectedItem();
-            usuarioListarView.getModelo().setRowCount(0);
-
-            boolean buscarPorRol = rolSeleccionado != null && rolSeleccionado instanceof Rol;
-
+            view.mostrarUsuarios(usuarios);
+        });
+        view.getBtnBuscar().addActionListener(e -> {
+            String username = view.getTxtUsuario().getText().trim();
+            Rol rol = (Rol) view.getCbxRol().getSelectedItem();
             if (username.isEmpty()) {
-                List<Usuario> usuarios;
-                if (buscarPorRol) {
-                    usuarios = usuarioDAO.buscarUsuariosPorRol((Rol) rolSeleccionado);
-                } else {
-                    usuarios = usuarioDAO.listarUsuariosTodos();
-                }
-                if (usuarios.isEmpty()) {
-                    usuarioListarView.mostrarMensaje(
-                            i18n.get("usuario.info.no_hay_usuarios"),
-                            i18n.get("global.info"),
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
-                } else {
-                    for (Usuario usuario : usuarios) {
-                        modelo.addRow(new Object[]{
-                                usuario.getUserName(),
-                                usuario.getContrasena(),
-                                usuario.getRol().name()
-                        });
-                    }
-                }
-                usuarioListarView.getTxtUsuario().setText("");
-                usuarioListarView.getCbxRol().setSelectedIndex(0);
+                List<Usuario> usuarios = rol == null ? usuarioDAO.listarUsuariosTodos() : usuarioDAO.buscarUsuariosPorRol(rol);
+                view.mostrarUsuarios(usuarios);
             } else {
-                Usuario usuarioEncontrado = usuarioDAO.buscarUsuario(username);
-                if (usuarioEncontrado == null) {
-                    usuarioListarView.mostrarMensaje(
-                            i18n.get("usuario.error.no_encontrado"),
-                            i18n.get("global.error"),
-                            JOptionPane.ERROR_MESSAGE
-                    );
+                Usuario usuario = usuarioDAO.buscarUsuario(username);
+                if (usuario != null && (rol == null || usuario.getRol().equals(rol))) {
+                    view.mostrarUsuarios(List.of(usuario));
                 } else {
-                    if (buscarPorRol && !usuarioEncontrado.getRol().equals((Rol) rolSeleccionado)) {
-                        usuarioListarView.mostrarMensaje(
-                                i18n.get("usuario.info.no_tiene_rol"),
-                                i18n.get("global.info"),
-                                JOptionPane.INFORMATION_MESSAGE
-                        );
-                    } else {
-                        modelo.addRow(new Object[]{
-                                usuarioEncontrado.getUserName(),
-                                usuarioEncontrado.getContrasena(),
-                                usuarioEncontrado.getRol().name()
-                        });
-                    }
+                    view.mostrarUsuarios(List.of());
                 }
-                usuarioListarView.getTxtUsuario().setText("");
-                usuarioListarView.getCbxRol().setSelectedIndex(0);
             }
         });
     }
@@ -316,17 +223,27 @@ public class UsuarioController {
     private void limpiarCamposCrear(UsuarioAnadirView view, JComboBox cbxRol) {
         view.getTxtUsuario().setText("");
         view.getTxtContrasena().setText("");
+        view.getTxtCorreo().setText("");
+        view.getTxtTelefono().setText("");
         if (cbxRol.getItemCount() > 0) cbxRol.setSelectedIndex(0);
     }
 
     private void limpiarCamposEditar(UsuarioEditarView view, JComboBox cbxRol) {
         view.getTxtUsuario().setText("");
         view.getTxtContrasena().setText("");
+        view.getTxtCorreo().setText("");
+        view.getTxtTelefono().setText("");
         if (cbxRol.getItemCount() > 0) cbxRol.setSelectedIndex(0);
         view.getTxtUsuario().setEditable(true);
     }
 
-    private boolean camposVacios(String username, String pass, Rol rol) {
-        return username.isEmpty() || pass.isEmpty() || rol == null;
+    private boolean camposVacios(String username, String pass, String nombreCompleto, Date fechaNacimiento, String correo, String telefono, Rol rol) {
+        return username.isEmpty()
+                || pass.isEmpty()
+                || nombreCompleto.isEmpty()
+                || fechaNacimiento == null
+                || correo.isEmpty()
+                || telefono.isEmpty()
+                || rol == null;
     }
 }

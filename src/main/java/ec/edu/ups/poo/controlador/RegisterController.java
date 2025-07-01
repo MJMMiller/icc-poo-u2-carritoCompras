@@ -1,10 +1,11 @@
 package ec.edu.ups.poo.controlador;
 
 import ec.edu.ups.poo.dao.UsuarioDAO;
-import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.dao.PreguntaDAO;
+import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
+import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
-import ec.edu.ups.poo.modelo.BancoPreguntaValidacion;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.inicio.RegisterView;
 
@@ -14,12 +15,14 @@ import java.util.*;
 public class RegisterController {
 
     private final UsuarioDAO usuarioDAO;
+    private final PreguntaDAO preguntaDAO;
     private final RegisterView registerView;
-    private final List<BancoPreguntaValidacion> preguntasRandom;
+    private final List<Pregunta> preguntasRandom;
     private final MensajeInternacionalizacionHandler i18n;
 
-    public RegisterController(UsuarioDAO usuarioDAO, RegisterView registerView, MensajeInternacionalizacionHandler i18n) {
+    public RegisterController(UsuarioDAO usuarioDAO, PreguntaDAO preguntaDAO, RegisterView registerView, MensajeInternacionalizacionHandler i18n) {
         this.usuarioDAO = usuarioDAO;
+        this.preguntaDAO = preguntaDAO;
         this.registerView = registerView;
         this.i18n = i18n;
 
@@ -39,6 +42,10 @@ public class RegisterController {
     private void registrarUsuario() {
         String username = registerView.getTxtUsuario().getText().trim();
         String password = registerView.getTxtContrasena().getText().trim();
+        String nombreCompleto = registerView.getTxtNombreCompleto().getText().trim();
+        Date fechaNacimiento = registerView.getFechaNacimiento();
+        String correo = registerView.getTxtCorreo().getText().trim();
+        String telefono = registerView.getTxtTelefono().getText().trim();
         String respuesta1 = registerView.getTxtPregunta1().getText().trim();
         String respuesta2 = registerView.getTxtPregunta2().getText().trim();
         String respuesta3 = registerView.getTxtPregunta3().getText().trim();
@@ -61,7 +68,7 @@ public class RegisterController {
             return;
         }
 
-        Usuario usuario = new Usuario(username, password, Rol.USUARIO);
+        Usuario usuario = new Usuario(username, password, Rol.USUARIO, nombreCompleto, fechaNacimiento, correo, telefono);
 
         List<PreguntaUsuario> preguntasUsuario = new ArrayList<>();
         preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(0), respuesta1));
@@ -81,9 +88,9 @@ public class RegisterController {
     }
 
     private void mostrarPreguntasEnVista() {
-        registerView.getLblPregunta1().setText(i18n.get(preguntasRandom.get(0).getKey()));
-        registerView.getLblPregunta2().setText(i18n.get(preguntasRandom.get(1).getKey()));
-        registerView.getLblPregunta3().setText(i18n.get(preguntasRandom.get(2).getKey()));
+        registerView.getLblPregunta1().setText(preguntasRandom.get(0).getTexto());
+        registerView.getLblPregunta2().setText(preguntasRandom.get(1).getTexto());
+        registerView.getLblPregunta3().setText(preguntasRandom.get(2).getTexto());
     }
 
     private void limpiarCampos() {
@@ -103,8 +110,8 @@ public class RegisterController {
         return false;
     }
 
-    private List<BancoPreguntaValidacion> getPreguntasRandom() {
-        List<BancoPreguntaValidacion> lista = new ArrayList<>(Arrays.asList(BancoPreguntaValidacion.values()));
+    private List<Pregunta> getPreguntasRandom() {
+        List<Pregunta> lista = new ArrayList<>(preguntaDAO.listarTodas());
         Collections.shuffle(lista);
         return lista.subList(0, 3);
     }

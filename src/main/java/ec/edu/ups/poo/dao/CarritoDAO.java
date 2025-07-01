@@ -6,24 +6,14 @@ import ec.edu.ups.poo.modelo.Producto;
 import java.util.List;
 
 public interface CarritoDAO {
-
     void agregarProducto(Producto producto, int cantidad);
-
     void eliminarProducto(int codigoProducto);
-
     void vaciarCarrito();
-
     double calcularTotal();
-
     List<ItemCarrito> obtenerItems();
-
     boolean estaVacio();
-
     void guardarCarrito(Carrito carrito);
-
-    Carrito obtenerCarrito(int codigoProducto);
-
-    void eliminarCarrtio(int codigoCarrito);
-
+    Carrito obtenerCarrito(int idCarrito);
+    void eliminarCarrtio(int idCarrito);
     List<Carrito> listarCarritos();
 }

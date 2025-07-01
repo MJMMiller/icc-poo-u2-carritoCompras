@@ -6,7 +6,7 @@ import ec.edu.ups.poo.dao.impl.CarritoDAOMemoria;
 import ec.edu.ups.poo.modelo.Carrito;
 import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Producto;
-import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;

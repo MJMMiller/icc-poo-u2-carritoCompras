@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ProductoDAOMemoria implements ProductoDAO {
-
     private final List<Producto> productos;
 
     public ProductoDAOMemoria() {

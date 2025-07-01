@@ -35,9 +35,9 @@ public class PreguntasRecuperacionController {
     private void inicializarVista() {
         List<PreguntaUsuario> preguntasGuardadas = usuario.getPreguntaValidacion();
 
-        preguntasView.getLblPregunta1().setText(i18n.get(preguntasGuardadas.get(0).getPregunta().getKey()));
-        preguntasView.getLblPregunta2().setText(i18n.get(preguntasGuardadas.get(1).getPregunta().getKey()));
-        preguntasView.getLblPregunta3().setText(i18n.get(preguntasGuardadas.get(2).getPregunta().getKey()));
+        preguntasView.getLblPregunta1().setText(preguntasGuardadas.get(0).getPregunta().getTexto());
+        preguntasView.getLblPregunta2().setText(preguntasGuardadas.get(1).getPregunta().getTexto());
+        preguntasView.getLblPregunta3().setText(preguntasGuardadas.get(2).getPregunta().getTexto());
 
         preguntasView.getTxtPregunta1().setText("");
         preguntasView.getTxtPregunta2().setText("");

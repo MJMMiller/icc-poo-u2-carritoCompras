@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.controlador;
 
 import ec.edu.ups.poo.dao.UsuarioDAO;
+import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.vista.inicio.LogInView;
 import ec.edu.ups.poo.vista.inicio.RegisterView;
@@ -12,6 +13,7 @@ import javax.swing.*;
 public class LogInController {
 
     private final UsuarioDAO usuarioDAO;
+    private final PreguntaDAO preguntaDAO;
     private final LogInView logInView;
     private final MensajeInternacionalizacionHandler i18n;
     private final MainAppCallback mainAppCallback;
@@ -21,8 +23,9 @@ public class LogInController {
         void mostrarLogin();
     }
 
-    public LogInController(UsuarioDAO usuarioDAO, LogInView logInView, MensajeInternacionalizacionHandler i18n, MainAppCallback callback) {
+    public LogInController(UsuarioDAO usuarioDAO, PreguntaDAO preguntaDAO, LogInView logInView, MensajeInternacionalizacionHandler i18n, MainAppCallback callback) {
         this.usuarioDAO = usuarioDAO;
+        this.preguntaDAO = preguntaDAO;
         this.logInView = logInView;
         this.i18n = i18n;
         this.mainAppCallback = callback;
@@ -72,7 +75,7 @@ public class LogInController {
                 );
                 if (res == 0) {
                     PreguntasValidacionView preguntasView = new PreguntasValidacionView(usuario, usuarioDAO, i18n);
-                    new PreguntasValidacionController(usuario, usuarioDAO, preguntasView, i18n);
+                    new PreguntasValidacionController(usuario, usuarioDAO, preguntaDAO, preguntasView, i18n);
                     preguntasView.setVisible(true);
                     preguntasView.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
@@ -91,7 +94,7 @@ public class LogInController {
 
         logInView.getBtnRegister().addActionListener(e -> {
             RegisterView registerView = new RegisterView(i18n);
-            new RegisterController(usuarioDAO, registerView, i18n);
+            new RegisterController(usuarioDAO, preguntaDAO, registerView, i18n);
             registerView.setVisible(true);
         });
 

@@ -3,6 +3,8 @@ package ec.edu.ups.poo.vista.inicio;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
+import java.util.Calendar;
+import java.util.Date;
 
 public class RegisterView extends JFrame {
     private JPanel panelAll;
@@ -24,6 +26,15 @@ public class RegisterView extends JFrame {
     private JTextField txtPregunta3;
     private JLabel lblPregunta2;
     private JLabel lblPregunta3;
+    private JTextField txtNombreCompleto;
+    private JLabel lblNombreCompleto;
+    private JLabel lblFechaNacimiento;
+    private JComboBox cbxDia;
+    private JComboBox cbxMes;
+    private JComboBox cbxAnio;
+    private JTextField txtCorreo;
+    private JLabel lblCorreo;
+    private JTextField txtTelefono;
     private MensajeInternacionalizacionHandler i18n;
 
     public RegisterView(MensajeInternacionalizacionHandler i18n) {
@@ -34,6 +45,50 @@ public class RegisterView extends JFrame {
         setLocationRelativeTo(null);
 
         aplicarIdioma();
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirmar", "Cancelar"};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("register.title"));
+        lblTitulo.setText(i18n.get("register.title"));
+        lblUsuario.setText(i18n.get("register.lblUsuario"));
+        txtUsuario.setText(i18n.get("register.txtUsuario"));
+        lblContrasena.setText(i18n.get("register.lblContrasena"));
+        txtContrasena.setText(i18n.get("register.txtContrasena"));
+        lblPregunta1.setText(i18n.get("register.lblPregunta1"));
+        txtPregunta1.setText(i18n.get("register.txtPregunta1"));
+        lblPregunta2.setText(i18n.get("register.lblPregunta2"));
+        txtPregunta2.setText(i18n.get("register.txtPregunta2"));
+        lblPregunta3.setText(i18n.get("register.lblPregunta3"));
+        txtPregunta3.setText(i18n.get("register.txtPregunta3"));
+        btnRegistro.setText(i18n.get("register.btnRegistro"));
+        btnClean.setText(i18n.get("register.btnClean"));
+        btnSalir.setText(i18n.get("register.btnSalir"));
+    }
+
+    public Date getFechaNacimiento() {
+        try {
+            int dia = Integer.parseInt(cbxDia.getSelectedItem().toString());
+            int mes = Integer.parseInt(cbxMes.getSelectedItem().toString()) - 1;
+            int anio = Integer.parseInt(cbxAnio.getSelectedItem().toString());
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(anio, mes, dia, 0, 0, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            return calendar.getTime();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public JPanel getPanelAll() {
@@ -52,12 +107,12 @@ public class RegisterView extends JFrame {
         this.panelSuperior = panelSuperior;
     }
 
-    public JLabel getTxtSettingsProduc() {
+    public JLabel getLblTitulo() {
         return lblTitulo;
     }
 
-    public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.lblTitulo = txtSettingsProduc;
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
     }
 
     public JPanel getPanelCentral() {
@@ -188,33 +243,83 @@ public class RegisterView extends JFrame {
         this.lblPregunta3 = lblPregunta3;
     }
 
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    public JTextField getTxtNombreCompleto() {
+        return txtNombreCompleto;
     }
 
-    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirmar", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
+    public void setTxtNombreCompleto(JTextField txtNombreCompleto) {
+        this.txtNombreCompleto = txtNombreCompleto;
     }
 
-    public void aplicarIdioma() {
-        setTitle(i18n.get("register.title"));
-        lblTitulo.setText(i18n.get("register.title"));
-        lblUsuario.setText(i18n.get("register.lblUsuario"));
-        txtUsuario.setText(i18n.get("register.txtUsuario"));
-        lblContrasena.setText(i18n.get("register.lblContrasena"));
-        txtContrasena.setText(i18n.get("register.txtContrasena"));
-        lblPregunta1.setText(i18n.get("register.lblPregunta1"));
-        txtPregunta1.setText(i18n.get("register.txtPregunta1"));
-        lblPregunta2.setText(i18n.get("register.lblPregunta2"));
-        txtPregunta2.setText(i18n.get("register.txtPregunta2"));
-        lblPregunta3.setText(i18n.get("register.lblPregunta3"));
-        txtPregunta3.setText(i18n.get("register.txtPregunta3"));
-        btnRegistro.setText(i18n.get("register.btnRegistro"));
-        btnClean.setText(i18n.get("register.btnClean"));
-        btnSalir.setText(i18n.get("register.btnSalir"));
+    public JLabel getLblNombreCompleto() {
+        return lblNombreCompleto;
+    }
+
+    public void setLblNombreCompleto(JLabel lblNombreCompleto) {
+        this.lblNombreCompleto = lblNombreCompleto;
+    }
+
+    public JLabel getLblFechaNacimiento() {
+        return lblFechaNacimiento;
+    }
+
+    public void setLblFechaNacimiento(JLabel lblFechaNacimiento) {
+        this.lblFechaNacimiento = lblFechaNacimiento;
+    }
+
+    public JComboBox getCbxDia() {
+        return cbxDia;
+    }
+
+    public void setCbxDia(JComboBox cbxDia) {
+        this.cbxDia = cbxDia;
+    }
+
+    public JComboBox getCbxMes() {
+        return cbxMes;
+    }
+
+    public void setCbxMes(JComboBox cbxMes) {
+        this.cbxMes = cbxMes;
+    }
+
+    public JComboBox getCbxAnio() {
+        return cbxAnio;
+    }
+
+    public void setCbxAnio(JComboBox cbxAnio) {
+        this.cbxAnio = cbxAnio;
+    }
+
+    public JTextField getTxtCorreo() {
+        return txtCorreo;
+    }
+
+    public void setTxtCorreo(JTextField txtCorreo) {
+        this.txtCorreo = txtCorreo;
+    }
+
+    public JLabel getLblCorreo() {
+        return lblCorreo;
+    }
+
+    public void setLblCorreo(JLabel lblCorreo) {
+        this.lblCorreo = lblCorreo;
+    }
+
+    public JTextField getTxtTelefono() {
+        return txtTelefono;
+    }
+
+    public void setTxtTelefono(JTextField txtTelefono) {
+        this.txtTelefono = txtTelefono;
+    }
+
+    public MensajeInternacionalizacionHandler getI18n() {
+        return i18n;
+    }
+
+    public void setI18n(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
     }
 }

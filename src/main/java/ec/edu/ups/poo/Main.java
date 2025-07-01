@@ -3,29 +3,38 @@ package ec.edu.ups.poo;
 import ec.edu.ups.poo.controlador.*;
 import ec.edu.ups.poo.dao.CarritoDAO;
 import ec.edu.ups.poo.dao.ProductoDAO;
+import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.dao.impl.CarritoDAOMemoria;
 import ec.edu.ups.poo.dao.impl.ProductoDAOMemoria;
+import ec.edu.ups.poo.dao.impl.PreguntaDAOMemoria;
 import ec.edu.ups.poo.dao.impl.UsuarioDAOMemoria;
-import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.MenuPrincipalView;
 import ec.edu.ups.poo.vista.carrito.*;
 import ec.edu.ups.poo.vista.inicio.LogInView;
-import ec.edu.ups.poo.vista.producto.*;
+import ec.edu.ups.poo.vista.inicio.RegisterView;
+import ec.edu.ups.poo.vista.preguntas.PreguntasValidacionView;
+import ec.edu.ups.poo.vista.producto.ProductoAnadirView;
+import ec.edu.ups.poo.vista.producto.ProductoEditarView;
+import ec.edu.ups.poo.vista.producto.ProductoEliminarView;
+import ec.edu.ups.poo.vista.producto.ProductoListarView;
 import ec.edu.ups.poo.vista.usuario.*;
 
 public class Main {
     public static UsuarioDAO usuarioDAO;
     public static ProductoDAO productoDAO;
     public static CarritoDAO carritoDAO;
+    public static PreguntaDAO preguntaDAO;
     private static UsuarioController usuarioController;
     private static MensajeInternacionalizacionHandler i18n;
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
-            usuarioDAO = new UsuarioDAOMemoria();
+            preguntaDAO = new PreguntaDAOMemoria();
+            usuarioDAO = new UsuarioDAOMemoria(preguntaDAO.listarTodas());
             productoDAO = new ProductoDAOMemoria();
             carritoDAO = new CarritoDAOMemoria();
             i18n = new MensajeInternacionalizacionHandler("es", "EC");
@@ -36,7 +45,7 @@ public class Main {
     public static void mostrarLogin() {
         LogInView logInView = new LogInView(i18n);
 
-        new LogInController(usuarioDAO, logInView, i18n, new LogInController.MainAppCallback() {
+        new LogInController(usuarioDAO, preguntaDAO, logInView, i18n, new LogInController.MainAppCallback() {
             @Override
             public void mostrarMenuPrincipal(Usuario usuarioAutenticado) {
                 Main.mostrarMenuPrincipal(usuarioAutenticado);
@@ -52,7 +61,7 @@ public class Main {
     }
 
     public static void mostrarMenuPrincipal(Usuario usuarioAutenticado) {
-        MenuPrincipalView principalView = new MenuPrincipalView(usuarioAutenticado,i18n);
+        MenuPrincipalView principalView = new MenuPrincipalView(usuarioAutenticado, i18n);
 
         // PRODUCTO
         ProductoAnadirView productoAnadirView = new ProductoAnadirView(i18n);
@@ -72,9 +81,9 @@ public class Main {
         UsuarioEditarView usuarioEditarView = new UsuarioEditarView(i18n);
         UsuarioElimiarView usuarioElimiarView = new UsuarioElimiarView(i18n);
 
-        usuarioController = new UsuarioController(usuarioDAO, null,i18n);
+        usuarioController = new UsuarioController(usuarioDAO, preguntaDAO, i18n);
         new ProductoController(productoDAO, productoAnadirView, productoListaView, productoGestionView, productoEliminarView, carritoAnadirView, i18n);
-        CarritoController carritoController = new CarritoController(carritoDAO, productoDAO, carritoAnadirView, carritoEditarView, usuarioAutenticado,i18n);
+        CarritoController carritoController = new CarritoController(carritoDAO, productoDAO, carritoAnadirView, carritoEditarView, usuarioAutenticado, i18n);
 
         if (usuarioAutenticado.getRol() == Rol.USUARIO) {
             principalView.getMenuItemCrearProducto().setEnabled(false);

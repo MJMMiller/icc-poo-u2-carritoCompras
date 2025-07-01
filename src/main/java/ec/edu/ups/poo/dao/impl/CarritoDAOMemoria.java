@@ -80,11 +80,11 @@ public class CarritoDAOMemoria implements CarritoDAO {
     }
 
     @Override
-    public void eliminarCarrtio(int codigoCarrito) {
+    public void eliminarCarrtio(int idCarrito) {
         Iterator<Carrito> iterator = carritos.iterator();
         while (iterator.hasNext()) {
             Carrito carrito = iterator.next();
-            if (carrito.getId() == codigoCarrito) {
+            if (carrito.getId() == idCarrito) {
                 iterator.remove();
                 break;
             }

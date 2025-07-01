@@ -3,6 +3,8 @@ package ec.edu.ups.poo.vista.usuario;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
+import java.util.Calendar;
+import java.util.Date;
 
 public class UsuarioAnadirView extends JInternalFrame {
     private JPanel panelAll;
@@ -18,6 +20,16 @@ public class UsuarioAnadirView extends JInternalFrame {
     private JButton btnClean;
     private JPanel panelInferior;
     private JLabel lblRol;
+    private JTextField txtNombreCompleto;
+    private JLabel lblNombreCompleto;
+    private JLabel lblFechaNacimiento;
+    private JComboBox cbxDia;
+    private JComboBox cbxMes;
+    private JComboBox cbxAnio;
+    private JLabel lblTelefono;
+    private JTextField txtTelefono;
+    private JTextField txtCorreo;
+    private JLabel lblCorreo;
     private MensajeInternacionalizacionHandler i18n;
 
     public UsuarioAnadirView(MensajeInternacionalizacionHandler i18n) {
@@ -31,10 +43,66 @@ public class UsuarioAnadirView extends JInternalFrame {
         setResizable(true);
 
         aplicarIdioma();
+        inicializarCombosFechaNacimiento();
     }
 
     public JPanel getPanelAll() {
         return panelAll;
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {"Confirmar", "Cancelar"};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("usuario.anadir.titulo"));
+        lblTitulo.setText(i18n.get("usuario.anadir.lbl.titulo"));
+        lblUsuario.setText(i18n.get("usuario.anadir.lbl.usuario"));
+        lblContrasena.setText(i18n.get("usuario.anadir.lbl.contrasena"));
+        lblRol.setText(i18n.get("usuario.anadir.lbl.rol"));
+        btnRegistrar.setText(i18n.get("usuario.anadir.btn.registrar"));
+        btnClean.setText(i18n.get("usuario.anadir.btn.limpiar"));
+    }
+
+    public Date getFechaNacimiento() {
+        try {
+            int dia = Integer.parseInt(cbxDia.getSelectedItem().toString());
+            int mes = Integer.parseInt(cbxMes.getSelectedItem().toString()) - 1;
+            int anio = Integer.parseInt(cbxAnio.getSelectedItem().toString());
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(anio, mes, dia, 0, 0, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            return calendar.getTime();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private void inicializarCombosFechaNacimiento() {
+
+        cbxDia.removeAllItems();
+        for (int i = 1; i <= 31; i++) {
+            cbxDia.addItem(String.valueOf(i));
+        }
+
+        cbxMes.removeAllItems();
+        for (int i = 1; i <= 12; i++) {
+            cbxMes.addItem(String.valueOf(i));
+        }
+
+        cbxAnio.removeAllItems();
+        int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = anioActual; i >= 1900; i--) {
+            cbxAnio.addItem(String.valueOf(i));
+        }
     }
 
     public void setPanelAll(JPanel panelAll) {
@@ -137,25 +205,91 @@ public class UsuarioAnadirView extends JInternalFrame {
         this.lblRol = lblRol;
     }
 
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    public JTextField getTxtNombreCompleto() {
+        return txtNombreCompleto;
     }
 
-    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirmar", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
+    public void setTxtNombreCompleto(JTextField txtNombreCompleto) {
+        this.txtNombreCompleto = txtNombreCompleto;
     }
 
-    public void aplicarIdioma() {
-        setTitle(i18n.get("usuario.anadir.titulo"));
-        lblTitulo.setText(i18n.get("usuario.anadir.lbl.titulo"));
-        lblUsuario.setText(i18n.get("usuario.anadir.lbl.usuario"));
-        lblContrasena.setText(i18n.get("usuario.anadir.lbl.contrasena"));
-        lblRol.setText(i18n.get("usuario.anadir.lbl.rol"));
-        btnRegistrar.setText(i18n.get("usuario.anadir.btn.registrar"));
-        btnClean.setText(i18n.get("usuario.anadir.btn.limpiar"));
+    public JLabel getLblNombreCompleto() {
+        return lblNombreCompleto;
+    }
+
+    public void setLblNombreCompleto(JLabel lblNombreCompleto) {
+        this.lblNombreCompleto = lblNombreCompleto;
+    }
+
+    public JLabel getLblFechaNacimiento() {
+        return lblFechaNacimiento;
+    }
+
+    public void setLblFechaNacimiento(JLabel lblFechaNacimiento) {
+        this.lblFechaNacimiento = lblFechaNacimiento;
+    }
+
+    public JComboBox getCbxDia() {
+        return cbxDia;
+    }
+
+    public void setCbxDia(JComboBox cbxDia) {
+        this.cbxDia = cbxDia;
+    }
+
+    public JComboBox getCbxMes() {
+        return cbxMes;
+    }
+
+    public void setCbxMes(JComboBox cbxMes) {
+        this.cbxMes = cbxMes;
+    }
+
+    public JComboBox getCbxAnio() {
+        return cbxAnio;
+    }
+
+    public void setCbxAnio(JComboBox cbxAnio) {
+        this.cbxAnio = cbxAnio;
+    }
+
+    public JLabel getLblTelefono() {
+        return lblTelefono;
+    }
+
+    public void setLblTelefono(JLabel lblTelefono) {
+        this.lblTelefono = lblTelefono;
+    }
+
+    public JTextField getTxtTelefono() {
+        return txtTelefono;
+    }
+
+    public void setTxtTelefono(JTextField txtTelefono) {
+        this.txtTelefono = txtTelefono;
+    }
+
+    public JTextField getTxtCorreo() {
+        return txtCorreo;
+    }
+
+    public void setTxtCorreo(JTextField txtCorreo) {
+        this.txtCorreo = txtCorreo;
+    }
+
+    public JLabel getLblCorreo() {
+        return lblCorreo;
+    }
+
+    public void setLblCorreo(JLabel lblCorreo) {
+        this.lblCorreo = lblCorreo;
+    }
+
+    public MensajeInternacionalizacionHandler getI18n() {
+        return i18n;
+    }
+
+    public void setI18n(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
     }
 }
