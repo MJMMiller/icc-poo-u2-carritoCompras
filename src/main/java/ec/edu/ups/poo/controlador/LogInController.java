@@ -5,8 +5,6 @@ import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.vista.inicio.LogInView;
 import ec.edu.ups.poo.vista.inicio.RegisterView;
 import ec.edu.ups.poo.vista.preguntas.PreguntasValidacionView;
-import ec.edu.ups.poo.vista.MenuPrincipalView;
-import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
@@ -58,17 +56,23 @@ public class LogInController {
             String pass = logInView.getTxtContrasena().getText();
             Usuario usuario = usuarioDAO.autenticarUsuario(user, pass);
             if (usuario == null) {
-                logInView.mostrarMensaje("Usuario o contraseña incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+                logInView.mostrarMensaje(
+                        i18n.get("login.error.usuario_o_contrasena"),
+                        i18n.get("global.error"),
+                        JOptionPane.ERROR_MESSAGE
+                );
                 return;
             }
 
             if (usuario.getPreguntaValidacion() == null || usuario.getPreguntaValidacion().isEmpty()) {
                 int res = logInView.mostrarMensajeAlert(
-                        "Por favor, llene sus preguntas de validación.", "Atención", JOptionPane.WARNING_MESSAGE
+                        i18n.get("login.warning.llene_preguntas_validacion"),
+                        i18n.get("global.warning"),
+                        JOptionPane.WARNING_MESSAGE
                 );
                 if (res == 0) {
-                    PreguntasValidacionView preguntasView = new PreguntasValidacionView(usuario, usuarioDAO);
-                    new PreguntasValidacionController(usuario, usuarioDAO, preguntasView);
+                    PreguntasValidacionView preguntasView = new PreguntasValidacionView(usuario, usuarioDAO, i18n);
+                    new PreguntasValidacionController(usuario, usuarioDAO, preguntasView, i18n);
                     preguntasView.setVisible(true);
                     preguntasView.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
@@ -86,29 +90,41 @@ public class LogInController {
         });
 
         logInView.getBtnRegister().addActionListener(e -> {
-            RegisterView registerView = new RegisterView();
-            new RegisterController(usuarioDAO, registerView);
+            RegisterView registerView = new RegisterView(i18n);
+            new RegisterController(usuarioDAO, registerView, i18n);
             registerView.setVisible(true);
         });
 
         logInView.getBtnRecuContra().addActionListener(e -> {
             String username = logInView.getTxtUserName().getText().trim();
             if (username.isEmpty()) {
-                logInView.mostrarMensaje("Ingrese su usuario en el campo correspondiente.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                logInView.mostrarMensaje(
+                        i18n.get("login.warning.ingrese_usuario"),
+                        i18n.get("global.warning"),
+                        JOptionPane.WARNING_MESSAGE
+                );
                 return;
             }
             Usuario usuario = usuarioDAO.buscarUsuario(username);
             if (usuario == null) {
-                logInView.mostrarMensaje("Usuario no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+                logInView.mostrarMensaje(
+                        i18n.get("login.error.usuario_no_encontrado"),
+                        i18n.get("global.error"),
+                        JOptionPane.ERROR_MESSAGE
+                );
                 return;
             }
             if (usuario.getPreguntaValidacion() == null || usuario.getPreguntaValidacion().isEmpty()) {
-                logInView.mostrarMensaje("El usuario no tiene preguntas de validación registradas.", "Error", JOptionPane.ERROR_MESSAGE);
+                logInView.mostrarMensaje(
+                        i18n.get("login.error.usuario_sin_preguntas"),
+                        i18n.get("global.error"),
+                        JOptionPane.ERROR_MESSAGE
+                );
                 return;
             }
 
-            PreguntasValidacionView preguntasView = new PreguntasValidacionView(usuario, usuarioDAO);
-            new PreguntasRecuperacionController(usuario, usuarioDAO, preguntasView);
+            PreguntasValidacionView preguntasView = new PreguntasValidacionView(usuario, usuarioDAO, i18n);
+            new PreguntasRecuperacionController(usuario, usuarioDAO, preguntasView, i18n);
             preguntasView.setVisible(true);
         });
 

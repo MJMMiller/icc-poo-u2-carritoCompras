@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import java.util.List;
@@ -20,8 +21,10 @@ public class ProductoAnadirView extends JInternalFrame {
     private JPanel panelCenter;
     private JPanel panelBottom;
     private JLabel lblTitulo;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public ProductoAnadirView() {
+    public ProductoAnadirView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
         setTitle("Register New Product");
         setSize(500, 250);
@@ -29,6 +32,8 @@ public class ProductoAnadirView extends JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+
+        aplicarIdiomas();
     }
 
     public JPanel getPanelAll() {
@@ -170,6 +175,16 @@ public class ProductoAnadirView extends JInternalFrame {
         txtNombre.setEnabled(true);
         txtPrecio.setEnabled(true);
         btnGuardar.setEnabled(true);
+    }
+
+    public void aplicarIdiomas() {
+        setTitle(i18n.get("producto.anadir.titulo"));
+        lblTitulo.setText(i18n.get("producto.anadir.lbl.titulo"));
+        lblCodigo.setText(i18n.get("producto.anadir.lbl.codigo"));
+        lblNombre.setText(i18n.get("producto.anadir.lbl.nombre"));
+        lblPrecio.setText(i18n.get("producto.anadir.lbl.precio"));
+        btnGuardar.setText(i18n.get("producto.anadir.btn.guardar"));
+        btnNuevo.setText(i18n.get("producto.anadir.btn.nuevo"));
     }
 
 }

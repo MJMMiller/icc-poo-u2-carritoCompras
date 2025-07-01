@@ -22,8 +22,6 @@ public class LogInView extends JFrame {
     private JButton btnRecuContra;
     private MensajeInternacionalizacionHandler i18n;
 
-    public LogInView() {
-    }
     public LogInView(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
         setTitle("Inicio de Sesión");
@@ -176,5 +174,6 @@ public class LogInView extends JFrame {
         btnInicioSesion.setText(i18n.get("login.btnInicioSesion"));
         btnSalir.setText(i18n.get("login.btnSalir"));
         btnRegistro.setText(i18n.get("login.btnRegistro"));
-        cbxIdioma.setToolTipText(i18n.get("login.cbxIdioma.tooltip"));    }
+        btnRecuContra.setText(i18n.get("login.btnRecuContra"));
+    }
 }

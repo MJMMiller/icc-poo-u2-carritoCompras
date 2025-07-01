@@ -2,6 +2,8 @@ package ec.edu.ups.poo.vista.carrito;
 
 import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Rol;
+import ec.edu.ups.poo.util.FormateadorUtils;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -11,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Locale;
 
 public class CarritoListarItemsView extends JInternalFrame {
     private JPanel panelTitle;
@@ -37,6 +40,10 @@ public class CarritoListarItemsView extends JInternalFrame {
     private JTextField txtUsuario;
     private JLabel lblItemsCarrito;
     private DefaultTableModel modelo;
+    private MensajeInternacionalizacionHandler i18n;
+    private double subtotal = 0.0;
+    private double iva = 0.0;
+    private double total = 0.0;
 
     public CarritoListarItemsView(
             int carritoId,
@@ -46,56 +53,18 @@ public class CarritoListarItemsView extends JInternalFrame {
             double total,
             String username,
             Rol rol,
-            String fecha) {
+            String fecha,
+            MensajeInternacionalizacionHandler i18n){
+
+        this.i18n = i18n;
 
         setContentPane(panelAll);
         setTitle("Carrito - Listar Items");
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
-        setSize(800, 600);
+        setSize(500, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        modelo = new DefaultTableModel(new Object[]{"Item", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tblProducts.setModel(modelo);
-
-        Color fondo = new Color(29, 30, 32);
-        Color letras = Color.WHITE;
-
-        if (scroll == null && tblProducts != null) {
-            scroll = (JScrollPane) tblProducts.getParent().getParent();
-        }
-        if (scroll != null) {
-            scroll.getViewport().setBackground(fondo);
-            scroll.setBackground(fondo);
-        }
-
-        if (tblProducts != null) {
-            tblProducts.setBackground(fondo);
-            tblProducts.setForeground(letras);
-            tblProducts.setSelectionBackground(new Color(50, 50, 60));
-            tblProducts.setSelectionForeground(Color.WHITE);
-            tblProducts.setGridColor(fondo);
-
-            JTableHeader header = tblProducts.getTableHeader();
-            header.setBackground(fondo);
-            header.setForeground(letras);
-            header.setFont(header.getFont().deriveFont(Font.BOLD));
-            ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-            centerRenderer.setForeground(letras);
-            centerRenderer.setBackground(fondo);
-            for (int i = 0; i < tblProducts.getColumnCount(); i++) {
-                tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-            }
-        }
 
         btnSalir.addActionListener(new ActionListener() {
             @Override
@@ -104,6 +73,8 @@ public class CarritoListarItemsView extends JInternalFrame {
             }
         });
         mostrarDatos(carritoId, items, subtotal, iva, total, username, rol, fecha);
+        cargarTabla();
+        aplicarIdioma();
     }
 
     public JPanel getPanelTitle() {
@@ -329,7 +300,80 @@ public class CarritoListarItemsView extends JInternalFrame {
         if (txtFecha != null) txtFecha.setText(fecha);
     }
 
+    public void cargarTabla() {
+        modelo = new DefaultTableModel(new Object[]{"Item", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tblProducts.setModel(modelo);
+
+        Color fondo = new Color(29, 30, 32);
+        Color letras = Color.WHITE;
+
+        if (scroll == null && tblProducts != null) {
+            scroll = (JScrollPane) tblProducts.getParent().getParent();
+        }
+        if (scroll != null) {
+            scroll.getViewport().setBackground(fondo);
+            scroll.setBackground(fondo);
+        }
+
+        if (tblProducts != null) {
+            tblProducts.setBackground(fondo);
+            tblProducts.setForeground(letras);
+            tblProducts.setSelectionBackground(new Color(50, 50, 60));
+            tblProducts.setSelectionForeground(Color.WHITE);
+            tblProducts.setGridColor(fondo);
+
+            JTableHeader header = tblProducts.getTableHeader();
+            header.setBackground(fondo);
+            header.setForeground(letras);
+            header.setFont(header.getFont().deriveFont(Font.BOLD));
+            ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            centerRenderer.setForeground(letras);
+            centerRenderer.setBackground(fondo);
+            for (int i = 0; i < tblProducts.getColumnCount(); i++) {
+                tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+    }
+
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("carrito.listar.item.titulo"));
+        lblTitulo.setText(i18n.get("carrito.listar.item.lbl.titulo"));
+        lblCodigo.setText(i18n.get("carrito.listar.item.lbl.codigo"));
+        lblUsuario.setText(i18n.get("carrito.listar.item.lbl.usuario"));
+        btnSalir.setText(i18n.get("carrito.listar.item.btn.salir"));
+        lblItemsCarrito.setText(i18n.get("carrito.listar.items"));
+        lblFecha.setText(i18n.get("carrito.listar.item.lbl.fecha"));
+
+        tblProducts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("carrito.listar.item..tbl.codigo"));
+        tblProducts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("carrito.listar.item..tbl.nombre"));
+        tblProducts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("carrito.listar.item.tbl.precio"));
+        tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.listar.item.tbl.cantidad"));
+        tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.listar.item.tbl.totalItem"));
+        tblProducts.getTableHeader().repaint();
+
+        if (modelo != null && modelo.getRowCount() > 0) {
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                double precio = Double.parseDouble(modelo.getValueAt(i, 2).toString().replace(",", "."));
+                double totalItem = Double.parseDouble(modelo.getValueAt(i, 4).toString().replace(",", "."));
+                modelo.setValueAt(FormateadorUtils.formatearMoneda(precio, i18n.getLocale()), i, 2);
+                modelo.setValueAt(FormateadorUtils.formatearMoneda(totalItem, i18n.getLocale()), i, 4);
+            }
+        }
+
+        if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, i18n.getLocale()));
+        if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, i18n.getLocale()));
+        if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, i18n.getLocale()));
     }
 }

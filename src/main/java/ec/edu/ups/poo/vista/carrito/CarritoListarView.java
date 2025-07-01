@@ -1,10 +1,14 @@
 package ec.edu.ups.poo.vista.carrito;
 
+import ec.edu.ups.poo.util.FormateadorUtils;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.util.Locale;
 
 public class CarritoListarView extends JInternalFrame{
     private JPanel panelAll;
@@ -21,11 +25,16 @@ public class CarritoListarView extends JInternalFrame{
     private JScrollPane scroll;
     private JPanel panelInferior;
     private DefaultTableModel modelo;
+    private MensajeInternacionalizacionHandler i18n;
+    private double subtotal = 0.0;
+    private double iva = 0.0;
+    private double total = 0.0;
 
-    public CarritoListarView() {
+    public CarritoListarView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
         setTitle("Carrito de Compras");
-        setSize(800, 600);
+        setSize(600, 500);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
@@ -71,6 +80,18 @@ public class CarritoListarView extends JInternalFrame{
                 tblCarritos.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             }
         }
+
+        aplicarIdioma();
+    }
+
+    public void setResumenValores(double subtotal, double iva, double total, Locale locale) {
+        this.subtotal = subtotal;
+        this.iva = iva;
+        this.total = total;
+        refrescarResumenValores(locale);
+    }
+
+    public void refrescarResumenValores(Locale locale) {
     }
 
     public JPanel getPanelAll() {
@@ -195,6 +216,22 @@ public class CarritoListarView extends JInternalFrame{
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void aplicarIdioma(){
+        setTitle(i18n.get("carrito.listar.title"));
+        lblTitulo.setText(i18n.get("carrito.listar.lbl.title"));
+        lblCodigo.setText(i18n.get("carrito.listar.lbl.codigo"));
+        btnBuscar.setText(i18n.get("carrito.listar.btn.buscar"));
+        btnListar.setText(i18n.get("carrito.listar.btn.listar"));
+        btnVerCarrito.setText(i18n.get("carrito.listarbtn..ver"));
+        tblCarritos.getColumnModel().getColumn(0).setHeaderValue(i18n.get("carrito.listar.tbl.codigo"));
+        tblCarritos.getColumnModel().getColumn(1).setHeaderValue(i18n.get("carrito.listar.tbl.usuario"));
+        tblCarritos.getColumnModel().getColumn(2).setHeaderValue(i18n.get("carrito.listar.tbl.fecha"));
+        tblCarritos.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.listar.tbl.subtotal"));
+        tblCarritos.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.listar.tbl.iva"));
+        tblCarritos.getColumnModel().getColumn(5).setHeaderValue(i18n.get("carrito.listar.tbl.total"));
+        tblCarritos.getTableHeader().repaint();
     }
 }
 

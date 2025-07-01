@@ -1,5 +1,7 @@
 package ec.edu.ups.poo.vista.usuario;
 
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class UsuarioElimiarView extends JInternalFrame {
@@ -9,15 +11,17 @@ public class UsuarioElimiarView extends JInternalFrame {
     private JPanel panelCentral;
     private JTextField txtUsuario;
     private JTextField txtContrasena;
-    private JComboBox cbxRol;
     private JButton btnEliminar;
     private JPanel panelInferioir;
     private JButton btnBuscar;
     private JLabel lblUsuario;
     private JLabel lblContrasena;
     private JLabel lblRol;
+    private JTextField txtRol;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public UsuarioElimiarView() {
+    public UsuarioElimiarView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
         setTitle("Eliminar Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -25,6 +29,8 @@ public class UsuarioElimiarView extends JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+
+        aplicarIdioma();
     }
 
     public JPanel getPanelAll() {
@@ -35,12 +41,12 @@ public class UsuarioElimiarView extends JInternalFrame {
         this.panelAll = panelAll;
     }
 
-    public JLabel getTxtSettingsProduc() {
+    public JLabel getLblTitulo() {
         return lblTitulo;
     }
 
-    public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
-        this.lblTitulo = txtSettingsProduc;
+    public void setLblTitulo(JLabel lblTitulo) {
+        this.lblTitulo = lblTitulo;
     }
 
     public JPanel getPanelSuperioir() {
@@ -73,14 +79,6 @@ public class UsuarioElimiarView extends JInternalFrame {
 
     public void setTxtContrasena(JTextField txtContrasena) {
         this.txtContrasena = txtContrasena;
-    }
-
-    public JComboBox getCbxRol() {
-        return cbxRol;
-    }
-
-    public void setCbxRol(JComboBox cbxRol) {
-        this.cbxRol = cbxRol;
     }
 
     public JButton getBtnEliminar() {
@@ -131,6 +129,14 @@ public class UsuarioElimiarView extends JInternalFrame {
         this.lblRol = lblRol;
     }
 
+    public JTextField getTxtRol() {
+        return txtRol;
+    }
+
+    public void setTxtRol(JTextField txtRol) {
+        this.txtRol = txtRol;
+    }
+
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
@@ -141,5 +147,15 @@ public class UsuarioElimiarView extends JInternalFrame {
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("usuario.listar.titulo"));
+        lblTitulo.setText(i18n.get("usuario.eliminar.titulo"));
+        lblUsuario.setText(i18n.get("usuario.eliminar.lbl.usuario"));
+        lblContrasena.setText(i18n.get("usuario.eliminar.lbl.contrasena"));
+        lblRol.setText(i18n.get("usuario.eliminar.lbl.rol"));
+        btnBuscar.setText(i18n.get("usuario.eliminar.btn.buscar"));
+        btnEliminar.setText(i18n.get("usuario.eliminar.btn.eliminar"));
     }
 }

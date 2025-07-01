@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import java.util.List;
@@ -19,8 +20,10 @@ public class ProductoEliminarView extends JInternalFrame {
     private JTextField txtPrecio;
     private JButton btnEliminar;
     private JPanel panelAll;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public ProductoEliminarView() {
+    public ProductoEliminarView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
         setTitle("Settings Products");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -28,6 +31,8 @@ public class ProductoEliminarView extends JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+
+        aplicarIdioma();
     }
 
     public JPanel getPanelTop() {
@@ -155,5 +160,16 @@ public class ProductoEliminarView extends JInternalFrame {
         txtCodigo.setText("");
         txtNombre.setText("");
         txtPrecio.setText("");
+    }
+
+    public void aplicarIdioma() {
+
+        setTitle(i18n.get("producto.eliminar.titulo"));
+        lblTitulo.setText(i18n.get("producto.eliminar.lbltitulo"));
+        lblCodigo.setText(i18n.get("producto.eliminar.lbl.codigo"));
+        lblNombre.setText(i18n.get("producto.eliminar.lbl.nombre"));
+        lblPrecio.setText(i18n.get("producto.eliminar.lbl.precio"));
+        btnBuscar.setText(i18n.get("producto.eliminar.btn.buscar"));
+        btnEliminar.setText(i18n.get("producto.eliminar.btn.eliminar"));
     }
 }

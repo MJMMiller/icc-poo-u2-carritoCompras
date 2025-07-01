@@ -1,5 +1,7 @@
 package ec.edu.ups.poo.vista.usuario;
 
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class UsuarioAnadirView extends JInternalFrame {
@@ -16,8 +18,10 @@ public class UsuarioAnadirView extends JInternalFrame {
     private JButton btnClean;
     private JPanel panelInferior;
     private JLabel lblRol;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public UsuarioAnadirView() {
+    public UsuarioAnadirView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
         setTitle("Crear Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -25,6 +29,8 @@ public class UsuarioAnadirView extends JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+
+        aplicarIdioma();
     }
 
     public JPanel getPanelAll() {
@@ -141,5 +147,15 @@ public class UsuarioAnadirView extends JInternalFrame {
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("usuario.anadir.titulo"));
+        lblTitulo.setText(i18n.get("usuario.anadir.lbl.titulo"));
+        lblUsuario.setText(i18n.get("usuario.anadir.lbl.usuario"));
+        lblContrasena.setText(i18n.get("usuario.anadir.lbl.contrasena"));
+        lblRol.setText(i18n.get("usuario.anadir.lbl.rol"));
+        btnRegistrar.setText(i18n.get("usuario.anadir.btn.registrar"));
+        btnClean.setText(i18n.get("usuario.anadir.btn.limpiar"));
     }
 }

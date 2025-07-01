@@ -21,18 +21,19 @@ public class Main {
     public static ProductoDAO productoDAO;
     public static CarritoDAO carritoDAO;
     private static UsuarioController usuarioController;
+    private static MensajeInternacionalizacionHandler i18n;
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
             usuarioDAO = new UsuarioDAOMemoria();
             productoDAO = new ProductoDAOMemoria();
             carritoDAO = new CarritoDAOMemoria();
+            i18n = new MensajeInternacionalizacionHandler("es", "EC");
             mostrarLogin();
         });
     }
 
     public static void mostrarLogin() {
-        MensajeInternacionalizacionHandler i18n = new MensajeInternacionalizacionHandler("es", "EC");
         LogInView logInView = new LogInView(i18n);
 
         new LogInController(usuarioDAO, logInView, i18n, new LogInController.MainAppCallback() {
@@ -51,30 +52,29 @@ public class Main {
     }
 
     public static void mostrarMenuPrincipal(Usuario usuarioAutenticado) {
-        MenuPrincipalView principalView = new MenuPrincipalView(usuarioAutenticado);
+        MenuPrincipalView principalView = new MenuPrincipalView(usuarioAutenticado,i18n);
 
         // PRODUCTO
-        ProductoAnadirView productoAnadirView = new ProductoAnadirView();
-        ProductoListarView productoListaView = new ProductoListarView();
-        ProductoEditarView productoGestionView = new ProductoEditarView();
-        ProductoEliminarView productoEliminarView = new ProductoEliminarView();
+        ProductoAnadirView productoAnadirView = new ProductoAnadirView(i18n);
+        ProductoListarView productoListaView = new ProductoListarView(i18n);
+        ProductoEditarView productoGestionView = new ProductoEditarView(i18n);
+        ProductoEliminarView productoEliminarView = new ProductoEliminarView(i18n);
 
         // CARRITO
-        CarritoAnadirView carritoAnadirView = new CarritoAnadirView();
-        CarritoEditarView carritoEditarView = new CarritoEditarView();
-        carritoEditarView.init();
-        CarritoEliminarView carritoEliminarView = new CarritoEliminarView();
-        CarritoListarView carritoListarView = new CarritoListarView();
+        CarritoAnadirView carritoAnadirView = new CarritoAnadirView(i18n);
+        CarritoEditarView carritoEditarView = new CarritoEditarView(i18n);
+        CarritoEliminarView carritoEliminarView = new CarritoEliminarView(i18n);
+        CarritoListarView carritoListarView = new CarritoListarView(i18n);
 
         // USUARIO
-        UsuarioAnadirView usuarioAnadirView = new UsuarioAnadirView();
-        UsuarioListarView usuarioListarView = new UsuarioListarView();
-        UsuarioEditarView usuarioEditarView = new UsuarioEditarView();
-        UsuarioElimiarView usuarioElimiarView = new UsuarioElimiarView();
+        UsuarioAnadirView usuarioAnadirView = new UsuarioAnadirView(i18n);
+        UsuarioListarView usuarioListarView = new UsuarioListarView(i18n);
+        UsuarioEditarView usuarioEditarView = new UsuarioEditarView(i18n);
+        UsuarioElimiarView usuarioElimiarView = new UsuarioElimiarView(i18n);
 
-        usuarioController = new UsuarioController(usuarioDAO, null);
-        new ProductoController(productoDAO, productoAnadirView, productoListaView, productoGestionView, productoEliminarView, carritoAnadirView);
-        CarritoController carritoController = new CarritoController(carritoDAO, productoDAO, carritoAnadirView, carritoEditarView, usuarioAutenticado);
+        usuarioController = new UsuarioController(usuarioDAO, null,i18n);
+        new ProductoController(productoDAO, productoAnadirView, productoListaView, productoGestionView, productoEliminarView, carritoAnadirView, i18n);
+        CarritoController carritoController = new CarritoController(carritoDAO, productoDAO, carritoAnadirView, carritoEditarView, usuarioAutenticado,i18n);
 
         if (usuarioAutenticado.getRol() == Rol.USUARIO) {
             principalView.getMenuItemCrearProducto().setEnabled(false);
@@ -187,6 +187,70 @@ public class Main {
         principalView.getMenuItemLogout().addActionListener(ev -> {
             principalView.dispose();
             mostrarLogin();
+        });
+
+        principalView.getMenuItemEspanol().addActionListener(event -> {
+            i18n.setLenguaje("es", "EC");
+            principalView.aplicarIdioma();
+            productoAnadirView.aplicarIdiomas();
+            productoListaView.aplicarIdioma();
+            productoGestionView.aplicarIdiomas();
+            productoEliminarView.aplicarIdioma();
+            carritoAnadirView.aplicarIdioma();
+            carritoEditarView.aplicarIdioma();
+            carritoEliminarView.aplicarIdioma();
+            carritoListarView.aplicarIdioma();
+            usuarioAnadirView.aplicarIdioma();
+            usuarioListarView.aplicaraIdioma();
+            usuarioEditarView.aplicarIdioma();
+            usuarioElimiarView.aplicarIdioma();
+
+            carritoAnadirView.refrescarResumenValores(i18n.getLocale());
+            carritoEditarView.refrescarResumenValores(i18n.getLocale());
+            carritoEliminarView.refrescarResumenValores(i18n.getLocale());
+            carritoListarView.refrescarResumenValores(i18n.getLocale());
+        });
+        principalView.getMenuItemIngles().addActionListener(event -> {
+            i18n.setLenguaje("en", "US");
+            principalView.aplicarIdioma();
+            productoAnadirView.aplicarIdiomas();
+            productoListaView.aplicarIdioma();
+            productoGestionView.aplicarIdiomas();
+            productoEliminarView.aplicarIdioma();
+            carritoAnadirView.aplicarIdioma();
+            carritoEditarView.aplicarIdioma();
+            carritoEliminarView.aplicarIdioma();
+            carritoListarView.aplicarIdioma();
+            usuarioAnadirView.aplicarIdioma();
+            usuarioListarView.aplicaraIdioma();
+            usuarioEditarView.aplicarIdioma();
+            usuarioElimiarView.aplicarIdioma();
+
+            carritoAnadirView.refrescarResumenValores(i18n.getLocale());
+            carritoEditarView.refrescarResumenValores(i18n.getLocale());
+            carritoEliminarView.refrescarResumenValores(i18n.getLocale());
+            carritoListarView.refrescarResumenValores(i18n.getLocale());
+        });
+        principalView.getMenuItemFrances().addActionListener(event -> {
+            i18n.setLenguaje("fr", "FR");
+            principalView.aplicarIdioma();
+            productoAnadirView.aplicarIdiomas();
+            productoListaView.aplicarIdioma();
+            productoGestionView.aplicarIdiomas();
+            productoEliminarView.aplicarIdioma();
+            carritoAnadirView.aplicarIdioma();
+            carritoEditarView.aplicarIdioma();
+            carritoEliminarView.aplicarIdioma();
+            carritoListarView.aplicarIdioma();
+            usuarioAnadirView.aplicarIdioma();
+            usuarioListarView.aplicaraIdioma();
+            usuarioEditarView.aplicarIdioma();
+            usuarioElimiarView.aplicarIdioma();
+
+            carritoAnadirView.refrescarResumenValores(i18n.getLocale());
+            carritoEditarView.refrescarResumenValores(i18n.getLocale());
+            carritoEliminarView.refrescarResumenValores(i18n.getLocale());
+            carritoListarView.refrescarResumenValores(i18n.getLocale());
         });
 
         principalView.setVisible(true);

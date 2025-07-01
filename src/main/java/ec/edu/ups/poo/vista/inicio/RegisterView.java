@@ -1,5 +1,7 @@
 package ec.edu.ups.poo.vista.inicio;
 
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class RegisterView extends JFrame {
@@ -22,12 +24,16 @@ public class RegisterView extends JFrame {
     private JTextField txtPregunta3;
     private JLabel lblPregunta2;
     private JLabel lblPregunta3;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public RegisterView() {
+    public RegisterView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setTitle("Log In");
         setContentPane(panelAll);
         setSize(400, 500);
         setLocationRelativeTo(null);
+
+        aplicarIdioma();
     }
 
     public JPanel getPanelAll() {
@@ -192,5 +198,23 @@ public class RegisterView extends JFrame {
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("register.title"));
+        lblTitulo.setText(i18n.get("register.title"));
+        lblUsuario.setText(i18n.get("register.lblUsuario"));
+        txtUsuario.setText(i18n.get("register.txtUsuario"));
+        lblContrasena.setText(i18n.get("register.lblContrasena"));
+        txtContrasena.setText(i18n.get("register.txtContrasena"));
+        lblPregunta1.setText(i18n.get("register.lblPregunta1"));
+        txtPregunta1.setText(i18n.get("register.txtPregunta1"));
+        lblPregunta2.setText(i18n.get("register.lblPregunta2"));
+        txtPregunta2.setText(i18n.get("register.txtPregunta2"));
+        lblPregunta3.setText(i18n.get("register.lblPregunta3"));
+        txtPregunta3.setText(i18n.get("register.txtPregunta3"));
+        btnRegistro.setText(i18n.get("register.btnRegistro"));
+        btnClean.setText(i18n.get("register.btnClean"));
+        btnSalir.setText(i18n.get("register.btnSalir"));
     }
 }

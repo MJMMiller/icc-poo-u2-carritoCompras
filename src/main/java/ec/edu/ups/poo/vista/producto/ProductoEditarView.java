@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import java.util.List;
@@ -20,9 +21,10 @@ public class ProductoEditarView extends JInternalFrame {
     private JPanel panelMenor;
     private JLabel lblTitulo;
     private JScrollPane scroll;
-    private JButton btnListProduct;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public ProductoEditarView() {
+    public ProductoEditarView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
         setTitle("Editar Producto");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -30,6 +32,8 @@ public class ProductoEditarView extends JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+
+        aplicarIdiomas();
     }
 
     public JPanel getPanelAll() {
@@ -144,14 +148,6 @@ public class ProductoEditarView extends JInternalFrame {
         this.scroll = scroll;
     }
 
-    public JButton getBtnListProduct() {
-        return btnListProduct;
-    }
-
-    public void setBtnListProduct(JButton btnListProduct) {
-        this.btnListProduct = btnListProduct;
-    }
-
     public void mostrarProductos(List<Producto> productos) {
         txtNombre.setText(productos.get(0).getNombre());
         txtPrecio.setText(String.valueOf(productos.get(0).getPrecio()));
@@ -173,5 +169,15 @@ public class ProductoEditarView extends JInternalFrame {
         txtCodigo.setText("");
         txtNombre.setText("");
         txtPrecio.setText("");
+    }
+
+    public void aplicarIdiomas() {
+        setTitle(i18n.get("producto.editar.titulo"));
+        lblTitulo.setText(i18n.get("producto.editar.lbl.titulo"));
+        lblCodigo.setText(i18n.get("producto.editar.lbl.codigo"));
+        lblNombre.setText(i18n.get("producto.editar.lbl.nombre"));
+        lblPrecio.setText(i18n.get("producto.editar.lbl.precio"));
+        btnBuscar.setText(i18n.get("producto.editar.btn.buscar"));
+        btnActualizar.setText(i18n.get("producto.editar.btn.actualizar"));
     }
 }

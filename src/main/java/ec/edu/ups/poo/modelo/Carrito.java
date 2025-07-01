@@ -1,6 +1,5 @@
 package ec.edu.ups.poo.modelo;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -64,10 +63,8 @@ public class Carrito {
         this.total = total;
     }
 
-    public String getFecha() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-        return sdf.format(fecha);
+    public Date getFecha() {
+        return fecha;
     }
 
     public void setFecha(Date fecha) {
@@ -84,11 +81,9 @@ public class Carrito {
 
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String formattedDate = dateFormat.format(fecha);
         return "Carrito [id=" + id +
                 ", usuario=" + usuario +
-                ", fecha=" + formattedDate +
+                ", fecha=" + fecha +
                 ", subtotal=" + subtotal +
                 ", iva=" + iva +
                 ", total=" + total +

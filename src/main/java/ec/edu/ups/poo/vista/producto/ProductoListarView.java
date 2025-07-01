@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -23,17 +24,19 @@ public class ProductoListarView extends JInternalFrame{
     private JPanel panelAll;
     private JScrollPane scroll;
     private DefaultTableModel modelo;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public ProductoListarView() {
+    public ProductoListarView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
-        setTitle("List Products");
+        setTitle("Lista de Productos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 400);
+        setSize(500, 400);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
 
-        modelo = new DefaultTableModel(new Object[]{"Code", "Name", "Price"}, 0) {
+        modelo = new DefaultTableModel(new Object[]{"Codigo", "Nombre", "Precio"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -70,6 +73,7 @@ public class ProductoListarView extends JInternalFrame{
             tableProdcuts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
+        aplicarIdioma();
     }
 
     public JPanel getPanelCenter() {
@@ -181,5 +185,18 @@ public class ProductoListarView extends JInternalFrame{
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("producto.listar.titulo"));
+        lblTitulo.setText(i18n.get("producto.listar.lbl.titulo"));
+        lblNombre.setText(i18n.get("producto.listar.lbl.nombre"));
+        btnBuscar.setText(i18n.get("producto.listar.btn.buscar"));
+        btnListar.setText(i18n.get("producto.listar.btn.listar"));
+        tableProdcuts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("producto.listar.columna.codigo"));
+        tableProdcuts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("producto.listar.columna.nombre"));
+        tableProdcuts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("producto.listar.columna.precio"));
+        tableProdcuts.getTableHeader().repaint();
+
     }
 }

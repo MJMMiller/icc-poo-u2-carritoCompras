@@ -2,23 +2,18 @@ package ec.edu.ups.poo.modelo;
 
 public enum BancoPreguntaValidacion {
 
-    PRIMER_MASCOTA("¿Cuál es el nombre de tu primera mascota?"),
-    CIUDAD_NACIMIENTO("¿En qué ciudad naciste?"),
-    COMIDA_FAVORITA("¿Cuál es tu comida favorita?"),
-    MEJOR_AMIGO_INFANCIA("¿Cuál es el nombre de tu mejor amigo de la infancia?"),
-    ESCUELA_PRIMARIA("¿Cuál es el nombre de tu escuela primaria?"),
-    COLOR_FAVORITO("¿Cuál es tu color favorito?"),
-    SEGUNDO_APELLIDO_MADRE("¿Cuál es el segundo apellido de tu madre?"),
-    PRIMER_PROFESOR("¿Cómo se llamaba tu primer profesor?"),
-    PRIMER_TRABAJO("¿Cuál fue tu primer trabajo?"),
-    PELICULA_FAVORITA("¿Cuál es el nombre de tu película favorita?");
+    PRIMER_MASCOTA("pregunta.primer_mascota"),
+    CIUDAD_NACIMIENTO("pregunta.ciudad_nacimiento"),
+    COMIDA_FAVORITA("pregunta.comida_favorita"),
+    MEJOR_AMIGO_INFANCIA("pregunta.mejor_amigo_infancia"),
+    ESCUELA_PRIMARIA("pregunta.escuela_primaria"),
+    COLOR_FAVORITO("pregunta.color_favorito"),
+    SEGUNDO_APELLIDO_MADRE("pregunta.segundo_apellido_madre"),
+    PRIMER_PROFESOR("pregunta.primer_profesor"),
+    PRIMER_TRABAJO("pregunta.primer_trabajo"),
+    PELICULA_FAVORITA("pregunta.pelicula_favorita");
 
-    private final String pregunta;
-
-    BancoPreguntaValidacion(String pregunta) {
-        this.pregunta = pregunta;
-    }
-    public String getPregunta() {
-        return pregunta;
-    }
+    private final String key;
+    BancoPreguntaValidacion(String key) { this.key = key; }
+    public String getKey() { return key; }
 }

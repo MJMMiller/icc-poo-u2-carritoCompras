@@ -2,6 +2,7 @@ package ec.edu.ups.poo.vista.usuario;
 
 import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -26,15 +27,18 @@ public class UsuarioListarView extends JInternalFrame {
     private JLabel lblUsuario;
     private JLabel lblRol;
     private DefaultTableModel modelo;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public UsuarioListarView() {
+    public UsuarioListarView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
         setTitle("Listar Usuarios");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 400);
+        setSize(500, 400);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+
 
         modelo = new DefaultTableModel(new Object[]{"Usuario", "Contrasena", "Rol"}, 0) {
             @Override
@@ -84,6 +88,8 @@ public class UsuarioListarView extends JInternalFrame {
                 cbxRol.addItem(rol);
             }
         }
+
+        aplicaraIdioma();
     }
 
     public JPanel getPanelSuperio() {
@@ -211,5 +217,17 @@ public class UsuarioListarView extends JInternalFrame {
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void aplicaraIdioma() {
+        setTitle(i18n.get("usuario.listar.title"));
+        lblTitulo.setText(i18n.get("usuario.listar.titulo"));
+        lblUsuario.setText(i18n.get("usuario.listar.lbl.usuario"));
+        lblRol.setText(i18n.get("usuario.listar.lbl.rol"));
+        btnBuscar.setText(i18n.get("usuario.listar.btn.buscar"));
+        btnListar.setText(i18n.get("usuario.listar.btn.listar"));
+        tableUsers.getColumnModel().getColumn(0).setHeaderValue(i18n.get("usuario.listar.table.usuario"));
+        tableUsers.getColumnModel().getColumn(1).setHeaderValue(i18n.get("usuario.listar.table.contrasena"));
+        tableUsers.getColumnModel().getColumn(2).setHeaderValue(i18n.get("usuario.listar.table.rol"));
     }
 }

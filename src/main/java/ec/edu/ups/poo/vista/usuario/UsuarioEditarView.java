@@ -1,5 +1,7 @@
 package ec.edu.ups.poo.vista.usuario;
 
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+
 import javax.swing.*;
 
 public class UsuarioEditarView extends JInternalFrame {
@@ -15,8 +17,10 @@ public class UsuarioEditarView extends JInternalFrame {
     private JLabel lblUsuario;
     private JLabel lblContrasena;
     private JLabel lblRol;
+    private MensajeInternacionalizacionHandler i18n;
 
-    public UsuarioEditarView() {
+    public UsuarioEditarView(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setContentPane(panelAll);
         setTitle("Editar Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -24,6 +28,8 @@ public class UsuarioEditarView extends JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
+
+        aplicarIdioma();
     }
 
     public JPanel getPanelAll() {
@@ -132,5 +138,16 @@ public class UsuarioEditarView extends JInternalFrame {
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("usuario.editar.titulo"));
+        lblTitulo.setText(i18n.get("usuario.editar.lbl.titulo"));
+        lblUsuario.setText(i18n.get("usuario.editar.lbl.usuario"));
+        lblContrasena.setText(i18n.get("usuario.editar.lblcontrasena"));
+        lblRol.setText(i18n.get("usuario.editar.lbl.rol"));
+        btnActualizar.setText(i18n.get("usuario.editar.btn.actualizar"));
+        btnClean.setText(i18n.get("usuario.editar.btn.limpiar"));
+        btnBuscar.setText(i18n.get("usuario.editar.btn.buscar"));
     }
 }

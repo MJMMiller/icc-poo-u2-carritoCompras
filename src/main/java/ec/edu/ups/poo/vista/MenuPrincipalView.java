@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista;
 
 import ec.edu.ups.poo.modelo.Usuario;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,9 +34,17 @@ public class MenuPrincipalView extends JFrame {
     private JMenuItem menuItemIngles;
     private JMenuItem menuItemFrances;
 
+    private JLabel lblBienvenida;
+
     private MiJDesktopPane desktop;
 
-    public MenuPrincipalView(Usuario usuarioAutenticado) {
+    private MensajeInternacionalizacionHandler i18n;
+
+    private Usuario usuarioAutenticado;
+
+    public MenuPrincipalView(Usuario usuarioAutenticado, MensajeInternacionalizacionHandler i18n) {
+        this.usuarioAutenticado = usuarioAutenticado;
+        this.i18n = i18n;
         setLayout(new BorderLayout());
 
         desktop = new MiJDesktopPane();
@@ -47,7 +56,7 @@ public class MenuPrincipalView extends JFrame {
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         centerPanel.setOpaque(false);
 
-        JLabel lblBienvenida = new JLabel("Bienvenido al sistema de compras: " + usuarioAutenticado.getUserName(), SwingConstants.CENTER);
+        lblBienvenida = new JLabel("Bienvenido al sistema de compras: " + usuarioAutenticado.getUserName(), SwingConstants.CENTER);
         lblBienvenida.setFont(new Font("Arial", Font.BOLD, 26));
         lblBienvenida.setForeground(Color.WHITE);
         lblBienvenida.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
@@ -130,6 +139,8 @@ public class MenuPrincipalView extends JFrame {
         setTitle("Sistema de Carrito de Compras");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
+
+        aplicarIdioma();
     }
 
     public JDesktopPane getjDesktopPane() { return desktop; }
@@ -180,4 +191,38 @@ public class MenuPrincipalView extends JFrame {
 
     public JMenuItem getMenuItemLogout() { return menuItemLogout; }
     public void setMenuItemLogout(JMenuItem menuItemLogout) { this.menuItemLogout = menuItemLogout; }
+
+    public void aplicarIdioma(){
+
+        setTitle(i18n.get("menu.titulo"));
+        lblBienvenida.setText(i18n.get("menu.lblBienvenida") + ": " + usuarioAutenticado.getUserName());
+
+        menuProducto.setText(i18n.get("menu.producto"));
+        menuCarrito.setText(i18n.get("menu.carrito"));
+        menuUsuarios.setText(i18n.get("menu.usuarios"));
+        menuSesion.setText(i18n.get("menu.sesion"));
+        menuIdioma.setText(i18n.get("menu.idioma"));
+
+        menuItemCrearProducto.setText(i18n.get("menu.item.crear.producto"));
+        menuItemEditarProducto.setText(i18n.get("menu.item.editar.producto"));
+        menuItemBuscarProducto.setText(i18n.get("menu.item.listar.productos"));
+        menuItemEliminarProducto.setText(i18n.get("menu.item.eliminar.producto"));
+
+        menuItemCrearCarrito.setText(i18n.get("menu.item.crear.carrito"));
+        menuItemEditarCarrito.setText(i18n.get("menu.item.editar.carrito"));
+        menuItemListarCarritos.setText(i18n.get("menu.item.listar.carritos"));
+        menuItemEliminarCarrito.setText(i18n.get("menu.item.eliminar.carrito"));
+
+        menuItemCrearUsuario.setText(i18n.get("menu.item.crear.usuario"));
+        menuItemEditarUsuario.setText(i18n.get("menu.item.editar.usuario"));
+        menuItemListarUsuarios.setText(i18n.get("menu.item.listar.usuarios"));
+        menuItemEliminarUsuario.setText(i18n.get("menu.item.eliminar.usuario"));
+
+        menuItemEspanol.setText(i18n.get("menu.idioma.espanol"));
+        menuItemIngles.setText(i18n.get("menu.idioma.ingles"));
+        menuItemFrances.setText(i18n.get("menu.idioma.frances"));
+
+        menuItemLogout.setText(i18n.get("menu.sesion.logout"));
+
+    }
 }

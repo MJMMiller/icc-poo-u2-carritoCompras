@@ -2,6 +2,7 @@ package ec.edu.ups.poo.vista.preguntas;
 
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.modelo.Usuario;
+import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
 
@@ -23,13 +24,18 @@ public class PreguntasValidacionView extends JFrame{
     private JLabel lblNuevaContra;
     private JLabel lblTitulo;
 
-    public PreguntasValidacionView(Usuario usuario, UsuarioDAO usuarioDAO) {
+    private MensajeInternacionalizacionHandler i18n;
+
+    public PreguntasValidacionView(Usuario usuario, UsuarioDAO usuarioDAO, MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
         setTitle("Registro de Preguntas de Validación");
         setContentPane(panelAll);
         setSize(400, 500);
         setLocationRelativeTo(null);
         lblNuevaContra.setVisible(false);
         txtNuevaContra.setVisible(false);
+
+        aplicarIdiomas();
     }
 
     public JPanel getPanelAll() {
@@ -154,5 +160,16 @@ public class PreguntasValidacionView extends JFrame{
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
+    }
+
+    public void aplicarIdiomas() {
+        setTitle(i18n.get("producto.aplicar.idiomas"));
+        lblTitulo.setText(i18n.get("preguntas.validacion.lbl.titulo"));
+        lblPregunta1.setText(i18n.get("preguntas.validacion.lbll.pregunta1"));
+        lblPregunta2.setText(i18n.get("preguntas.validacion.lbl.pregunta2"));
+        lblPregunta3.setText(i18n.get("preguntas.validacion.lbl.pregunta3"));
+        btnEnviar.setText(i18n.get("preguntas.validacion.btn.enviar"));
+        btnClean.setText(i18n.get("preguntas.validacion.btn.limpiar"));
+        lblNuevaContra.setText(i18n.get("preguntas.validacion.lbl.nueva.contra"));
     }
 }
