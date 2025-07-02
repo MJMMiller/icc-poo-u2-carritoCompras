@@ -141,6 +141,7 @@
             </constraints>
             <properties>
               <background color="-12763068"/>
+              <foreground color="-459777"/>
             </properties>
           </component>
           <component id="95c60" class="javax.swing.JComboBox" binding="cbxMes">
@@ -149,6 +150,7 @@
             </constraints>
             <properties>
               <background color="-12763068"/>
+              <foreground color="-459777"/>
             </properties>
           </component>
           <component id="c61c2" class="javax.swing.JComboBox" binding="cbxAnio">
@@ -157,6 +159,7 @@
             </constraints>
             <properties>
               <background color="-12763068"/>
+              <foreground color="-459777"/>
             </properties>
           </component>
           <component id="6debc" class="javax.swing.JLabel" binding="lblCorreo">

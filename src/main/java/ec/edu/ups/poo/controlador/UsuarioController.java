@@ -24,12 +24,10 @@ public class UsuarioController {
         this.i18n = i18n;
     }
 
-    // --- Login ---
     public Usuario autenticarUsuario(String username, String contrasena) {
         return usuarioDAO.autenticarUsuario(username, contrasena);
     }
 
-    // --- Registro de usuario con preguntas de seguridad y nuevos atributos ---
     public boolean registrarUsuario(
             String username,
             String password,
@@ -53,14 +51,12 @@ public class UsuarioController {
         return true;
     }
 
-    // --- Obtener 3 preguntas aleatorias del banco ---
     public List<Pregunta> obtenerPreguntasRandom() {
         List<Pregunta> preguntas = preguntaDAO.listarTodas();
         Collections.shuffle(preguntas);
         return preguntas.subList(0, 3);
     }
 
-    // --- Métodos para vistas CRUD de usuario ---
     public void configurarUsuarioCrearView(UsuarioAnadirView view) {
         JComboBox cbxRol = view.getCbxRol();
         llenarComboRoles(cbxRol);
@@ -70,12 +66,20 @@ public class UsuarioController {
             String password = view.getTxtContrasena().getText().trim();
             Rol rol = (Rol) cbxRol.getSelectedItem();
             String nombreCompleto = view.getTxtNombreCompleto().getText().trim();
-            Date fechaNacimiento = view.getFechaNacimiento(); // Asegúrate de que es un Date o ajusta el getter
+            Date fechaNacimiento = view.getFechaNacimiento();
             String correo = view.getTxtCorreo().getText().trim();
             String telefono = view.getTxtTelefono().getText().trim();
 
             if (camposVacios(username, password, nombreCompleto, fechaNacimiento, correo, telefono, rol)) {
                 view.mostrarMensaje(i18n.get("usuario.error.campos_obligatorios"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!correo.contains("@") || !correo.contains(".")) {
+                view.mostrarMensaje(i18n.get("register.error.correo"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!telefono.matches("\\d{10,}")) {
+                view.mostrarMensaje(i18n.get("register.error.telefono"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (usuarioDAO.buscarUsuario(username) != null) {
@@ -109,10 +113,28 @@ public class UsuarioController {
             } else {
                 view.getTxtUsuario().setText(usuarioEncontrado.getUserName());
                 view.getTxtContrasena().setText(usuarioEncontrado.getContrasena());
+                view.getTxtNombreCompleto().setText(usuarioEncontrado.getNombreCompleto());
+
+                Date fecha = usuarioEncontrado.getFechaNacimiento();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(fecha);
+                int dia = cal.get(Calendar.DAY_OF_MONTH);
+                int mes = cal.get(Calendar.MONTH) + 1;
+                int anio = cal.get(Calendar.YEAR);
+
+                view.getCbxDia().setSelectedItem(String.valueOf(dia));
+                view.getCbxMes().setSelectedItem(String.valueOf(mes));
+                view.getCbxAnio().setSelectedItem(String.valueOf(anio));
+
                 view.getTxtCorreo().setText(usuarioEncontrado.getCorreo());
                 view.getTxtTelefono().setText(usuarioEncontrado.getTelefono());
+                cbxRol.setEnabled(false);
                 cbxRol.setSelectedItem(usuarioEncontrado.getRol());
                 view.getTxtUsuario().setEditable(false);
+
+                if (!usuarioEncontrado.getRol().equals(Rol.USUARIO)) {
+                    cbxRol.setEnabled(true);
+                }
             }
         });
 
@@ -157,11 +179,20 @@ public class UsuarioController {
                 view.mostrarMensaje(i18n.get("usuario.error.no_encontrado"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
                 view.getTxtContrasena().setText("");
                 view.getTxtCorreo().setText("");
+                view.getTxtNombreCompleto().setText("");
+                view.getTxtTelefono().setText("");
+                view.getTxtDia().setText("");
+                view.getTxtMes().setText("");
+                view.getTxtAnio().setText("");
                 view.getTxtTelefono().setText("");
                 view.getTxtRol().setText("");
                 view.getBtnEliminar().setEnabled(false);
             } else {
                 view.getTxtContrasena().setText(usuarioEncontrado.getContrasena());
+                view.getTxtNombreCompleto().setText(usuarioEncontrado.getCorreo());
+                view.getTxtDia().setText(String.valueOf(usuarioEncontrado.getFechaNacimiento().getDate()));
+                view.getTxtMes().setText(String.valueOf(usuarioEncontrado.getFechaNacimiento().getMonth() + 1));
+                view.getTxtAnio().setText(String.valueOf(usuarioEncontrado.getFechaNacimiento().getYear() + 1900));
                 view.getTxtCorreo().setText(usuarioEncontrado.getCorreo());
                 view.getTxtTelefono().setText(usuarioEncontrado.getTelefono());
                 view.getTxtRol().setText(usuarioEncontrado.getRol().toString());
@@ -185,6 +216,10 @@ public class UsuarioController {
                 view.getTxtCorreo().setText("");
                 view.getTxtTelefono().setText("");
                 view.getTxtRol().setText("");
+                view.getTxtDia().setText("");
+                view.getTxtMes().setText("");
+                view.getTxtAnio().setText("");
+                view.getTxtNombreCompleto().setText("");
                 view.getTxtUsuario().setEditable(true);
                 view.getBtnEliminar().setEnabled(false);
             }
@@ -196,19 +231,25 @@ public class UsuarioController {
             List<Usuario> usuarios = usuarioDAO.listarUsuariosTodos();
             view.mostrarUsuarios(usuarios);
         });
+
         view.getBtnBuscar().addActionListener(e -> {
             String username = view.getTxtUsuario().getText().trim();
-            Rol rol = (Rol) view.getCbxRol().getSelectedItem();
-            if (username.isEmpty()) {
-                List<Usuario> usuarios = rol == null ? usuarioDAO.listarUsuariosTodos() : usuarioDAO.buscarUsuariosPorRol(rol);
-                view.mostrarUsuarios(usuarios);
-            } else {
+            Object selectedRol = view.getCbxRol().getSelectedItem();
+
+            boolean isTodos = selectedRol instanceof String && "Todos".equals(selectedRol);
+
+            if (!username.isEmpty()) {
                 Usuario usuario = usuarioDAO.buscarUsuario(username);
-                if (usuario != null && (rol == null || usuario.getRol().equals(rol))) {
+                if (usuario != null) {
                     view.mostrarUsuarios(List.of(usuario));
                 } else {
                     view.mostrarUsuarios(List.of());
                 }
+            } else if (!isTodos) {
+                Rol rol = (Rol) selectedRol;
+                view.mostrarUsuarios(usuarioDAO.buscarUsuariosPorRol(rol));
+            } else {
+                view.mostrarUsuarios(usuarioDAO.listarUsuariosTodos());
             }
         });
     }
@@ -225,6 +266,10 @@ public class UsuarioController {
         view.getTxtContrasena().setText("");
         view.getTxtCorreo().setText("");
         view.getTxtTelefono().setText("");
+        view.getTxtNombreCompleto().setText("");
+        view.getCbxDia().setSelectedIndex(0);
+        view.getCbxMes().setSelectedIndex(0);
+        view.getCbxAnio().setSelectedIndex(0);
         if (cbxRol.getItemCount() > 0) cbxRol.setSelectedIndex(0);
     }
 
@@ -233,6 +278,10 @@ public class UsuarioController {
         view.getTxtContrasena().setText("");
         view.getTxtCorreo().setText("");
         view.getTxtTelefono().setText("");
+        view.getTxtNombreCompleto().setText("");
+        view.getCbxDia().setSelectedIndex(0);
+        view.getCbxMes().setSelectedIndex(0);
+        view.getCbxAnio().setSelectedIndex(0);
         if (cbxRol.getItemCount() > 0) cbxRol.setSelectedIndex(0);
         view.getTxtUsuario().setEditable(true);
     }

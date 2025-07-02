@@ -36,7 +36,7 @@ public class UsuarioEditarView extends JInternalFrame {
         setContentPane(panelAll);
         setTitle("Editar Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 250);
+        setSize(400, 500);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
@@ -67,6 +67,11 @@ public class UsuarioEditarView extends JInternalFrame {
         btnActualizar.setText(i18n.get("usuario.editar.btn.actualizar"));
         btnClean.setText(i18n.get("usuario.editar.btn.limpiar"));
         btnBuscar.setText(i18n.get("usuario.editar.btn.buscar"));
+        lblNombreCompleto.setText(i18n.get("usuario.editar.lbl.nombrecompleto"));
+        lblFechaNacimiento.setText(i18n.get("usuario.editar.lbl.fechanacimiento"));
+        lblCorreo.setText(i18n.get("usuario.editar.lbl.correo"));
+        lblTelefono.setText(i18n.get("usuario.editar.lbl.telefono"));
+
     }
 
     public Date getFechaNacimiento() {

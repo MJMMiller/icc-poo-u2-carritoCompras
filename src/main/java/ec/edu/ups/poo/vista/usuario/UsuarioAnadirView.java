@@ -37,7 +37,7 @@ public class UsuarioAnadirView extends JInternalFrame {
         setContentPane(panelAll);
         setTitle("Crear Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 250);
+        setSize(400, 500);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
@@ -70,6 +70,11 @@ public class UsuarioAnadirView extends JInternalFrame {
         lblRol.setText(i18n.get("usuario.anadir.lbl.rol"));
         btnRegistrar.setText(i18n.get("usuario.anadir.btn.registrar"));
         btnClean.setText(i18n.get("usuario.anadir.btn.limpiar"));
+        lblNombreCompleto.setText(i18n.get("usuario.anadir.lbl.nombre.completo"));
+        lblFechaNacimiento.setText(i18n.get("usuario.anadir.lbl.fecha.nacimiento"));
+        lblTelefono.setText(i18n.get("usuario.anadir.lbl.telefono"));
+        lblCorreo.setText(i18n.get("usuario.anadir.lbl.correo"));
+
     }
 
     public Date getFechaNacimiento() {

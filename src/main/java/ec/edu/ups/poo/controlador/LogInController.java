@@ -72,7 +72,9 @@ public class LogInController {
                         i18n.get("login.warning.llene_preguntas_validacion"),
                         i18n.get("global.warning"),
                         JOptionPane.WARNING_MESSAGE
+
                 );
+                logInView.dispose();
                 if (res == 0) {
                     PreguntasValidacionView preguntasView = new PreguntasValidacionView(usuario, usuarioDAO, i18n);
                     new PreguntasValidacionController(usuario, usuarioDAO, preguntaDAO, preguntasView, i18n);

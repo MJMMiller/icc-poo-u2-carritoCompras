@@ -35,6 +35,7 @@ public class RegisterView extends JFrame {
     private JTextField txtCorreo;
     private JLabel lblCorreo;
     private JTextField txtTelefono;
+    private JLabel lblTelefono;
     private MensajeInternacionalizacionHandler i18n;
 
     public RegisterView(MensajeInternacionalizacionHandler i18n) {
@@ -45,6 +46,7 @@ public class RegisterView extends JFrame {
         setLocationRelativeTo(null);
 
         aplicarIdioma();
+        inicializarCombosFechaNacimiento();
     }
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
@@ -63,18 +65,19 @@ public class RegisterView extends JFrame {
         setTitle(i18n.get("register.title"));
         lblTitulo.setText(i18n.get("register.title"));
         lblUsuario.setText(i18n.get("register.lblUsuario"));
-        txtUsuario.setText(i18n.get("register.txtUsuario"));
         lblContrasena.setText(i18n.get("register.lblContrasena"));
-        txtContrasena.setText(i18n.get("register.txtContrasena"));
+        lblNombreCompleto.setText(i18n.get("register.lblNombreCompleto"));
+        lblFechaNacimiento.setText(i18n.get("register.lblFechaNacimiento"));
+        lblCorreo.setText(i18n.get("register.lblCorreo"));
+        lblTelefono.setText(i18n.get("register.lblTelefono"));
+        lblTelefono.setText(i18n.get("register.lblTelefono"));
         lblPregunta1.setText(i18n.get("register.lblPregunta1"));
-        txtPregunta1.setText(i18n.get("register.txtPregunta1"));
         lblPregunta2.setText(i18n.get("register.lblPregunta2"));
-        txtPregunta2.setText(i18n.get("register.txtPregunta2"));
         lblPregunta3.setText(i18n.get("register.lblPregunta3"));
-        txtPregunta3.setText(i18n.get("register.txtPregunta3"));
         btnRegistro.setText(i18n.get("register.btnRegistro"));
         btnClean.setText(i18n.get("register.btnClean"));
         btnSalir.setText(i18n.get("register.btnSalir"));
+
     }
 
     public Date getFechaNacimiento() {
@@ -88,6 +91,25 @@ public class RegisterView extends JFrame {
             return calendar.getTime();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    private void inicializarCombosFechaNacimiento() {
+
+        cbxDia.removeAllItems();
+        for (int i = 1; i <= 31; i++) {
+            cbxDia.addItem(String.valueOf(i));
+        }
+
+        cbxMes.removeAllItems();
+        for (int i = 1; i <= 12; i++) {
+            cbxMes.addItem(String.valueOf(i));
+        }
+
+        cbxAnio.removeAllItems();
+        int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = anioActual; i >= 1900; i--) {
+            cbxAnio.addItem(String.valueOf(i));
         }
     }
 
@@ -313,6 +335,14 @@ public class RegisterView extends JFrame {
 
     public void setTxtTelefono(JTextField txtTelefono) {
         this.txtTelefono = txtTelefono;
+    }
+
+    public JLabel getLblTelefono() {
+        return lblTelefono;
+    }
+
+    public void setLblTelefono(JLabel lblTelefono) {
+        this.lblTelefono = lblTelefono;
     }
 
     public MensajeInternacionalizacionHandler getI18n() {

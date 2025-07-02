@@ -19,7 +19,6 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
     public UsuarioDAOMemoria(List<Pregunta> preguntas) {
         usuarios = new ArrayList<>();
 
-        // Usuario ADMIN
         String nombreAdmin = "Administrador General";
         Date fechaAdmin = getDate(2006, 6, 16); // 1 enero 1980
         String correoAdmin = "admin@admin.com";
@@ -40,7 +39,6 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         usuarioAdmin.setPreguntaValidacion(preguntasAdmin);
         crearUsuario(usuarioAdmin);
 
-        // Usuario NORMAL
         String nombreUser = "Usuario de Prueba";
         Date fechaUser = getDate(1990, 5, 15);
         String correoUser = "user@user.com";
@@ -54,11 +52,6 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
                 correoUser,
                 telefonoUser
         );
-        List<PreguntaUsuario> preguntasUser = new ArrayList<>();
-        preguntasUser.add(new PreguntaUsuario(preguntas.get(3), "Juan"));
-        preguntasUser.add(new PreguntaUsuario(preguntas.get(4), "Escuela Central"));
-        preguntasUser.add(new PreguntaUsuario(preguntas.get(5), "Azul"));
-        usuarioNormal.setPreguntaValidacion(preguntasUser);
         crearUsuario(usuarioNormal);
     }
 

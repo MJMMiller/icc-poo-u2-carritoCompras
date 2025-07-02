@@ -16,6 +16,7 @@ public class PreguntasRecuperacionController {
     private final UsuarioDAO usuarioDAO;
     private final PreguntasValidacionView preguntasView;
     private final MensajeInternacionalizacionHandler i18n;
+    private boolean estado;
 
     public PreguntasRecuperacionController(
             Usuario usuario,
@@ -27,6 +28,7 @@ public class PreguntasRecuperacionController {
         this.usuarioDAO = usuarioDAO;
         this.preguntasView = preguntasView;
         this.i18n = i18n;
+        this.estado = false;
 
         inicializarVista();
         configurarEventos();
@@ -50,6 +52,7 @@ public class PreguntasRecuperacionController {
 
     private void configurarEventos() {
         preguntasView.getBtnEnviar().addActionListener(e -> procesarPreguntas());
+        preguntasView.getBtnClean().addActionListener(e -> limpiarCampos());
     }
 
     private void procesarPreguntas() {
@@ -74,6 +77,11 @@ public class PreguntasRecuperacionController {
                         preguntasGuardadas.get(2).getRespuesta().equalsIgnoreCase(respuesta3);
 
         if (correcto) {
+            preguntasView.mostrarMensaje(
+                    i18n.get("preguntas.recuperacion.exito.respuestas_correctas"),
+                    i18n.get("global.success"),
+                    JOptionPane.INFORMATION_MESSAGE
+            );
             mostrarCambioContrasena();
         } else {
             preguntasView.mostrarMensaje(
@@ -85,11 +93,15 @@ public class PreguntasRecuperacionController {
     }
 
     private void mostrarCambioContrasena() {
+        estado = true;
         preguntasView.getLblNuevaContra().setVisible(true);
         preguntasView.getLblNuevaContra().setEnabled(true);
         preguntasView.getTxtNuevaContra().setVisible(true);
         preguntasView.getTxtNuevaContra().setEnabled(true);
         preguntasView.getTxtNuevaContra().setEditable(true);
+        preguntasView.getTxtPregunta1().setEnabled(false);
+        preguntasView.getTxtPregunta2().setEnabled(false);
+        preguntasView.getTxtPregunta3().setEnabled(false);
 
         preguntasView.getBtnEnviar().setText(i18n.get("preguntas.recuperacion.btn.cambiar_contrasena"));
 
@@ -118,5 +130,18 @@ public class PreguntasRecuperacionController {
                 JOptionPane.INFORMATION_MESSAGE
         );
         preguntasView.dispose();
+    }
+
+    private void limpiarCampos() {
+
+        if (estado == false){
+            preguntasView.getTxtPregunta1().setText("");
+            preguntasView.getTxtPregunta2().setText("");
+            preguntasView.getTxtPregunta3().setText("");
+
+        }else {
+            preguntasView.getTxtNuevaContra().setText("");
+        }
+
     }
 }

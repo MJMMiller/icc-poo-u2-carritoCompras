@@ -24,6 +24,8 @@ public class UsuarioElimiarView extends JInternalFrame {
     private JTextField txtDia;
     private JTextField txtMes;
     private JTextField txtAnio;
+    private JLabel lblTelefono;
+    private JLabel lblCorreo;
     private JTextField txtTelefono;
     private JTextField txtCorreo;
     private MensajeInternacionalizacionHandler i18n;
@@ -33,7 +35,7 @@ public class UsuarioElimiarView extends JInternalFrame {
         setContentPane(panelAll);
         setTitle("Eliminar Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 250);
+        setSize(700, 400);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
@@ -61,6 +63,11 @@ public class UsuarioElimiarView extends JInternalFrame {
         lblRol.setText(i18n.get("usuario.eliminar.lbl.rol"));
         btnBuscar.setText(i18n.get("usuario.eliminar.btn.buscar"));
         btnEliminar.setText(i18n.get("usuario.eliminar.btn.eliminar"));
+        lblNombreCompleto.setText(i18n.get("usuario.eliminar.lbl.nombreCompleto"));
+        lblFechaNacimiento.setText(i18n.get("usuario.eliminar.lbl.fechaNacimiento"));
+        lblTelefono.setText(i18n.get("usuario.eliminar.lbl.telefono"));
+        lblCorreo.setText(i18n.get("usuario.eliminar.lbl.correo"));
+
     }
 
     public JPanel getPanelAll() {
@@ -215,12 +222,20 @@ public class UsuarioElimiarView extends JInternalFrame {
         this.txtAnio = txtAnio;
     }
 
-    public MensajeInternacionalizacionHandler getI18n() {
-        return i18n;
+    public JLabel getLblTelefono() {
+        return lblTelefono;
     }
 
-    public void setI18n(MensajeInternacionalizacionHandler i18n) {
-        this.i18n = i18n;
+    public void setLblTelefono(JLabel lblTelefono) {
+        this.lblTelefono = lblTelefono;
+    }
+
+    public JLabel getLblCorreo() {
+        return lblCorreo;
+    }
+
+    public void setLblCorreo(JLabel lblCorreo) {
+        this.lblCorreo = lblCorreo;
     }
 
     public JTextField getTxtTelefono() {
@@ -237,5 +252,13 @@ public class UsuarioElimiarView extends JInternalFrame {
 
     public void setTxtCorreo(JTextField txtCorreo) {
         this.txtCorreo = txtCorreo;
+    }
+
+    public MensajeInternacionalizacionHandler getI18n() {
+        return i18n;
+    }
+
+    public void setI18n(MensajeInternacionalizacionHandler i18n) {
+        this.i18n = i18n;
     }
 }

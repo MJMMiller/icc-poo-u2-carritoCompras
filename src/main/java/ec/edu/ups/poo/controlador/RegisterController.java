@@ -59,6 +59,24 @@ public class RegisterController {
             return;
         }
 
+        if (!correo.contains("@")) {
+            registerView.mostrarMensaje(
+                    i18n.get("register.error.correo"),
+                    i18n.get("global.error"),
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        if (!telefono.matches("\\d{10}")) {
+            registerView.mostrarMensaje(
+                    i18n.get("register.error.telefono"),
+                    i18n.get("global.error"),
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
         if (usuarioDAO.buscarUsuario(username) != null) {
             registerView.mostrarMensaje(
                     i18n.get("register.error.usuario_existe"),
@@ -99,6 +117,12 @@ public class RegisterController {
         registerView.getTxtPregunta1().setText("");
         registerView.getTxtPregunta2().setText("");
         registerView.getTxtPregunta3().setText("");
+        registerView.getTxtNombreCompleto().setText("");
+        registerView.getCbxDia().setSelectedIndex(0);
+        registerView.getCbxMes().setSelectedIndex(0);
+        registerView.getCbxAnio().setSelectedIndex(0);
+        registerView.getTxtCorreo().setText("");
+        registerView.getTxtTelefono().setText("");
     }
 
     private boolean camposVacios(String... campos) {

@@ -2,6 +2,7 @@ package ec.edu.ups.poo.vista.usuario;
 
 import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
+import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
+import java.util.Locale;
 
 public class UsuarioListarView extends JInternalFrame {
 
@@ -34,19 +36,30 @@ public class UsuarioListarView extends JInternalFrame {
         setContentPane(panelAll);
         setTitle("Listar Usuarios");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 400);
+        setSize(1350, 500);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
 
-
-        modelo = new DefaultTableModel(new Object[]{"Usuario", "Contrasena", "Rol"}, 0) {
+        modelo = new DefaultTableModel(
+                new Object[]{
+                        "Usuario",
+                        "Contrasena",
+                        "Nombre Completo",
+                        "Fecha Nacimiento",
+                        "Correo",
+                        "Telefono",
+                        "Rol"
+                }, 0
+        ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         tableUsers.setModel(modelo);
+
+        tableUsers.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
         Color fondo = new Color(29, 30, 32);
         Color letras = Color.WHITE;
@@ -57,6 +70,7 @@ public class UsuarioListarView extends JInternalFrame {
         if (scroll != null) {
             scroll.getViewport().setBackground(fondo);
             scroll.setBackground(fondo);
+            scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         }
 
         if (tableUsers != null) {
@@ -206,10 +220,19 @@ public class UsuarioListarView extends JInternalFrame {
 
     public void mostrarUsuarios(List<Usuario> usuarios) {
         modelo.setRowCount(0);
+        Locale locale = i18n.getLocale(); // <--- ¡Esta es la forma correcta!
         for (Usuario usuario : usuarios) {
+            String fechaFormateada = "";
+            if (usuario.getFechaNacimiento() != null) {
+                fechaFormateada = FormateadorUtils.formatearFecha(usuario.getFechaNacimiento(), locale);
+            }
             modelo.addRow(new Object[]{
                     usuario.getUserName(),
                     usuario.getContrasena(),
+                    usuario.getNombreCompleto(),
+                    fechaFormateada,
+                    usuario.getCorreo(),
+                    usuario.getTelefono(),
                     usuario.getRol().name()
             });
         }
@@ -228,6 +251,11 @@ public class UsuarioListarView extends JInternalFrame {
         btnListar.setText(i18n.get("usuario.listar.btn.listar"));
         tableUsers.getColumnModel().getColumn(0).setHeaderValue(i18n.get("usuario.listar.table.usuario"));
         tableUsers.getColumnModel().getColumn(1).setHeaderValue(i18n.get("usuario.listar.table.contrasena"));
-        tableUsers.getColumnModel().getColumn(2).setHeaderValue(i18n.get("usuario.listar.table.rol"));
+        tableUsers.getColumnModel().getColumn(2).setHeaderValue(i18n.get("usuario.listar.table.nombreCompleto"));
+        tableUsers.getColumnModel().getColumn(3).setHeaderValue(i18n.get("usuario.listar.table.fechaNacimiento"));
+        tableUsers.getColumnModel().getColumn(4).setHeaderValue(i18n.get("usuario.listar.table.correo"));
+        tableUsers.getColumnModel().getColumn(5).setHeaderValue(i18n.get("usuario.listar.table.telefono"));
+        tableUsers.getColumnModel().getColumn(6).setHeaderValue(i18n.get("usuario.listar.table.rol"));
+        tableUsers.getTableHeader().repaint();
     }
 }

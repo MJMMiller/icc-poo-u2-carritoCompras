@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Locale;
 
 public class CarritoListarItemsView extends JInternalFrame {
     private JPanel panelTitle;
@@ -43,6 +44,8 @@ public class CarritoListarItemsView extends JInternalFrame {
     private double subtotal = 0.0;
     private double iva = 0.0;
     private double total = 0.0;
+    private List<ItemCarrito> currentItems;
+
 
     public CarritoListarItemsView(
             int carritoId,
@@ -56,6 +59,10 @@ public class CarritoListarItemsView extends JInternalFrame {
             MensajeInternacionalizacionHandler i18n){
 
         this.i18n = i18n;
+        this.subtotal = subtotal;
+        this.iva = iva;
+        this.total = total;
+        this.currentItems = items;
 
         setContentPane(panelAll);
         setTitle("Carrito - Listar Items");
@@ -278,21 +285,29 @@ public class CarritoListarItemsView extends JInternalFrame {
             Rol rol,
             String fecha
     ) {
+        this.subtotal = subtotal;
+        this.iva = iva;
+        this.total = total;
+        this.currentItems = items;
+        Locale locale = i18n.getLocale();
+
         if (modelo != null) {
             modelo.setRowCount(0);
-            for (ItemCarrito item : items) {
-                modelo.addRow(new Object[]{
-                        item.getProducto().getCodigo(),
-                        item.getProducto().getNombre(),
-                        item.getProducto().getPrecio(),
-                        item.getCantidad(),
-                        item.getTotalItem()
-                });
+            if (items != null) {
+                for (ItemCarrito item : items) {
+                    modelo.addRow(new Object[]{
+                            item.getProducto().getCodigo(),
+                            item.getProducto().getNombre(),
+                            FormateadorUtils.formatearMoneda(item.getProducto().getPrecio(), locale),
+                            item.getCantidad(),
+                            FormateadorUtils.formatearMoneda(item.getTotalItem(), locale)
+                    });
+                }
             }
         }
-        if (txtSubTotal != null) txtSubTotal.setText(String.format("%.2f", subtotal));
-        if (txtIva != null) txtIva.setText(String.format("%.2f", iva));
-        if (txtTotal != null) txtTotal.setText(String.format("%.2f", total));
+        if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
+        if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
+        if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
         if (txtCodigo != null) txtCodigo.setText(String.valueOf(carritoId));
         if (txtUsuario != null) txtUsuario.setText(username);
         if (txtRolUser != null && rol != null) txtRolUser.setText(rol.toString());
@@ -362,17 +377,27 @@ public class CarritoListarItemsView extends JInternalFrame {
         tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.listar.item.tbl.totalItem"));
         tblProducts.getTableHeader().repaint();
 
-        if (modelo != null && modelo.getRowCount() > 0) {
-            for (int i = 0; i < modelo.getRowCount(); i++) {
-                double precio = Double.parseDouble(modelo.getValueAt(i, 2).toString().replace(",", "."));
-                double totalItem = Double.parseDouble(modelo.getValueAt(i, 4).toString().replace(",", "."));
-                modelo.setValueAt(FormateadorUtils.formatearMoneda(precio, i18n.getLocale()), i, 2);
-                modelo.setValueAt(FormateadorUtils.formatearMoneda(totalItem, i18n.getLocale()), i, 4);
+        refrescarFormatoMoneda();
+    }
+
+    public void refrescarFormatoMoneda() {
+        Locale locale = i18n.getLocale();
+        if (modelo != null) {
+            modelo.setRowCount(0);
+            if (currentItems != null) {
+                for (ItemCarrito item : currentItems) {
+                    modelo.addRow(new Object[]{
+                            item.getProducto().getCodigo(),
+                            item.getProducto().getNombre(),
+                            FormateadorUtils.formatearMoneda(item.getProducto().getPrecio(), locale),
+                            item.getCantidad(),
+                            FormateadorUtils.formatearMoneda(item.getTotalItem(), locale)
+                    });
+                }
             }
         }
-
-        if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, i18n.getLocale()));
-        if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, i18n.getLocale()));
-        if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, i18n.getLocale()));
+        if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
+        if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
+        if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
     }
 }

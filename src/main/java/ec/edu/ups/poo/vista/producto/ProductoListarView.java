@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
+import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductoListarView extends JInternalFrame{
 
@@ -174,11 +176,13 @@ public class ProductoListarView extends JInternalFrame{
 
     public void mostrarProductos(List<Producto> productos) {
         modelo.setRowCount(0);
+        Locale locale = i18n.getLocale();
         for (Producto producto : productos) {
+            String precioFormateado = FormateadorUtils.formatearMoneda(producto.getPrecio(), locale);
             modelo.addRow(new Object[]{
                     producto.getCodigo(),
                     producto.getNombre(),
-                    producto.getPrecio()
+                    precioFormateado
             });
         }
     }

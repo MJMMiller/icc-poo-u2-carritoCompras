@@ -15,8 +15,6 @@ import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.MenuPrincipalView;
 import ec.edu.ups.poo.vista.carrito.*;
 import ec.edu.ups.poo.vista.inicio.LogInView;
-import ec.edu.ups.poo.vista.inicio.RegisterView;
-import ec.edu.ups.poo.vista.preguntas.PreguntasValidacionView;
 import ec.edu.ups.poo.vista.producto.ProductoAnadirView;
 import ec.edu.ups.poo.vista.producto.ProductoEditarView;
 import ec.edu.ups.poo.vista.producto.ProductoEliminarView;
@@ -33,11 +31,11 @@ public class Main {
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
-            preguntaDAO = new PreguntaDAOMemoria();
+            i18n = new MensajeInternacionalizacionHandler("es", "EC");
+            preguntaDAO = new PreguntaDAOMemoria(i18n);
             usuarioDAO = new UsuarioDAOMemoria(preguntaDAO.listarTodas());
             productoDAO = new ProductoDAOMemoria();
             carritoDAO = new CarritoDAOMemoria();
-            i18n = new MensajeInternacionalizacionHandler("es", "EC");
             mostrarLogin();
         });
     }
@@ -218,6 +216,10 @@ public class Main {
             carritoEditarView.refrescarResumenValores(i18n.getLocale());
             carritoEliminarView.refrescarResumenValores(i18n.getLocale());
             carritoListarView.refrescarResumenValores(i18n.getLocale());
+
+            if (carritoController.itemsView != null && carritoController.itemsView.isVisible()) {
+                carritoController.itemsView.aplicarIdioma();
+            }
         });
         principalView.getMenuItemIngles().addActionListener(event -> {
             i18n.setLenguaje("en", "US");
@@ -239,6 +241,10 @@ public class Main {
             carritoEditarView.refrescarResumenValores(i18n.getLocale());
             carritoEliminarView.refrescarResumenValores(i18n.getLocale());
             carritoListarView.refrescarResumenValores(i18n.getLocale());
+
+            if (carritoController.itemsView != null && carritoController.itemsView.isVisible()) {
+                carritoController.itemsView.aplicarIdioma();
+            }
         });
         principalView.getMenuItemFrances().addActionListener(event -> {
             i18n.setLenguaje("fr", "FR");
@@ -260,6 +266,10 @@ public class Main {
             carritoEditarView.refrescarResumenValores(i18n.getLocale());
             carritoEliminarView.refrescarResumenValores(i18n.getLocale());
             carritoListarView.refrescarResumenValores(i18n.getLocale());
+
+            if (carritoController.itemsView != null && carritoController.itemsView.isVisible()) {
+                carritoController.itemsView.aplicarIdioma();
+            }
         });
 
         principalView.setVisible(true);

@@ -106,15 +106,6 @@ public class CarritoAnadirView extends JInternalFrame {
         aplicarIdioma();
     }
 
-    public void setResumenValores(double subtotal, double iva, double total, Locale locale) {
-        this.subtotal = subtotal;
-        this.iva = iva;
-        this.total = total;
-        txtSubTot.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
-        txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
-        txtTot.setText(FormateadorUtils.formatearMoneda(total, locale));
-    }
-
     public void refrescarResumenValores(Locale locale) {
         txtSubTot.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
         txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
@@ -200,7 +191,9 @@ public class CarritoAnadirView extends JInternalFrame {
     public void mostrarProductos(List<Producto> productos) {
         if (productos != null && !productos.isEmpty()) {
             txtNombre.setText(productos.get(0).getNombre());
-            txtPrecio.setText(String.valueOf(productos.get(0).getPrecio()));
+            Locale locale = i18n.getLocale();
+            String precioFormateado = FormateadorUtils.formatearMoneda(productos.get(0).getPrecio(), locale);
+            txtPrecio.setText(precioFormateado);
         } else {
             txtNombre.setText("");
             txtPrecio.setText("");
@@ -217,14 +210,17 @@ public class CarritoAnadirView extends JInternalFrame {
     }
     public void mostrarItemsCarrito(List<ItemCarrito> items) {
         modelo.setRowCount(0);
+        Locale locale = i18n.getLocale();
         for (ItemCarrito item : items) {
             Producto p = item.getProducto();
+            String precioFormateado = FormateadorUtils.formatearMoneda(p.getPrecio(), locale);
+            String totalItemFormateado = FormateadorUtils.formatearMoneda(item.getTotalItem(), locale);
             modelo.addRow(new Object[]{
                     p.getCodigo(),
                     p.getNombre(),
-                    p.getPrecio(),
+                    precioFormateado,
                     item.getCantidad(),
-                    item.getTotalItem()
+                    totalItemFormateado
             });
         }
     }
@@ -235,6 +231,7 @@ public class CarritoAnadirView extends JInternalFrame {
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
     }
+
     public void aplicarIdioma() {
         setTitle(i18n.get("carrito.anadir.tituloVentana"));
         lblTitulo.setText(i18n.get("carrito.anadir.lbl.titulo"));
