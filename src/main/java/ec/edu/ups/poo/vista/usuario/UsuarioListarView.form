@@ -32,6 +32,8 @@
               <grid row="0" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-12763068"/>
+              <foreground color="-394241"/>
               <text value="Search"/>
             </properties>
           </component>

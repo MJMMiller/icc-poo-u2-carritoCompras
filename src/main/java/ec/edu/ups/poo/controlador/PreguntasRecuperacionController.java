@@ -51,7 +51,15 @@ public class PreguntasRecuperacionController {
     }
 
     private void configurarEventos() {
+        configurarEnvioPreguntas();
+        configurarLimpiar();
+    }
+
+    private void configurarEnvioPreguntas() {
         preguntasView.getBtnEnviar().addActionListener(e -> procesarPreguntas());
+    }
+
+    private void configurarLimpiar() {
         preguntasView.getBtnClean().addActionListener(e -> limpiarCampos());
     }
 
@@ -105,10 +113,10 @@ public class PreguntasRecuperacionController {
 
         preguntasView.getBtnEnviar().setText(i18n.get("preguntas.recuperacion.btn.cambiar_contrasena"));
 
+        // Limpiar y agregar solo el listener de cambio de contraseña
         for (ActionListener al : preguntasView.getBtnEnviar().getActionListeners()) {
             preguntasView.getBtnEnviar().removeActionListener(al);
         }
-
         preguntasView.getBtnEnviar().addActionListener(ev -> cambiarContrasena());
     }
 
@@ -133,15 +141,12 @@ public class PreguntasRecuperacionController {
     }
 
     private void limpiarCampos() {
-
-        if (estado == false){
+        if (!estado){
             preguntasView.getTxtPregunta1().setText("");
             preguntasView.getTxtPregunta2().setText("");
             preguntasView.getTxtPregunta3().setText("");
-
-        }else {
+        } else {
             preguntasView.getTxtNuevaContra().setText("");
         }
-
     }
 }

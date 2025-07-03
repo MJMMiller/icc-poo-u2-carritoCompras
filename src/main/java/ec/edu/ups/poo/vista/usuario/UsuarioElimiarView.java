@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.usuario;
 
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 
@@ -41,6 +42,13 @@ public class UsuarioElimiarView extends JInternalFrame {
         setResizable(true);
 
         aplicarIdioma();
+        aplicarIconos();
+    }
+
+    public void aplicarIconos() {
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnEliminar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.USUARIO));
     }
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {

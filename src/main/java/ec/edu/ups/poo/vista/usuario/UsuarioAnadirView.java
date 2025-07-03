@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.usuario;
 
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import java.util.Calendar;
@@ -43,12 +44,17 @@ public class UsuarioAnadirView extends JInternalFrame {
         setResizable(true);
 
         aplicarIdioma();
+        aplicarIconos();
         inicializarCombosFechaNacimiento();
     }
 
-    public JPanel getPanelAll() {
-        return panelAll;
+    public void aplicarIconos() {
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.USUARIO));
+        btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
+        btnRegistrar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
     }
+
+
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
@@ -108,6 +114,10 @@ public class UsuarioAnadirView extends JInternalFrame {
         for (int i = anioActual; i >= 1900; i--) {
             cbxAnio.addItem(String.valueOf(i));
         }
+    }
+
+    public JPanel getPanelAll() {
+        return panelAll;
     }
 
     public void setPanelAll(JPanel panelAll) {

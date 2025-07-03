@@ -3,6 +3,7 @@ package ec.edu.ups.poo.vista.producto;
 import ec.edu.ups.poo.modelo.Producto;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -76,6 +77,7 @@ public class ProductoListarView extends JInternalFrame{
         }
 
         aplicarIdioma();
+        aplicarIconos();
     }
 
     public JPanel getPanelCenter() {
@@ -201,6 +203,11 @@ public class ProductoListarView extends JInternalFrame{
         tableProdcuts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("producto.listar.columna.nombre"));
         tableProdcuts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("producto.listar.columna.precio"));
         tableProdcuts.getTableHeader().repaint();
+    }
 
+    public void aplicarIconos() {
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnListar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR));
     }
 }

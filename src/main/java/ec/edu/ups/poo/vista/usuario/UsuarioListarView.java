@@ -1,5 +1,6 @@
 package ec.edu.ups.poo.vista.usuario;
 
+import ec.edu.ups.poo.util.enums.TipoIcono;
 import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.FormateadorUtils;
@@ -104,6 +105,8 @@ public class UsuarioListarView extends JInternalFrame {
         }
 
         aplicaraIdioma();
+        aplicarIconos();
+
     }
 
     public JPanel getPanelSuperio() {
@@ -257,5 +260,11 @@ public class UsuarioListarView extends JInternalFrame {
         tableUsers.getColumnModel().getColumn(5).setHeaderValue(i18n.get("usuario.listar.table.telefono"));
         tableUsers.getColumnModel().getColumn(6).setHeaderValue(i18n.get("usuario.listar.table.rol"));
         tableUsers.getTableHeader().repaint();
+    }
+
+    public void aplicarIconos() {
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.USUARIO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnListar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR));
     }
 }

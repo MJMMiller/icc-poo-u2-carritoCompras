@@ -20,7 +20,12 @@ public class RegisterController {
     private final List<Pregunta> preguntasRandom;
     private final MensajeInternacionalizacionHandler i18n;
 
-    public RegisterController(UsuarioDAO usuarioDAO, PreguntaDAO preguntaDAO, RegisterView registerView, MensajeInternacionalizacionHandler i18n) {
+    public RegisterController(
+            UsuarioDAO usuarioDAO,
+            PreguntaDAO preguntaDAO,
+            RegisterView registerView,
+            MensajeInternacionalizacionHandler i18n
+    ) {
         this.usuarioDAO = usuarioDAO;
         this.preguntaDAO = preguntaDAO;
         this.registerView = registerView;
@@ -34,8 +39,20 @@ public class RegisterController {
     }
 
     private void configurarEventos() {
+        configurarRegistro();
+        configurarLimpieza();
+        configurarSalir();
+    }
+
+    private void configurarRegistro() {
         registerView.getBtnRegistro().addActionListener(e -> registrarUsuario());
+    }
+
+    private void configurarLimpieza() {
         registerView.getBtnClean().addActionListener(e -> limpiarCampos());
+    }
+
+    private void configurarSalir() {
         registerView.getBtnSalir().addActionListener(e -> registerView.dispose());
     }
 

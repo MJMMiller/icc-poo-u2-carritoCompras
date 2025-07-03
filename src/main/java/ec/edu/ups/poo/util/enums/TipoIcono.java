@@ -1,0 +1,38 @@
+package ec.edu.ups.poo.util.enums;
+
+public enum TipoIcono {
+
+    USUARIO,
+    PRODUCTO,
+    BUSCAR,
+    LISTAR,
+    ElIMINAR,
+    CLEAN,
+    ACTUALIZAR,
+    REGISTRAR,
+    GUARDAR,
+    PREGUNTA,
+    REGISTRO_USUARIO,
+    LOGIN,
+    BLOGIN,
+    X,
+    RECUPERAR_CONTRASENA,
+    CARRITO,
+    EYE,
+    CREAR_USUARIO,
+    GUARDAR_TODO,
+    CREAR,
+    EDITAR,
+    LISTAR_MENU,
+    BORRAR,
+    LOGOUT,
+    USA,
+    FRANCES,
+    ECUADOR,
+    USUARIOM,
+    CARRITOM,
+    PRODUCTOM,
+    IDIOMAM,
+    SESIONM,
+
+}

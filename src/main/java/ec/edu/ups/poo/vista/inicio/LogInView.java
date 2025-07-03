@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.inicio;
 
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 
@@ -30,6 +31,7 @@ public class LogInView extends JFrame {
         setSize(600, 300);
         setLocationRelativeTo(null);
         aplicarIdioma();
+        aplicarIconos();
         actualizarOpcionesIdioma();
     }
 
@@ -175,5 +177,13 @@ public class LogInView extends JFrame {
         btnSalir.setText(i18n.get("login.btnSalir"));
         btnRegistro.setText(i18n.get("login.btnRegistro"));
         btnRecuContra.setText(i18n.get("login.btnRecuContra"));
+    }
+
+    public void aplicarIconos() {
+        setIconImage(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LOGIN).getImage());
+        btnInicioSesion.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BLOGIN));
+        btnSalir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
+        btnRegistro.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.REGISTRO_USUARIO));
+        btnRecuContra.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.RECUPERAR_CONTRASENA));
     }
 }

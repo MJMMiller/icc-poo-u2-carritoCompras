@@ -42,6 +42,14 @@ public class ProductoController {
     }
 
     private void configurarEventos() {
+        configurarEventosAnadir();
+        configurarEventosListar();
+        configurarEventosEditar();
+        configurarEventosEliminar();
+        configurarEventosCarrito();
+    }
+
+    private void configurarEventosAnadir() {
         productoAnadirView.getBtnRegisterNewProduct().addActionListener(e -> guardarProducto());
         productoAnadirView.getBtnCleanInputs().addActionListener(e -> {
             productoAnadirView.limpiarCampos();
@@ -49,18 +57,26 @@ public class ProductoController {
             setearNuevoIdProducto();
         });
         setearNuevoIdProducto();
+    }
 
+    private void configurarEventosListar() {
         productoListarView.getBtnSearch().addActionListener(e ->
                 buscarProducto(productoListarView.getLblNameProdcutSearch().getText())
         );
         productoListarView.getBtnListProducts().addActionListener(e -> listarProductos());
+    }
 
+    private void configurarEventosEditar() {
         productoEditarView.getBtnBuscar().addActionListener(e -> buscarProductoGestion());
         productoEditarView.getBtnActualizar().addActionListener(e -> actualizarProducto());
+    }
 
+    private void configurarEventosEliminar() {
         productoEliminarView.getBtnBuscar().addActionListener(e -> buscarProductoGestionDelete());
         productoEliminarView.getBtnEliminar().addActionListener(e -> eliminarProductoDelete());
+    }
 
+    private void configurarEventosCarrito() {
         carritoAnadirView.getBtnBuscar().addActionListener(e -> buscarProductoEnCarrito());
     }
 

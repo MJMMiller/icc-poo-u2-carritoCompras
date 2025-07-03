@@ -51,24 +51,27 @@ public class CarritoController {
         this.carritoView = carritoView;
         this.carritoEditarView = carritoEditarView;
         this.usuarioAutenticado = usuarioAutenticado;
-        if (carritoView != null) configurarEventosAnadir();
-        if (carritoEditarView != null) configurarEventosEditar();
+        configurarEventos();
     }
 
-    private void configurarEventosAnadir() {
-        carritoView.getBtnAnadir().addActionListener(e -> agregarAlCarrito());
-        carritoView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionado());
-        carritoView.getBtnCancel().addActionListener(e -> vaciarCarrito());
-        carritoView.getBtnSave().addActionListener(e -> guardarCarrito());
-    }
+    private void configurarEventos() {
+        // Eventos para CarritoAnadirView
+        if (carritoView != null) {
+            carritoView.getBtnAnadir().addActionListener(e -> agregarAlCarrito());
+            carritoView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionado());
+            carritoView.getBtnCancel().addActionListener(e -> vaciarCarrito());
+            carritoView.getBtnSave().addActionListener(e -> guardarCarrito());
+        }
 
-    public void configurarEventosEditar() {
-        carritoEditarView.getBtnBuscarCarrito().addActionListener(e -> buscarYMostrarCarritoEditar());
-        carritoEditarView.getBtnActualizar().addActionListener(e -> guardarCambiosEdicion());
-        carritoEditarView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionadoEditar());
-        carritoEditarView.getBtnClean().addActionListener(e -> limpiarCarritoEditar());
-        carritoEditarView.getBtnBuscarProducto().addActionListener(e -> buscarProductoParaEditar());
-        carritoEditarView.getBtnAnadir().addActionListener(e -> agregarProductoAlCarritoEditar());
+        // Eventos para CarritoEditarView
+        if (carritoEditarView != null) {
+            carritoEditarView.getBtnBuscarCarrito().addActionListener(e -> buscarYMostrarCarritoEditar());
+            carritoEditarView.getBtnActualizar().addActionListener(e -> guardarCambiosEdicion());
+            carritoEditarView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionadoEditar());
+            carritoEditarView.getBtnClean().addActionListener(e -> limpiarCarritoEditar());
+            carritoEditarView.getBtnBuscarProducto().addActionListener(e -> buscarProductoParaEditar());
+            carritoEditarView.getBtnAnadir().addActionListener(e -> agregarProductoAlCarritoEditar());
+        }
     }
 
     public void configurarEventosListar(CarritoListarView carritoListarView) {
@@ -202,25 +205,27 @@ public class CarritoController {
     }
 
     public void listarCarritos(CarritoListarView carritoListarView) {
-        List<Carrito> carritos = carritoDAO.listarCarritos();
+        List<Carrito> carritos;
+
+        if (usuarioAutenticado.getRol() == Rol.USUARIO) {
+            carritos = carritoDAO.listarPorUsuario(usuarioAutenticado.getUserName());
+            carritoListarView.getBtnBuscar().setEnabled(false);
+        } else {
+            carritos = carritoDAO.listarCarritos();
+        }
+
         DefaultTableModel modelo = (DefaultTableModel) carritoListarView.getTblCarritos().getModel();
         modelo.setRowCount(0);
 
         for (Carrito carrito : carritos) {
-            if (
-                    usuarioAutenticado.getRol() == Rol.ADMINISTRADOR ||
-                            (carrito.getUsuario() != null &&
-                                    carrito.getUsuario().getUserName().equals(usuarioAutenticado.getUserName()))
-            ) {
-                modelo.addRow(new Object[]{
-                        carrito.getId(),
-                        carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
-                        FormateadorUtils.formatearFecha(carrito.getFecha(), i18n.getLocale()),
-                        FormateadorUtils.formatearMoneda(carrito.getSubtotal(), i18n.getLocale()),
-                        FormateadorUtils.formatearMoneda(carrito.getIva(), i18n.getLocale()),
-                        FormateadorUtils.formatearMoneda(carrito.getTotal(), i18n.getLocale())
-                });
-            }
+            modelo.addRow(new Object[]{
+                    carrito.getId(),
+                    carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
+                    FormateadorUtils.formatearFecha(carrito.getFecha(), i18n.getLocale()),
+                    FormateadorUtils.formatearMoneda(carrito.getSubtotal(), i18n.getLocale()),
+                    FormateadorUtils.formatearMoneda(carrito.getIva(), i18n.getLocale()),
+                    FormateadorUtils.formatearMoneda(carrito.getTotal(), i18n.getLocale())
+            });
         }
     }
 

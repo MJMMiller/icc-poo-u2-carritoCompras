@@ -2,6 +2,7 @@ package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import java.util.List;
@@ -33,6 +34,7 @@ public class ProductoEliminarView extends JInternalFrame {
         setResizable(true);
 
         aplicarIdioma();
+        aplicarIconos();
     }
 
     public JPanel getPanelTop() {
@@ -171,5 +173,11 @@ public class ProductoEliminarView extends JInternalFrame {
         lblPrecio.setText(i18n.get("producto.eliminar.lbl.precio"));
         btnBuscar.setText(i18n.get("producto.eliminar.btn.buscar"));
         btnEliminar.setText(i18n.get("producto.eliminar.btn.eliminar"));
+    }
+
+    public void aplicarIconos() {
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnEliminar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
     }
 }

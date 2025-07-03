@@ -84,15 +84,18 @@ public class Main {
         CarritoController carritoController = new CarritoController(carritoDAO, productoDAO, carritoAnadirView, carritoEditarView, usuarioAutenticado, i18n);
 
         if (usuarioAutenticado.getRol() == Rol.USUARIO) {
+            // PRODUCTOS
             principalView.getMenuItemCrearProducto().setEnabled(false);
             principalView.getMenuItemEditarProducto().setEnabled(false);
             principalView.getMenuItemEliminarProducto().setEnabled(false);
 
+            // CARRITOS
             principalView.getMenuItemCrearCarrito().setEnabled(true);
             principalView.getMenuItemEditarCarrito().setEnabled(true);
             principalView.getMenuItemEliminarCarrito().setEnabled(true);
-            principalView.getMenuItemListarCarritos().setEnabled(false);
+            principalView.getMenuItemListarCarritos().setEnabled(true);
 
+            // USUARIOS
             principalView.getMenuItemCrearUsuario().setEnabled(false);
             principalView.getMenuItemEditarUsuario().setEnabled(true);
             principalView.getMenuItemEliminarUsuario().setEnabled(false);
@@ -171,7 +174,7 @@ public class Main {
         });
         principalView.getMenuItemEditarUsuario().addActionListener(event -> {
             if (!usuarioEditarView.isVisible()) {
-                usuarioController.configurarUsuarioEditarView(usuarioEditarView);
+                usuarioController.configurarUsuarioEditarView(usuarioEditarView, usuarioAutenticado);
                 usuarioEditarView.setVisible(true);
                 principalView.getjDesktopPane().add(usuarioEditarView);
             }

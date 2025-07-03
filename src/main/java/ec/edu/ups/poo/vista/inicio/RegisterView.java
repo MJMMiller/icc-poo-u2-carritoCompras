@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.inicio;
 
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import java.util.Calendar;
@@ -46,6 +47,7 @@ public class RegisterView extends JFrame {
         setLocationRelativeTo(null);
 
         aplicarIdioma();
+        aplicaIcono();
         inicializarCombosFechaNacimiento();
     }
 
@@ -59,6 +61,13 @@ public class RegisterView extends JFrame {
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
+    }
+
+    public void aplicaIcono() {
+        setIconImage(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CREAR_USUARIO).getImage());
+        btnRegistro.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
+        btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
+        btnSalir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
     }
 
     public void aplicarIdioma() {

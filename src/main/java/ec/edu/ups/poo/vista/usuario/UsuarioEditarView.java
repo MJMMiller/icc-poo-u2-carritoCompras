@@ -1,6 +1,7 @@
 package ec.edu.ups.poo.vista.usuario;
 
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import java.util.Calendar;
@@ -36,14 +37,22 @@ public class UsuarioEditarView extends JInternalFrame {
         setContentPane(panelAll);
         setTitle("Editar Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 500);
+        setSize(500, 500);
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
 
         aplicarIdioma();
         inicializarCombosFechaNacimiento();
+        aplicarIconos();
 
+    }
+
+    public void aplicarIconos() {
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.USUARIO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
+        btnActualizar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ACTUALIZAR));
     }
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {

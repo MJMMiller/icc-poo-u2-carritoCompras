@@ -2,6 +2,7 @@ package ec.edu.ups.poo.vista.carrito;
 
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -69,6 +70,7 @@ public class CarritoEliminarView extends JInternalFrame {
         ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         aplicarIdioma();
+        aplicarIconos();
     }
 
     public void setResumenValores(double subtotal, double iva, double total, Locale locale) {
@@ -150,5 +152,11 @@ public class CarritoEliminarView extends JInternalFrame {
         tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.eliminar.tbl.Cantidad"));
         tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.eliminar.tbl.TotalItem"));
         tblProducts.getTableHeader().repaint();
+    }
+
+    public void aplicarIconos(){
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnEliminar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
     }
 }

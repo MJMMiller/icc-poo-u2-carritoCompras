@@ -41,7 +41,15 @@ public class PreguntasValidacionController {
     }
 
     private void configurarEventos() {
+        configurarEnvio();
+        configurarLimpiar();
+    }
+
+    private void configurarEnvio() {
         preguntasView.getBtnEnviar().addActionListener(e -> guardarPreguntasValidacion());
+    }
+
+    private void configurarLimpiar() {
         preguntasView.getBtnClean().addActionListener(e -> limpiarCampos());
     }
 

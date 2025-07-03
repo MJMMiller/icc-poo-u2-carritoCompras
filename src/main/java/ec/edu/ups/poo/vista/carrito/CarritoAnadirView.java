@@ -4,6 +4,7 @@ import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Producto;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -104,6 +105,7 @@ public class CarritoAnadirView extends JInternalFrame {
 
         cargarDatosCombobox();
         aplicarIdioma();
+        aplicarIconos();
     }
 
     public void refrescarResumenValores(Locale locale) {
@@ -251,5 +253,14 @@ public class CarritoAnadirView extends JInternalFrame {
         tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.anadir.tbl.Cantidad"));
         tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.anadir.tbl.TotalItem"));
         tblProducts.getTableHeader().repaint();
+    }
+
+    public void aplicarIconos(){
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
+        btnAnadir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR_TODO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnSave.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
+        btnCancel.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
+        btnEliminarItem.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
     }
 }

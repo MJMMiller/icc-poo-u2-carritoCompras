@@ -2,6 +2,7 @@ package ec.edu.ups.poo.vista.producto;
 
 import ec.edu.ups.poo.modelo.Producto;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import java.util.List;
@@ -34,6 +35,7 @@ public class ProductoAnadirView extends JInternalFrame {
         setResizable(true);
 
         aplicarIdiomas();
+        aplicarIconos();
     }
 
     public JPanel getPanelAll() {
@@ -185,6 +187,14 @@ public class ProductoAnadirView extends JInternalFrame {
         lblPrecio.setText(i18n.get("producto.anadir.lbl.precio"));
         btnGuardar.setText(i18n.get("producto.anadir.btn.guardar"));
         btnNuevo.setText(i18n.get("producto.anadir.btn.nuevo"));
+    }
+
+    public void aplicarIconos() {
+
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
+        btnGuardar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
+        btnNuevo.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR_TODO));
+
     }
 
 }

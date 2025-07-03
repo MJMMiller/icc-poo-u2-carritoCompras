@@ -2,6 +2,7 @@ package ec.edu.ups.poo.vista;
 
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import java.awt.*;
@@ -141,6 +142,7 @@ public class MenuPrincipalView extends JFrame {
         setVisible(true);
 
         aplicarIdioma();
+        aplicarIconos();
     }
 
     public JDesktopPane getjDesktopPane() { return desktop; }
@@ -224,5 +226,34 @@ public class MenuPrincipalView extends JFrame {
 
         menuItemLogout.setText(i18n.get("menu.sesion.logout"));
 
+    }
+
+    public void aplicarIconos() {
+        menuItemCrearProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CREAR));
+        menuItemEditarProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.EDITAR));
+        menuItemBuscarProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR_MENU));
+        menuItemEliminarProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BORRAR));
+
+        menuItemCrearCarrito.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CREAR));
+        menuItemEditarCarrito.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.EDITAR));
+        menuItemListarCarritos.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR_MENU));
+        menuItemEliminarCarrito.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BORRAR));
+
+        menuItemCrearUsuario.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CREAR));
+        menuItemEditarUsuario.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.EDITAR));
+        menuItemListarUsuarios.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR_MENU));
+        menuItemEliminarUsuario.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BORRAR));
+
+        menuItemEspanol.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ECUADOR));
+        menuItemIngles.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.USA));
+        menuItemFrances.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.FRANCES));
+
+        menuItemLogout.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LOGOUT));
+
+        menuProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTOM));
+        menuCarrito.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITOM));
+        menuUsuarios.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.USUARIOM));
+        menuSesion.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.SESIONM));
+        menuIdioma.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.IDIOMAM));
     }
 }

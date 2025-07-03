@@ -29,12 +29,19 @@ public class LogInController {
         this.logInView = logInView;
         this.i18n = i18n;
         this.mainAppCallback = callback;
-        setupListeners();
+        configurarEventos();
     }
 
-    private void setupListeners() {
-        logInView.actualizarOpcionesIdioma();
+    private void configurarEventos() {
+        configurarCambioIdioma();
+        configurarLogin();
+        configurarRegistro();
+        configurarRecuperacion();
+        configurarSalir();
+    }
 
+    private void configurarCambioIdioma() {
+        logInView.actualizarOpcionesIdioma();
         logInView.getCbxIdioma().addActionListener(e -> {
             int selectedIndex = logInView.getCbxIdioma().getSelectedIndex();
             switch (selectedIndex) {
@@ -53,7 +60,9 @@ public class LogInController {
             logInView.aplicarIdioma();
             logInView.actualizarOpcionesIdioma();
         });
+    }
 
+    private void configurarLogin() {
         logInView.getBtnLogIn().addActionListener(e -> {
             String user = logInView.getTxtUserName().getText();
             String pass = logInView.getTxtContrasena().getText();
@@ -72,7 +81,6 @@ public class LogInController {
                         i18n.get("login.warning.llene_preguntas_validacion"),
                         i18n.get("global.warning"),
                         JOptionPane.WARNING_MESSAGE
-
                 );
                 logInView.dispose();
                 if (res == 0) {
@@ -93,13 +101,17 @@ public class LogInController {
             mainAppCallback.mostrarMenuPrincipal(usuario);
             logInView.dispose();
         });
+    }
 
+    private void configurarRegistro() {
         logInView.getBtnRegister().addActionListener(e -> {
             RegisterView registerView = new RegisterView(i18n);
             new RegisterController(usuarioDAO, preguntaDAO, registerView, i18n);
             registerView.setVisible(true);
         });
+    }
 
+    private void configurarRecuperacion() {
         logInView.getBtnRecuContra().addActionListener(e -> {
             String username = logInView.getTxtUserName().getText().trim();
             if (username.isEmpty()) {
@@ -132,9 +144,9 @@ public class LogInController {
             new PreguntasRecuperacionController(usuario, usuarioDAO, preguntasView, i18n);
             preguntasView.setVisible(true);
         });
+    }
 
-        logInView.getBtnExit().addActionListener(e -> {
-            System.exit(0);
-        });
+    private void configurarSalir() {
+        logInView.getBtnExit().addActionListener(e -> System.exit(0));
     }
 }

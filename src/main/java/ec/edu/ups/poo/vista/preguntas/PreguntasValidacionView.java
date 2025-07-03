@@ -3,6 +3,7 @@ package ec.edu.ups.poo.vista.preguntas;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 
@@ -36,6 +37,7 @@ public class PreguntasValidacionView extends JFrame{
         txtNuevaContra.setVisible(false);
 
         aplicarIdiomas();
+        aplicarIconos();
     }
 
     public JPanel getPanelAll() {
@@ -171,5 +173,11 @@ public class PreguntasValidacionView extends JFrame{
         btnEnviar.setText(i18n.get("preguntas.validacion.btn.enviar"));
         btnClean.setText(i18n.get("preguntas.validacion.btn.limpiar"));
         lblNuevaContra.setText(i18n.get("preguntas.validacion.lbl.nueva.contra"));
+    }
+
+    public void aplicarIconos() {
+        setIconImage(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PREGUNTA).getImage());
+        btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
+        btnEnviar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
     }
 }

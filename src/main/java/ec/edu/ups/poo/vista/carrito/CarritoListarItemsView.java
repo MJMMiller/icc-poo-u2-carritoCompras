@@ -4,6 +4,7 @@ import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
+import ec.edu.ups.poo.util.enums.TipoIcono;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -399,5 +400,10 @@ public class CarritoListarItemsView extends JInternalFrame {
         if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
         if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
         if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
+    }
+
+    public void aplicarIconos(){
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
+        btnSalir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
     }
 }
