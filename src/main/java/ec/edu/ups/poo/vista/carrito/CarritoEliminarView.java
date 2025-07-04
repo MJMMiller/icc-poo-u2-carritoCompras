@@ -73,6 +73,41 @@ public class CarritoEliminarView extends JInternalFrame {
         aplicarIconos();
     }
 
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {i18n.get("mensaje.confirmacion"), i18n.get("mensaje.cancelacion")};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void aplicarIdioma(){
+        setTitle(i18n.get("carrito.eliminar.title"));
+        lblTitulo.setText(i18n.get("carrito.eliminar.lbl.Titulo"));
+        lblCodigo.setText(i18n.get("carrito.eliminar.lbl.Codigo"));
+
+        lblItemsCarrito.setText(i18n.get("carrito.eliminar.lbl.ItemsCarrito"));
+        btnBuscar.setText(i18n.get("carrito.eliminar.btn.Buscar"));
+        btnEliminar.setText(i18n.get("carrito.eliminar.btn.Eliminar"));
+
+        tblProducts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("carrito.eliminar.tbl.Codigo"));
+        tblProducts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("carrito.eliminar.tbl.Nombre"));
+        tblProducts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("carrito.eliminar.tbl.Precio"));
+        tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.eliminar.tbl.Cantidad"));
+        tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.eliminar.tbl.TotalItem"));
+        tblProducts.getTableHeader().repaint();
+    }
+
+    public void aplicarIconos(){
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnEliminar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
+    }
+
     public void setResumenValores(double subtotal, double iva, double total, Locale locale) {
         this.subtotal = subtotal;
         this.iva = iva;
@@ -86,6 +121,11 @@ public class CarritoEliminarView extends JInternalFrame {
         txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
         txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
         txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
+    }
+
+    public void refrescarTabla() {
+        ((DefaultTableModel) tblProducts.getModel()).fireTableDataChanged();
+        tblProducts.getTableHeader().repaint();
     }
 
     public JPanel getPanelTitle() { return panelTitle; }
@@ -125,38 +165,4 @@ public class CarritoEliminarView extends JInternalFrame {
     public JPanel getPanelFinal() { return panelFinal; }
     public void setPanelFinal(JPanel panelFinal) { this.panelFinal = panelFinal; }
 
-    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirmar", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
-    }
-
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public void aplicarIdioma(){
-        setTitle(i18n.get("carrito.eliminar.title"));
-        lblTitulo.setText(i18n.get("carrito.eliminar.lbl.Titulo"));
-        lblCodigo.setText(i18n.get("carrito.eliminar.lbl.Codigo"));
-
-        lblItemsCarrito.setText(i18n.get("carrito.eliminar.lbl.ItemsCarrito"));
-        btnBuscar.setText(i18n.get("carrito.eliminar.btn.Buscar"));
-        btnEliminar.setText(i18n.get("carrito.eliminar.btn.Eliminar"));
-
-        tblProducts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("carrito.eliminar.tbl.Codigo"));
-        tblProducts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("carrito.eliminar.tbl.Nombre"));
-        tblProducts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("carrito.eliminar.tbl.Precio"));
-        tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.eliminar.tbl.Cantidad"));
-        tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.eliminar.tbl.TotalItem"));
-        tblProducts.getTableHeader().repaint();
-    }
-
-    public void aplicarIconos(){
-        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
-        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
-        btnEliminar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
-    }
 }

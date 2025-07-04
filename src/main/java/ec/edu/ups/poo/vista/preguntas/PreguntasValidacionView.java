@@ -40,6 +40,35 @@ public class PreguntasValidacionView extends JFrame{
         aplicarIconos();
     }
 
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {i18n.get("mensaje.confirmacion"), i18n.get("mensaje.cancelacion")};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void aplicarIdiomas() {
+        setTitle(i18n.get("producto.aplicar.idiomas"));
+        lblTitulo.setText(i18n.get("preguntas.validacion.lbl.titulo"));
+        lblPregunta1.setText(i18n.get("preguntas.validacion.lbll.pregunta1"));
+        lblPregunta2.setText(i18n.get("preguntas.validacion.lbl.pregunta2"));
+        lblPregunta3.setText(i18n.get("preguntas.validacion.lbl.pregunta3"));
+        btnEnviar.setText(i18n.get("preguntas.validacion.btn.enviar"));
+        btnClean.setText(i18n.get("preguntas.validacion.btn.limpiar"));
+        lblNuevaContra.setText(i18n.get("preguntas.validacion.lbl.nueva.contra"));
+    }
+
+    public void aplicarIconos() {
+        setIconImage(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PREGUNTA).getImage());
+        btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
+        btnEnviar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
+    }
+
     public JPanel getPanelAll() {
         return panelAll;
     }
@@ -152,32 +181,4 @@ public class PreguntasValidacionView extends JFrame{
         this.lblTitulo = lblTitulo;
     }
 
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirm", "Cancel"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
-    }
-
-    public void aplicarIdiomas() {
-        setTitle(i18n.get("producto.aplicar.idiomas"));
-        lblTitulo.setText(i18n.get("preguntas.validacion.lbl.titulo"));
-        lblPregunta1.setText(i18n.get("preguntas.validacion.lbll.pregunta1"));
-        lblPregunta2.setText(i18n.get("preguntas.validacion.lbl.pregunta2"));
-        lblPregunta3.setText(i18n.get("preguntas.validacion.lbl.pregunta3"));
-        btnEnviar.setText(i18n.get("preguntas.validacion.btn.enviar"));
-        btnClean.setText(i18n.get("preguntas.validacion.btn.limpiar"));
-        lblNuevaContra.setText(i18n.get("preguntas.validacion.lbl.nueva.contra"));
-    }
-
-    public void aplicarIconos() {
-        setIconImage(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PREGUNTA).getImage());
-        btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
-        btnEnviar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
-    }
 }

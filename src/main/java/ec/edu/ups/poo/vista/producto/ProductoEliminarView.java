@@ -37,6 +37,46 @@ public class ProductoEliminarView extends JInternalFrame {
         aplicarIconos();
     }
 
+    public void mostrarProductos(List<Producto> productos) {
+        txtNombre.setText(productos.get(0).getNombre());
+        txtPrecio.setText(String.valueOf(productos.get(0).getPrecio()));
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {i18n.get("mensaje.confirmacion"), i18n.get("mensaje.cancelacion")};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void limpiarCampos() {
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
+    }
+
+    public void aplicarIdioma() {
+
+        setTitle(i18n.get("producto.eliminar.titulo"));
+        lblTitulo.setText(i18n.get("producto.eliminar.lbltitulo"));
+        lblCodigo.setText(i18n.get("producto.eliminar.lbl.codigo"));
+        lblNombre.setText(i18n.get("producto.eliminar.lbl.nombre"));
+        lblPrecio.setText(i18n.get("producto.eliminar.lbl.precio"));
+        btnBuscar.setText(i18n.get("producto.eliminar.btn.buscar"));
+        btnEliminar.setText(i18n.get("producto.eliminar.btn.eliminar"));
+    }
+
+    public void aplicarIconos() {
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnEliminar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
+    }
+
     public JPanel getPanelTop() {
         return panelTop;
     }
@@ -141,43 +181,4 @@ public class ProductoEliminarView extends JInternalFrame {
         this.panelAll = panelAll;
     }
 
-    public void mostrarProductos(List<Producto> productos) {
-        txtNombre.setText(productos.get(0).getNombre());
-        txtPrecio.setText(String.valueOf(productos.get(0).getPrecio()));
-    }
-
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirmar", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
-    }
-
-    public void limpiarCampos() {
-        txtCodigo.setText("");
-        txtNombre.setText("");
-        txtPrecio.setText("");
-    }
-
-    public void aplicarIdioma() {
-
-        setTitle(i18n.get("producto.eliminar.titulo"));
-        lblTitulo.setText(i18n.get("producto.eliminar.lbltitulo"));
-        lblCodigo.setText(i18n.get("producto.eliminar.lbl.codigo"));
-        lblNombre.setText(i18n.get("producto.eliminar.lbl.nombre"));
-        lblPrecio.setText(i18n.get("producto.eliminar.lbl.precio"));
-        btnBuscar.setText(i18n.get("producto.eliminar.btn.buscar"));
-        btnEliminar.setText(i18n.get("producto.eliminar.btn.eliminar"));
-    }
-
-    public void aplicarIconos() {
-        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
-        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
-        btnEliminar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
-    }
 }

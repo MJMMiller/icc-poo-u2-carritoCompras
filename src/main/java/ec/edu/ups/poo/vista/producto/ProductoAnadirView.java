@@ -38,6 +38,61 @@ public class ProductoAnadirView extends JInternalFrame {
         aplicarIconos();
     }
 
+    public void limpiarCampos() {
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {i18n.get("mensaje.confirmacion"), i18n.get("mensaje.cancelacion")};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void mostrarProductos(List<Producto> productos) {
+        for (Producto producto : productos) {
+            System.out.println(producto);
+        }
+    }
+
+    public void inhabilitarCampos() {
+        txtCodigo.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtPrecio.setEnabled(false);
+        btnGuardar.setEnabled(false);
+    }
+
+    public void habilitarCampos() {
+        txtNombre.setEnabled(true);
+        txtPrecio.setEnabled(true);
+        btnGuardar.setEnabled(true);
+    }
+
+    public void aplicarIdiomas() {
+        setTitle(i18n.get("producto.anadir.titulo"));
+        lblTitulo.setText(i18n.get("producto.anadir.lbl.titulo"));
+        lblCodigo.setText(i18n.get("producto.anadir.lbl.codigo"));
+        lblNombre.setText(i18n.get("producto.anadir.lbl.nombre"));
+        lblPrecio.setText(i18n.get("producto.anadir.lbl.precio"));
+        btnGuardar.setText(i18n.get("producto.anadir.btn.guardar"));
+        btnNuevo.setText(i18n.get("producto.anadir.btn.nuevo"));
+    }
+
+    public void aplicarIconos() {
+
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
+        btnGuardar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
+        btnNuevo.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR_TODO));
+
+    }
+
     public JPanel getPanelAll() {
         return panelAll;
     }
@@ -140,61 +195,6 @@ public class ProductoAnadirView extends JInternalFrame {
 
     public void setTxtRegisterNewProduct(JLabel txtRegisterNewProduct) {
         this.lblTitulo = txtRegisterNewProduct;
-    }
-
-    public void limpiarCampos() {
-        txtCodigo.setText("");
-        txtNombre.setText("");
-        txtPrecio.setText("");
-    }
-
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirmar", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
-    }
-
-    public void mostrarProductos(List<Producto> productos) {
-        for (Producto producto : productos) {
-            System.out.println(producto);
-        }
-    }
-
-    public void inhabilitarCampos() {
-        txtCodigo.setEnabled(false);
-        txtNombre.setEnabled(false);
-        txtPrecio.setEnabled(false);
-        btnGuardar.setEnabled(false);
-    }
-
-    public void habilitarCampos() {
-        txtNombre.setEnabled(true);
-        txtPrecio.setEnabled(true);
-        btnGuardar.setEnabled(true);
-    }
-
-    public void aplicarIdiomas() {
-        setTitle(i18n.get("producto.anadir.titulo"));
-        lblTitulo.setText(i18n.get("producto.anadir.lbl.titulo"));
-        lblCodigo.setText(i18n.get("producto.anadir.lbl.codigo"));
-        lblNombre.setText(i18n.get("producto.anadir.lbl.nombre"));
-        lblPrecio.setText(i18n.get("producto.anadir.lbl.precio"));
-        btnGuardar.setText(i18n.get("producto.anadir.btn.guardar"));
-        btnNuevo.setText(i18n.get("producto.anadir.btn.nuevo"));
-    }
-
-    public void aplicarIconos() {
-
-        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
-        btnGuardar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
-        btnNuevo.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR_TODO));
-
     }
 
 }

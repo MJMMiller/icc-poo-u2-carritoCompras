@@ -34,5 +34,6 @@ public enum TipoIcono {
     PRODUCTOM,
     IDIOMAM,
     SESIONM,
+    POO_LOGO,
 
 }

@@ -39,6 +39,47 @@ public class ProductoListarView extends JInternalFrame{
         setIconifiable(true);
         setResizable(true);
 
+        cargarTabla();
+        aplicarIdioma();
+        aplicarIconos();
+    }
+
+    public void mostrarProductos(List<Producto> productos) {
+        modelo.setRowCount(0);
+        Locale locale = i18n.getLocale();
+        for (Producto producto : productos) {
+            String precioFormateado = FormateadorUtils.formatearMoneda(producto.getPrecio(), locale);
+            modelo.addRow(new Object[]{
+                    producto.getCodigo(),
+                    producto.getNombre(),
+                    precioFormateado
+            });
+        }
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("producto.listar.titulo"));
+        lblTitulo.setText(i18n.get("producto.listar.lbl.titulo"));
+        lblNombre.setText(i18n.get("producto.listar.lbl.nombre"));
+        btnBuscar.setText(i18n.get("producto.listar.btn.buscar"));
+        btnListar.setText(i18n.get("producto.listar.btn.listar"));
+        tableProdcuts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("producto.listar.columna.codigo"));
+        tableProdcuts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("producto.listar.columna.nombre"));
+        tableProdcuts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("producto.listar.columna.precio"));
+        tableProdcuts.getTableHeader().repaint();
+    }
+
+    public void aplicarIconos() {
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnListar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR));
+    }
+
+    public void cargarTabla(){
         modelo = new DefaultTableModel(new Object[]{"Codigo", "Nombre", "Precio"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -75,9 +116,6 @@ public class ProductoListarView extends JInternalFrame{
         for (int i = 0; i < tableProdcuts.getColumnCount(); i++) {
             tableProdcuts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-
-        aplicarIdioma();
-        aplicarIconos();
     }
 
     public JPanel getPanelCenter() {
@@ -176,38 +214,5 @@ public class ProductoListarView extends JInternalFrame{
         this.modelo = modelo;
     }
 
-    public void mostrarProductos(List<Producto> productos) {
-        modelo.setRowCount(0);
-        Locale locale = i18n.getLocale();
-        for (Producto producto : productos) {
-            String precioFormateado = FormateadorUtils.formatearMoneda(producto.getPrecio(), locale);
-            modelo.addRow(new Object[]{
-                    producto.getCodigo(),
-                    producto.getNombre(),
-                    precioFormateado
-            });
-        }
-    }
 
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public void aplicarIdioma() {
-        setTitle(i18n.get("producto.listar.titulo"));
-        lblTitulo.setText(i18n.get("producto.listar.lbl.titulo"));
-        lblNombre.setText(i18n.get("producto.listar.lbl.nombre"));
-        btnBuscar.setText(i18n.get("producto.listar.btn.buscar"));
-        btnListar.setText(i18n.get("producto.listar.btn.listar"));
-        tableProdcuts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("producto.listar.columna.codigo"));
-        tableProdcuts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("producto.listar.columna.nombre"));
-        tableProdcuts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("producto.listar.columna.precio"));
-        tableProdcuts.getTableHeader().repaint();
-    }
-
-    public void aplicarIconos() {
-        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PRODUCTO));
-        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
-        btnListar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR));
-    }
 }

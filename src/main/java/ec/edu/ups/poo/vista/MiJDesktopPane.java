@@ -6,89 +6,90 @@ import java.awt.*;
 public class MiJDesktopPane extends JDesktopPane {
 
     public MiJDesktopPane() {
-        super();
+        setOpaque(true);
+        setBackground(new Color(33, 37, 43)); // Fondo gris oscuro
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
 
+        Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int padding = 40;
-        int boxW = 420, boxH = 250, arc = 40;
-        int boxX = (getWidth() - boxW) / 2;
-        int boxY = (getHeight() - boxH) / 2;
+        int fullW = getWidth();
+        int fullH = getHeight();
 
-        // Fondo del rectángulo principal
-        g2.setColor(new Color(33, 37, 43));
-        g2.setStroke(new BasicStroke(4));
-        g2.drawRoundRect(boxX, boxY, boxW, boxH, arc, arc);
+        // Escalado reducido
+        double scale = 0.4; // Puedes bajar a 0.35 si aún lo ves muy grande
+        int scaledW = (int)(fullW * scale);
+        int scaledH = (int)(fullH * scale);
 
-        int offsetX = boxX + padding;
-        int offsetY = boxY + padding;
+        int offsetX = (fullW - scaledW) / 2;
+        int offsetY = (fullH - scaledH) / 2;
 
-        // Caja amarilla
-        g2.setColor(new Color(255, 215, 0));
-        g2.fillRoundRect(offsetX, offsetY, 80, 110, 18, 18);
-        g2.setColor(new Color(190, 140, 10));
-        g2.setStroke(new BasicStroke(5));
-        g2.drawArc(offsetX + 25, offsetY - 20, 30, 30, 0, 180);
+        g2.translate(offsetX, offsetY);
+        g2.scale(scale, scale);
 
-        // Caja azul
-        g2.setColor(new Color(70, 130, 180));
-        g2.fillRoundRect(offsetX + 100, offsetY + 30, 70, 90, 16, 16);
-        g2.setColor(new Color(30, 80, 140));
-        g2.setStroke(new BasicStroke(5));
-        g2.drawArc(offsetX + 120, offsetY + 15, 28, 20, 0, 180);
+        drawOxxoDesign(g2, fullW, fullH);
 
-        // Caja rosa
-        g2.setColor(new Color(255, 105, 180));
-        g2.fillRoundRect(offsetX + 55, offsetY + 60, 85, 75, 14, 14);
-        g2.setColor(new Color(180, 60, 120));
-        g2.setStroke(new BasicStroke(5));
-        g2.drawArc(offsetX + 78, offsetY + 43, 40, 25, 0, 180);
-
-        // Caja roja
-        int cajaRojaX = offsetX + 220, cajaRojaY = offsetY + 30, cajaRojaAncho = 90, cajaRojaAlto = 70;
-        g2.setColor(new Color(220, 20, 60));
-        g2.fillRect(cajaRojaX, cajaRojaY, cajaRojaAncho, cajaRojaAlto);
-        g2.setColor(new Color(255, 255, 255));
-        g2.setStroke(new BasicStroke(6));
-        int rojoCentroX = cajaRojaX + cajaRojaAncho / 2;
-        int rojoCentroY = cajaRojaY + cajaRojaAlto / 2;
-        g2.drawLine(rojoCentroX, cajaRojaY, rojoCentroX, cajaRojaY + cajaRojaAlto);
-        g2.drawLine(cajaRojaX, rojoCentroY, cajaRojaX + cajaRojaAncho, rojoCentroY);
-        g2.setColor(new Color(200, 0, 60));
-        g2.setStroke(new BasicStroke(3));
-        g2.drawArc(rojoCentroX - 10, cajaRojaY - 15, 22, 22, 0, 180);
-
-        // Caja verde
-        int cajaVerdeX = offsetX + 180, cajaVerdeY = offsetY + 90, cajaVerdeAncho = 55, cajaVerdeAlto = 40;
-        g2.setColor(new Color(60, 179, 113));
-        g2.fillRect(cajaVerdeX, cajaVerdeY, cajaVerdeAncho, cajaVerdeAlto);
-        g2.setColor(new Color(255, 255, 255));
-        g2.setStroke(new BasicStroke(4));
-        int verdeCentroX = cajaVerdeX + cajaVerdeAncho / 2;
-        int verdeCentroY = cajaVerdeY + cajaVerdeAlto / 2;
-        g2.drawLine(verdeCentroX, cajaVerdeY, verdeCentroX, cajaVerdeY + cajaVerdeAlto);
-        g2.drawLine(cajaVerdeX, verdeCentroY, cajaVerdeX + cajaVerdeAncho, verdeCentroY);
-        g2.setColor(new Color(25, 120, 60));
-        g2.setStroke(new BasicStroke(2));
-        g2.drawArc(verdeCentroX - 7, cajaVerdeY - 11, 15, 15, 0, 180);
-
-        // Oferta naranja
-        g2.setColor(new Color(255, 69, 0, 180));
-        g2.fillRoundRect(offsetX + 40, offsetY + 150, 85, 28, 10, 10);
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Arial", Font.BOLD, 16));
-        g2.drawString("% Oferta", offsetX + 50, offsetY + 170);
-
-        // Oferta azul
-        g2.setColor(new Color(72, 61, 139, 180));
-        g2.fillRoundRect(offsetX + 260, offsetY + 130, 70, 28, 10, 10);
-        g2.setColor(Color.WHITE);
-        g2.drawString("SALE", offsetX + 275, offsetY + 150);
+        g2.dispose();
     }
+
+    private void drawOxxoDesign(Graphics2D g2, int w, int h) {
+        Color rojoOxxo = new Color(214, 38, 61);
+        Color amarilloOxxo = new Color(253, 184, 39);
+        Color sombraColor = new Color(0, 0, 0, 100);
+
+        int bordeRadio = Math.min(w, h) / 22;
+
+        // Fondo blanco redondeado
+        g2.setColor(Color.WHITE);
+        g2.fillRoundRect(0, 0, w, h, bordeRadio * 2, bordeRadio * 2);
+
+        // Franjas amarillas
+        int franjaAmarilla = (int)(h * 0.13);
+        g2.setColor(amarilloOxxo);
+        g2.fillRect(0, 0, w, franjaAmarilla);
+        g2.fillRect(0, h - franjaAmarilla, w, franjaAmarilla);
+
+        // Franjas blancas
+        int franjaBlanca = (int)(h * 0.04);
+        g2.setColor(Color.WHITE);
+        g2.fillRect(0, franjaAmarilla, w, franjaBlanca);
+        g2.fillRect(0, h - franjaAmarilla - franjaBlanca, w, franjaBlanca);
+
+        // Fondo rojo central
+        int yRojo = franjaAmarilla + franjaBlanca;
+        int hRojo = h - 2 * (franjaAmarilla + franjaBlanca);
+        g2.setColor(rojoOxxo);
+        g2.fillRect(0, yRojo, w, hRojo);
+
+        // === TEXTO "POO" ===
+        String texto = "POO";
+
+        // Tamaño fuente para el texto
+        int fontSize = (int)(hRojo * 1.0);
+        Font fuente = new Font("Segoe UI", Font.BOLD, fontSize);
+        g2.setFont(fuente);
+
+        FontMetrics fm = g2.getFontMetrics();
+        int textoAncho = fm.stringWidth(texto);
+        int textoAlto = fm.getAscent();
+
+        int xTexto = (w - textoAncho) / 2;
+
+        // Aquí centramos verticalmente mejor:
+        int yTexto = yRojo + (hRojo / 2) + (textoAlto / 2) - 120;
+
+        // Sombra del texto
+        int sombraDespl = fontSize / 20;
+        g2.setColor(sombraColor);
+        g2.drawString(texto, xTexto + sombraDespl, yTexto + sombraDespl);
+
+        // Texto principal
+        g2.setColor(Color.WHITE);
+        g2.drawString(texto, xTexto, yTexto);
+    }
+
 }

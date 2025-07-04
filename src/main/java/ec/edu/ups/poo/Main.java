@@ -220,6 +220,22 @@ public class Main {
             carritoEliminarView.refrescarResumenValores(i18n.getLocale());
             carritoListarView.refrescarResumenValores(i18n.getLocale());
 
+            if (carritoAnadirView != null && carritoAnadirView.isVisible()) {
+                carritoAnadirView.refrescarResumenValores(i18n.getLocale());
+                carritoAnadirView.refrescarTabla();
+            }
+            if (carritoEditarView != null && carritoEditarView.isVisible()) {
+                carritoEditarView.refrescarResumenValores(i18n.getLocale());
+                carritoEditarView.refrescarTabla();
+            }
+            if (carritoEliminarView != null && carritoEliminarView.isVisible()) {
+                carritoEliminarView.refrescarResumenValores(i18n.getLocale());
+                carritoEliminarView.refrescarTabla();
+            }
+            if (carritoListarView != null && carritoListarView.isVisible()) {
+                carritoListarView.refrescarResumenValores(i18n.getLocale());
+                carritoListarView.refrescarTabla();
+            }
             if (carritoController.itemsView != null && carritoController.itemsView.isVisible()) {
                 carritoController.itemsView.aplicarIdioma();
             }
@@ -245,6 +261,22 @@ public class Main {
             carritoEliminarView.refrescarResumenValores(i18n.getLocale());
             carritoListarView.refrescarResumenValores(i18n.getLocale());
 
+            if (carritoAnadirView != null && carritoAnadirView.isVisible()) {
+                carritoAnadirView.refrescarResumenValores(i18n.getLocale());
+                carritoAnadirView.refrescarTabla();
+            }
+            if (carritoEditarView != null && carritoEditarView.isVisible()) {
+                carritoEditarView.refrescarResumenValores(i18n.getLocale());
+                carritoEditarView.refrescarTabla();
+            }
+            if (carritoEliminarView != null && carritoEliminarView.isVisible()) {
+                carritoEliminarView.refrescarResumenValores(i18n.getLocale());
+                carritoEliminarView.refrescarTabla();
+            }
+            if (carritoListarView != null && carritoListarView.isVisible()) {
+                carritoListarView.refrescarResumenValores(i18n.getLocale());
+                carritoListarView.refrescarTabla();
+            }
             if (carritoController.itemsView != null && carritoController.itemsView.isVisible()) {
                 carritoController.itemsView.aplicarIdioma();
             }
@@ -270,6 +302,22 @@ public class Main {
             carritoEliminarView.refrescarResumenValores(i18n.getLocale());
             carritoListarView.refrescarResumenValores(i18n.getLocale());
 
+            if (carritoAnadirView != null && carritoAnadirView.isVisible()) {
+                carritoAnadirView.refrescarResumenValores(i18n.getLocale());
+                carritoAnadirView.refrescarTabla();
+            }
+            if (carritoEditarView != null && carritoEditarView.isVisible()) {
+                carritoEditarView.refrescarResumenValores(i18n.getLocale());
+                carritoEditarView.refrescarTabla();
+            }
+            if (carritoEliminarView != null && carritoEliminarView.isVisible()) {
+                carritoEliminarView.refrescarResumenValores(i18n.getLocale());
+                carritoEliminarView.refrescarTabla();
+            }
+            if (carritoListarView != null && carritoListarView.isVisible()) {
+                carritoListarView.refrescarResumenValores(i18n.getLocale());
+                carritoListarView.refrescarTabla();
+            }
             if (carritoController.itemsView != null && carritoController.itemsView.isVisible()) {
                 carritoController.itemsView.aplicarIdioma();
             }

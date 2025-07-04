@@ -54,14 +54,12 @@ public class UsuarioAnadirView extends JInternalFrame {
         btnRegistrar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
     }
 
-
-
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 
     public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirmar", "Cancelar"};
+        Object[] botones = {i18n.get("mensaje.confirmacion"), i18n.get("mensaje.cancelacion")};
         return JOptionPane.showOptionDialog(
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,

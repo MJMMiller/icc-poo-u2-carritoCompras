@@ -71,6 +71,8 @@ public class Direccion {
                 return new ImageIcon(Direccion.class.getClassLoader().getResource("imagenes/idiomaM.png"));
             case SESIONM:
                 return new ImageIcon(Direccion.class.getClassLoader().getResource("imagenes/sesionM.png"));
+            case POO_LOGO:
+                return new ImageIcon(Direccion.class.getClassLoader().getResource("imagenes/poo-logo.png"));
             default:
                 System.err.println("No se pudo cargar el icono: tipo no reconocido.");
                 return null;

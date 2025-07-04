@@ -27,33 +27,7 @@ public class PreguntaDAOMemoria implements PreguntaDAO {
     }
 
     @Override
-    public void agregarPregunta(Pregunta pregunta) {
-        pregunta.setId(preguntas.size() + 1);
-        preguntas.add(pregunta);
-    }
-
-    @Override
-    public Pregunta buscarPorId(int id) {
-        return preguntas.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
-    }
-
-    @Override
     public List<Pregunta> listarTodas() {
         return new ArrayList<>(preguntas);
-    }
-
-    @Override
-    public void eliminarPregunta(int id) {
-        preguntas.removeIf(p -> p.getId() == id);
-    }
-
-    @Override
-    public void actualizarPregunta(Pregunta pregunta) {
-        for (int i = 0; i < preguntas.size(); i++) {
-            if (preguntas.get(i).getId() == pregunta.getId()) {
-                preguntas.set(i, pregunta);
-                return;
-            }
-        }
     }
 }

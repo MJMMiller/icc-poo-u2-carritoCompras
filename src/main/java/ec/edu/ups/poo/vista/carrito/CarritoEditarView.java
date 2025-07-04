@@ -85,6 +85,136 @@ public class CarritoEditarView extends JInternalFrame {
         txtTot.setText(FormateadorUtils.formatearMoneda(total, locale));
     }
 
+    public void cargarDatosCombobox(){
+        cbxCantidad.removeAllItems();
+        for (int i = 1; i <= 20; i++) {
+            cbxCantidad.addItem(i);
+        }
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void limpiarCampos() {
+        cbxCantidad.setSelectedIndex(0);
+        txtCodigoProducto.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
+    }
+
+    public void mostrarItemsCarrito(List<ItemCarrito> items) {
+        modelo.setRowCount(0);
+        Locale locale = i18n.getLocale();
+        for (ItemCarrito item : items) {
+            Producto p = item.getProducto();
+            String precioFormateado = FormateadorUtils.formatearMoneda(p.getPrecio(), locale);
+            String totalItemFormateado = FormateadorUtils.formatearMoneda(item.getTotalItem(), locale);
+            modelo.addRow(new Object[]{
+                    p.getCodigo(),
+                    p.getNombre(),
+                    precioFormateado,
+                    item.getCantidad(),
+                    totalItemFormateado
+            });
+        }
+    }
+
+    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
+        Object[] botones = {i18n.get("mensaje.confirmacion"), i18n.get("mensaje.cancelacion")};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void cargarTabla(){
+        modelo = new DefaultTableModel(new Object[]{"Código", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tblProducts.setModel(modelo);
+
+        Color fondo = new Color(29, 30, 32);
+        Color letras = Color.WHITE;
+
+        if (panelAll != null) panelAll.setBackground(fondo);
+        if (panelInferior != null) panelInferior.setBackground(fondo);
+        if (panelItems != null) panelItems.setBackground(fondo);
+        if (panelProduct != null) panelProduct.setBackground(fondo);
+        if (panelTitle != null) panelTitle.setBackground(fondo);
+
+        if (scroll == null && tblProducts != null) {
+            scroll = (JScrollPane) tblProducts.getParent().getParent();
+        }
+        if (scroll != null) {
+            scroll.getViewport().setBackground(fondo);
+            scroll.setBackground(fondo);
+        }
+
+        if (tblProducts != null) {
+            tblProducts.setBackground(fondo);
+            tblProducts.setForeground(letras);
+            tblProducts.setSelectionBackground(new Color(50, 50, 60));
+            tblProducts.setSelectionForeground(Color.WHITE);
+            tblProducts.setGridColor(fondo);
+
+            JTableHeader header = tblProducts.getTableHeader();
+            header.setBackground(fondo);
+            header.setForeground(letras);
+            header.setFont(header.getFont().deriveFont(Font.BOLD));
+            ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            centerRenderer.setForeground(letras);
+            centerRenderer.setBackground(fondo);
+            for (int i = 0; i < tblProducts.getColumnCount(); i++) {
+                tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("carrito.editar.tituloVentana"));
+        lblTitulo.setText(i18n.get("carrito.editar.lbl.titulo"));
+        lblCodigoProducto.setText(i18n.get("carrito.editar.lbl.codigoProducto"));
+        lblNombre.setText(i18n.get("carrito.editar.lbl.nombre"));
+        lblPrecio.setText(i18n.get("carrito.editar.precio"));
+        lblCantidad.setText(i18n.get("carrito.editar.cantidad"));
+        btnAnadir.setText(i18n.get("carrito.editar.btn.anadir"));
+        btnActualizar.setText(i18n.get("carrito.editar.btn.actualizar"));
+        btnBuscarProducto.setText(i18n.get("producto.buscar.btn.buscar.producto"));
+        btnBuscarCarrito.setText(i18n.get("carrito.buscar.buscar.btn.buscar.carrito"));
+        btnClean.setText(i18n.get("carrito.limpiar.btn.limpiar"));
+        btnEliminarItem.setText(i18n.get("carrito.editar.btn.eliminar.item"));
+        lblItemsCarrito.setText(i18n.get("carrito.items.lbl.tituloItems"));
+        lblCordigocCarrito.setText(i18n.get("carrito.items.lbl.codigoCarrito"));
+        tblProducts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("carrito.listar.item..tbl.codigo"));
+        tblProducts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("carrito.listar.item..tbl.nombre"));
+        tblProducts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("carrito.listar.item.tbl.precio"));
+        tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.listar.item.tbl.cantidad"));
+        tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.listar.item.tbl.totalItem"));
+        tblProducts.getTableHeader().repaint();
+    }
+
+    public void aplicarIconos(){
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
+        btnEliminarItem.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
+        btnAnadir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR_TODO));
+        btnActualizar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ACTUALIZAR));
+        btnBuscarProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnBuscarCarrito.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
+    }
+
+    public void refrescarTabla() {
+        ((DefaultTableModel) tblProducts.getModel()).fireTableDataChanged();
+        tblProducts.getTableHeader().repaint();
+    }
+
     public JPanel getPanelAll() {
         return panelAll;
     }
@@ -413,128 +543,4 @@ public class CarritoEditarView extends JInternalFrame {
         this.total = total;
     }
 
-    public void cargarDatosCombobox(){
-        cbxCantidad.removeAllItems();
-        for (int i = 1; i <= 20; i++) {
-            cbxCantidad.addItem(i);
-        }
-    }
-
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public void limpiarCampos() {
-        cbxCantidad.setSelectedIndex(0);
-        txtCodigoProducto.setText("");
-        txtNombre.setText("");
-        txtPrecio.setText("");
-    }
-
-    public void mostrarItemsCarrito(List<ItemCarrito> items) {
-        modelo.setRowCount(0);
-        Locale locale = i18n.getLocale();
-        for (ItemCarrito item : items) {
-            Producto p = item.getProducto();
-            String precioFormateado = FormateadorUtils.formatearMoneda(p.getPrecio(), locale);
-            String totalItemFormateado = FormateadorUtils.formatearMoneda(item.getTotalItem(), locale);
-            modelo.addRow(new Object[]{
-                    p.getCodigo(),
-                    p.getNombre(),
-                    precioFormateado,
-                    item.getCantidad(),
-                    totalItemFormateado
-            });
-        }
-    }
-
-    public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirmar", "Cancelar"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
-    }
-
-    public void cargarTabla(){
-        modelo = new DefaultTableModel(new Object[]{"Código", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tblProducts.setModel(modelo);
-
-        Color fondo = new Color(29, 30, 32);
-        Color letras = Color.WHITE;
-
-        if (panelAll != null) panelAll.setBackground(fondo);
-        if (panelInferior != null) panelInferior.setBackground(fondo);
-        if (panelItems != null) panelItems.setBackground(fondo);
-        if (panelProduct != null) panelProduct.setBackground(fondo);
-        if (panelTitle != null) panelTitle.setBackground(fondo);
-
-        if (scroll == null && tblProducts != null) {
-            scroll = (JScrollPane) tblProducts.getParent().getParent();
-        }
-        if (scroll != null) {
-            scroll.getViewport().setBackground(fondo);
-            scroll.setBackground(fondo);
-        }
-
-        if (tblProducts != null) {
-            tblProducts.setBackground(fondo);
-            tblProducts.setForeground(letras);
-            tblProducts.setSelectionBackground(new Color(50, 50, 60));
-            tblProducts.setSelectionForeground(Color.WHITE);
-            tblProducts.setGridColor(fondo);
-
-            JTableHeader header = tblProducts.getTableHeader();
-            header.setBackground(fondo);
-            header.setForeground(letras);
-            header.setFont(header.getFont().deriveFont(Font.BOLD));
-            ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-            centerRenderer.setForeground(letras);
-            centerRenderer.setBackground(fondo);
-            for (int i = 0; i < tblProducts.getColumnCount(); i++) {
-                tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-            }
-        }
-    }
-
-    public void aplicarIdioma() {
-        setTitle(i18n.get("carrito.editar.tituloVentana"));
-        lblTitulo.setText(i18n.get("carrito.editar.lbl.titulo"));
-        lblCodigoProducto.setText(i18n.get("carrito.editar.lbl.codigoProducto"));
-        lblNombre.setText(i18n.get("carrito.editar.lbl.nombre"));
-        lblPrecio.setText(i18n.get("carrito.editar.precio"));
-        lblCantidad.setText(i18n.get("carrito.editar.cantidad"));
-        btnAnadir.setText(i18n.get("carrito.editar.btn.anadir"));
-        btnActualizar.setText(i18n.get("carrito.editar.btn.actualizar"));
-        btnBuscarProducto.setText(i18n.get("producto.buscar.btn.buscar.producto"));
-        btnBuscarCarrito.setText(i18n.get("carrito.buscar.buscar.btn.buscar.carrito"));
-        btnClean.setText(i18n.get("carrito.limpiar.btn.limpiar"));
-        btnEliminarItem.setText(i18n.get("carrito.editar.btn.eliminar.item"));
-        lblItemsCarrito.setText(i18n.get("carrito.items.lbl.tituloItems"));
-        lblCordigocCarrito.setText(i18n.get("carrito.items.lbl.codigoCarrito"));
-        tblProducts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("carrito.listar.item..tbl.codigo"));
-        tblProducts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("carrito.listar.item..tbl.nombre"));
-        tblProducts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("carrito.listar.item.tbl.precio"));
-        tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.listar.item.tbl.cantidad"));
-        tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.listar.item.tbl.totalItem"));
-        tblProducts.getTableHeader().repaint();
-    }
-
-    public void aplicarIconos(){
-        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
-        btnEliminarItem.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ElIMINAR));
-        btnAnadir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR_TODO));
-        btnActualizar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.ACTUALIZAR));
-        btnBuscarProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
-        btnBuscarCarrito.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
-        btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
-    }
 }

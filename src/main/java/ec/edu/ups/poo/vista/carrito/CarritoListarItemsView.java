@@ -84,6 +84,137 @@ public class CarritoListarItemsView extends JInternalFrame {
         aplicarIdioma();
     }
 
+    public void mostrarDatos(
+            int carritoId,
+            List<ItemCarrito> items,
+            double subtotal,
+            double iva,
+            double total,
+            String username,
+            Rol rol,
+            String fecha
+    ) {
+        this.subtotal = subtotal;
+        this.iva = iva;
+        this.total = total;
+        this.currentItems = items;
+        Locale locale = i18n.getLocale();
+
+        if (modelo != null) {
+            modelo.setRowCount(0);
+            if (items != null) {
+                for (ItemCarrito item : items) {
+                    modelo.addRow(new Object[]{
+                            item.getProducto().getCodigo(),
+                            item.getProducto().getNombre(),
+                            FormateadorUtils.formatearMoneda(item.getProducto().getPrecio(), locale),
+                            item.getCantidad(),
+                            FormateadorUtils.formatearMoneda(item.getTotalItem(), locale)
+                    });
+                }
+            }
+        }
+        if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
+        if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
+        if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
+        if (txtCodigo != null) txtCodigo.setText(String.valueOf(carritoId));
+        if (txtUsuario != null) txtUsuario.setText(username);
+        if (txtRolUser != null && rol != null) txtRolUser.setText(rol.toString());
+        if (txtFecha != null) txtFecha.setText(fecha);
+    }
+
+    public void cargarTabla() {
+        modelo = new DefaultTableModel(new Object[]{"Item", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tblProducts.setModel(modelo);
+
+        Color fondo = new Color(29, 30, 32);
+        Color letras = Color.WHITE;
+
+        if (scroll == null && tblProducts != null) {
+            scroll = (JScrollPane) tblProducts.getParent().getParent();
+        }
+        if (scroll != null) {
+            scroll.getViewport().setBackground(fondo);
+            scroll.setBackground(fondo);
+        }
+
+        if (tblProducts != null) {
+            tblProducts.setBackground(fondo);
+            tblProducts.setForeground(letras);
+            tblProducts.setSelectionBackground(new Color(50, 50, 60));
+            tblProducts.setSelectionForeground(Color.WHITE);
+            tblProducts.setGridColor(fondo);
+
+            JTableHeader header = tblProducts.getTableHeader();
+            header.setBackground(fondo);
+            header.setForeground(letras);
+            header.setFont(header.getFont().deriveFont(Font.BOLD));
+            ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            centerRenderer.setForeground(letras);
+            centerRenderer.setBackground(fondo);
+            for (int i = 0; i < tblProducts.getColumnCount(); i++) {
+                tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("carrito.listar.item.titulo"));
+        lblTitulo.setText(i18n.get("carrito.listar.item.lbl.titulo"));
+        lblCodigo.setText(i18n.get("carrito.listar.item.lbl.codigo"));
+        lblUsuario.setText(i18n.get("carrito.listar.item.lbl.usuario"));
+        btnSalir.setText(i18n.get("carrito.listar.item.btn.salir"));
+        lblItemsCarrito.setText(i18n.get("carrito.listar.items"));
+        lblFecha.setText(i18n.get("carrito.listar.item.lbl.fecha"));
+
+        tblProducts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("carrito.listar.item..tbl.codigo"));
+        tblProducts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("carrito.listar.item..tbl.nombre"));
+        tblProducts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("carrito.listar.item.tbl.precio"));
+        tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.listar.item.tbl.cantidad"));
+        tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.listar.item.tbl.totalItem"));
+        tblProducts.getTableHeader().repaint();
+
+        refrescarFormatoMoneda();
+    }
+
+    public void refrescarFormatoMoneda() {
+        Locale locale = i18n.getLocale();
+        if (modelo != null) {
+            modelo.setRowCount(0);
+            if (currentItems != null) {
+                for (ItemCarrito item : currentItems) {
+                    modelo.addRow(new Object[]{
+                            item.getProducto().getCodigo(),
+                            item.getProducto().getNombre(),
+                            FormateadorUtils.formatearMoneda(item.getProducto().getPrecio(), locale),
+                            item.getCantidad(),
+                            FormateadorUtils.formatearMoneda(item.getTotalItem(), locale)
+                    });
+                }
+            }
+        }
+        if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
+        if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
+        if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
+    }
+
+    public void aplicarIconos(){
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
+        btnSalir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
+    }
+
     public JPanel getPanelTitle() {
         return panelTitle;
     }
@@ -276,134 +407,4 @@ public class CarritoListarItemsView extends JInternalFrame {
         this.modelo = modelo;
     }
 
-    public void mostrarDatos(
-            int carritoId,
-            List<ItemCarrito> items,
-            double subtotal,
-            double iva,
-            double total,
-            String username,
-            Rol rol,
-            String fecha
-    ) {
-        this.subtotal = subtotal;
-        this.iva = iva;
-        this.total = total;
-        this.currentItems = items;
-        Locale locale = i18n.getLocale();
-
-        if (modelo != null) {
-            modelo.setRowCount(0);
-            if (items != null) {
-                for (ItemCarrito item : items) {
-                    modelo.addRow(new Object[]{
-                            item.getProducto().getCodigo(),
-                            item.getProducto().getNombre(),
-                            FormateadorUtils.formatearMoneda(item.getProducto().getPrecio(), locale),
-                            item.getCantidad(),
-                            FormateadorUtils.formatearMoneda(item.getTotalItem(), locale)
-                    });
-                }
-            }
-        }
-        if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
-        if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
-        if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
-        if (txtCodigo != null) txtCodigo.setText(String.valueOf(carritoId));
-        if (txtUsuario != null) txtUsuario.setText(username);
-        if (txtRolUser != null && rol != null) txtRolUser.setText(rol.toString());
-        if (txtFecha != null) txtFecha.setText(fecha);
-    }
-
-    public void cargarTabla() {
-        modelo = new DefaultTableModel(new Object[]{"Item", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tblProducts.setModel(modelo);
-
-        Color fondo = new Color(29, 30, 32);
-        Color letras = Color.WHITE;
-
-        if (scroll == null && tblProducts != null) {
-            scroll = (JScrollPane) tblProducts.getParent().getParent();
-        }
-        if (scroll != null) {
-            scroll.getViewport().setBackground(fondo);
-            scroll.setBackground(fondo);
-        }
-
-        if (tblProducts != null) {
-            tblProducts.setBackground(fondo);
-            tblProducts.setForeground(letras);
-            tblProducts.setSelectionBackground(new Color(50, 50, 60));
-            tblProducts.setSelectionForeground(Color.WHITE);
-            tblProducts.setGridColor(fondo);
-
-            JTableHeader header = tblProducts.getTableHeader();
-            header.setBackground(fondo);
-            header.setForeground(letras);
-            header.setFont(header.getFont().deriveFont(Font.BOLD));
-            ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-            centerRenderer.setForeground(letras);
-            centerRenderer.setBackground(fondo);
-            for (int i = 0; i < tblProducts.getColumnCount(); i++) {
-                tblProducts.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-            }
-        }
-    }
-
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public void aplicarIdioma() {
-        setTitle(i18n.get("carrito.listar.item.titulo"));
-        lblTitulo.setText(i18n.get("carrito.listar.item.lbl.titulo"));
-        lblCodigo.setText(i18n.get("carrito.listar.item.lbl.codigo"));
-        lblUsuario.setText(i18n.get("carrito.listar.item.lbl.usuario"));
-        btnSalir.setText(i18n.get("carrito.listar.item.btn.salir"));
-        lblItemsCarrito.setText(i18n.get("carrito.listar.items"));
-        lblFecha.setText(i18n.get("carrito.listar.item.lbl.fecha"));
-
-        tblProducts.getColumnModel().getColumn(0).setHeaderValue(i18n.get("carrito.listar.item..tbl.codigo"));
-        tblProducts.getColumnModel().getColumn(1).setHeaderValue(i18n.get("carrito.listar.item..tbl.nombre"));
-        tblProducts.getColumnModel().getColumn(2).setHeaderValue(i18n.get("carrito.listar.item.tbl.precio"));
-        tblProducts.getColumnModel().getColumn(3).setHeaderValue(i18n.get("carrito.listar.item.tbl.cantidad"));
-        tblProducts.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.listar.item.tbl.totalItem"));
-        tblProducts.getTableHeader().repaint();
-
-        refrescarFormatoMoneda();
-    }
-
-    public void refrescarFormatoMoneda() {
-        Locale locale = i18n.getLocale();
-        if (modelo != null) {
-            modelo.setRowCount(0);
-            if (currentItems != null) {
-                for (ItemCarrito item : currentItems) {
-                    modelo.addRow(new Object[]{
-                            item.getProducto().getCodigo(),
-                            item.getProducto().getNombre(),
-                            FormateadorUtils.formatearMoneda(item.getProducto().getPrecio(), locale),
-                            item.getCantidad(),
-                            FormateadorUtils.formatearMoneda(item.getTotalItem(), locale)
-                    });
-                }
-            }
-        }
-        if (txtSubTotal != null) txtSubTotal.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
-        if (txtIva != null) txtIva.setText(FormateadorUtils.formatearMoneda(iva, locale));
-        if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
-    }
-
-    public void aplicarIconos(){
-        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
-        btnSalir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
-    }
 }

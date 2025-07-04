@@ -1,5 +1,6 @@
 package ec.edu.ups.poo.vista.carrito;
 
+import ec.edu.ups.poo.modelo.Carrito;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.util.enums.TipoIcono;
@@ -9,9 +10,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.util.List;
 import java.util.Locale;
 
-public class CarritoListarView extends JInternalFrame{
+public class CarritoListarView extends JInternalFrame {
     private JPanel panelAll;
     private JPanel panelSuperior;
     private JLabel lblTitulo;
@@ -25,11 +27,15 @@ public class CarritoListarView extends JInternalFrame{
     private JPanel panelTabla;
     private JScrollPane scroll;
     private JPanel panelInferior;
+    private JLabel lblSubtotalResumen;
+    private JLabel lblIvaResumen;
+    private JLabel lblTotalResumen;
     private DefaultTableModel modelo;
     private MensajeInternacionalizacionHandler i18n;
     private double subtotal = 0.0;
     private double iva = 0.0;
     private double total = 0.0;
+    private List<Carrito> carritosMostrados;
 
     public CarritoListarView(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
@@ -86,130 +92,44 @@ public class CarritoListarView extends JInternalFrame{
         aplicarIconos();
     }
 
-    public void setResumenValores(double subtotal, double iva, double total, Locale locale) {
-        this.subtotal = subtotal;
-        this.iva = iva;
-        this.total = total;
+    public void mostrarCarritos(List<Carrito> carritos, Locale locale) {
+        modelo.setRowCount(0);
+        subtotal = 0;
+        iva = 0;
+        total = 0;
+        if (carritos != null) {
+            for (Carrito carrito : carritos) {
+                modelo.addRow(new Object[]{
+                        carrito.getId(),
+                        carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
+                        FormateadorUtils.formatearFecha(carrito.getFecha(), locale),
+                        FormateadorUtils.formatearMoneda(carrito.getSubtotal(), locale),
+                        FormateadorUtils.formatearMoneda(carrito.getIva(), locale),
+                        FormateadorUtils.formatearMoneda(carrito.getTotal(), locale)
+                });
+                subtotal += carrito.getSubtotal();
+                iva += carrito.getIva();
+                total += carrito.getTotal();
+            }
+        }
+        this.carritosMostrados = carritos;
         refrescarResumenValores(locale);
     }
 
+    public void refrescarTabla() {
+        if (carritosMostrados != null) {
+            mostrarCarritos(carritosMostrados, i18n.getLocale());
+        }
+    }
+
     public void refrescarResumenValores(Locale locale) {
-    }
-
-    public JPanel getPanelAll() {
-        return panelAll;
-    }
-
-    public void setPanelAll(JPanel panelAll) {
-        this.panelAll = panelAll;
-    }
-
-    public JPanel getPanelSuperior() {
-        return panelSuperior;
-    }
-
-    public void setPanelSuperior(JPanel panelSuperior) {
-        this.panelSuperior = panelSuperior;
-    }
-
-    public JLabel getLblTitulo() {
-        return lblTitulo;
-    }
-
-    public void setLblTitulo(JLabel lblTitulo) {
-        this.lblTitulo = lblTitulo;
-    }
-
-    public JPanel getPanelCenter() {
-        return panelCenter;
-    }
-
-    public void setPanelCenter(JPanel panelCenter) {
-        this.panelCenter = panelCenter;
-    }
-
-    public JLabel getLblCodigo() {
-        return lblCodigo;
-    }
-
-    public void setLblCodigo(JLabel lblCodigo) {
-        this.lblCodigo = lblCodigo;
-    }
-
-    public JTextField getTxtCodigo() {
-        return txtCodigo;
-    }
-
-    public void setTxtCodigo(JTextField txtCodigo) {
-        this.txtCodigo = txtCodigo;
-    }
-
-    public JButton getBtnBuscar() {
-        return btnBuscar;
-    }
-
-    public void setBtnBuscar(JButton btnBuscar) {
-        this.btnBuscar = btnBuscar;
-    }
-
-    public JButton getBtnListar() {
-        return btnListar;
-    }
-
-    public void setBtnListar(JButton btnListar) {
-        this.btnListar = btnListar;
-    }
-
-    public JTable getTblCarritos() {
-        return tblCarritos;
-    }
-
-    public void setTblCarritos(JTable tblCarritos) {
-        this.tblCarritos = tblCarritos;
-    }
-
-    public JButton getBtnVerCarrito() {
-        return btnVerCarrito;
-    }
-
-    public void setBtnVerCarrito(JButton btnVerCarrito) {
-        this.btnVerCarrito = btnVerCarrito;
-    }
-
-    public JPanel getPanelTabla() {
-        return panelTabla;
-    }
-
-    public void setPanelTabla(JPanel panelTabla) {
-        this.panelTabla = panelTabla;
-    }
-
-    public JScrollPane getScroll() {
-        return scroll;
-    }
-
-    public void setScroll(JScrollPane scroll) {
-        this.scroll = scroll;
-    }
-
-    public JPanel getPanelInferior() {
-        return panelInferior;
-    }
-
-    public void setPanelInferior(JPanel panelInferior) {
-        this.panelInferior = panelInferior;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(DefaultTableModel modelo) {
-        this.modelo = modelo;
+        if (lblSubtotalResumen != null) lblSubtotalResumen.setText(FormateadorUtils.formatearMoneda(subtotal, locale));
+        if (lblIvaResumen != null) lblIvaResumen.setText(FormateadorUtils.formatearMoneda(iva, locale));
+        if (lblTotalResumen != null) lblTotalResumen.setText(FormateadorUtils.formatearMoneda(total, locale));
     }
 
     public int mostrarMensajeConfirmacion(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirm", "Cancel"};
+        Object[] botones = {i18n.get("mensaje.confirmacion"), i18n.get("mensaje.cancelacion")};
         return JOptionPane.showOptionDialog(
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
@@ -220,7 +140,7 @@ public class CarritoListarView extends JInternalFrame{
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 
-    public void aplicarIdioma(){
+    public void aplicarIdioma() {
         setTitle(i18n.get("carrito.listar.title"));
         lblTitulo.setText(i18n.get("carrito.listar.lbl.title"));
         lblCodigo.setText(i18n.get("carrito.listar.lbl.codigo"));
@@ -234,6 +154,7 @@ public class CarritoListarView extends JInternalFrame{
         tblCarritos.getColumnModel().getColumn(4).setHeaderValue(i18n.get("carrito.listar.tbl.iva"));
         tblCarritos.getColumnModel().getColumn(5).setHeaderValue(i18n.get("carrito.listar.tbl.total"));
         tblCarritos.getTableHeader().repaint();
+        refrescarResumenValores(i18n.getLocale());
     }
 
     public void aplicarIconos() {
@@ -241,8 +162,41 @@ public class CarritoListarView extends JInternalFrame{
         btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
         btnListar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR));
         btnVerCarrito.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.EYE));
-
     }
+
+    public JPanel getPanelAll() { return panelAll; }
+    public void setPanelAll(JPanel panelAll) { this.panelAll = panelAll; }
+    public JPanel getPanelSuperior() { return panelSuperior; }
+    public void setPanelSuperior(JPanel panelSuperior) { this.panelSuperior = panelSuperior; }
+    public JLabel getLblTitulo() { return lblTitulo; }
+    public void setLblTitulo(JLabel lblTitulo) { this.lblTitulo = lblTitulo; }
+    public JPanel getPanelCenter() { return panelCenter; }
+    public void setPanelCenter(JPanel panelCenter) { this.panelCenter = panelCenter; }
+    public JLabel getLblCodigo() { return lblCodigo; }
+    public void setLblCodigo(JLabel lblCodigo) { this.lblCodigo = lblCodigo; }
+    public JTextField getTxtCodigo() { return txtCodigo; }
+    public void setTxtCodigo(JTextField txtCodigo) { this.txtCodigo = txtCodigo; }
+    public JButton getBtnBuscar() { return btnBuscar; }
+    public void setBtnBuscar(JButton btnBuscar) { this.btnBuscar = btnBuscar; }
+    public JButton getBtnListar() { return btnListar; }
+    public void setBtnListar(JButton btnListar) { this.btnListar = btnListar; }
+    public JTable getTblCarritos() { return tblCarritos; }
+    public void setTblCarritos(JTable tblCarritos) { this.tblCarritos = tblCarritos; }
+    public JButton getBtnVerCarrito() { return btnVerCarrito; }
+    public void setBtnVerCarrito(JButton btnVerCarrito) { this.btnVerCarrito = btnVerCarrito; }
+    public JPanel getPanelTabla() { return panelTabla; }
+    public void setPanelTabla(JPanel panelTabla) { this.panelTabla = panelTabla; }
+    public JScrollPane getScroll() { return scroll; }
+    public void setScroll(JScrollPane scroll) { this.scroll = scroll; }
+    public JPanel getPanelInferior() { return panelInferior; }
+    public void setPanelInferior(JPanel panelInferior) { this.panelInferior = panelInferior; }
+    public DefaultTableModel getModelo() { return modelo; }
+    public void setModelo(DefaultTableModel modelo) { this.modelo = modelo; }
+    public JLabel getLblSubtotalResumen() { return lblSubtotalResumen; }
+    public void setLblSubtotalResumen(JLabel lblSubtotalResumen) { this.lblSubtotalResumen = lblSubtotalResumen; }
+    public JLabel getLblIvaResumen() { return lblIvaResumen; }
+    public void setLblIvaResumen(JLabel lblIvaResumen) { this.lblIvaResumen = lblIvaResumen; }
+    public JLabel getLblTotalResumen() { return lblTotalResumen; }
+    public void setLblTotalResumen(JLabel lblTotalResumen) { this.lblTotalResumen = lblTotalResumen; }
+
 }
-
-

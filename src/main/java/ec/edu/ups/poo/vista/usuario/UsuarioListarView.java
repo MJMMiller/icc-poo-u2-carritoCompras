@@ -42,6 +42,72 @@ public class UsuarioListarView extends JInternalFrame {
         setIconifiable(true);
         setResizable(true);
 
+
+        cargarTabla();
+        cargarRol();
+        aplicaraIdioma();
+        aplicarIconos();
+
+    }
+
+    public void mostrarUsuarios(List<Usuario> usuarios) {
+        modelo.setRowCount(0);
+        Locale locale = i18n.getLocale(); // <--- ¡Esta es la forma correcta!
+        for (Usuario usuario : usuarios) {
+            String fechaFormateada = "";
+            if (usuario.getFechaNacimiento() != null) {
+                fechaFormateada = FormateadorUtils.formatearFecha(usuario.getFechaNacimiento(), locale);
+            }
+            modelo.addRow(new Object[]{
+                    usuario.getUserName(),
+                    usuario.getContrasena(),
+                    usuario.getNombreCompleto(),
+                    fechaFormateada,
+                    usuario.getCorreo(),
+                    usuario.getTelefono(),
+                    usuario.getRol().name()
+            });
+        }
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public void aplicaraIdioma() {
+        setTitle(i18n.get("usuario.listar.title"));
+        lblTitulo.setText(i18n.get("usuario.listar.titulo"));
+        lblUsuario.setText(i18n.get("usuario.listar.lbl.usuario"));
+        lblRol.setText(i18n.get("usuario.listar.lbl.rol"));
+        btnBuscar.setText(i18n.get("usuario.listar.btn.buscar"));
+        btnListar.setText(i18n.get("usuario.listar.btn.listar"));
+        tableUsers.getColumnModel().getColumn(0).setHeaderValue(i18n.get("usuario.listar.table.usuario"));
+        tableUsers.getColumnModel().getColumn(1).setHeaderValue(i18n.get("usuario.listar.table.contrasena"));
+        tableUsers.getColumnModel().getColumn(2).setHeaderValue(i18n.get("usuario.listar.table.nombreCompleto"));
+        tableUsers.getColumnModel().getColumn(3).setHeaderValue(i18n.get("usuario.listar.table.fechaNacimiento"));
+        tableUsers.getColumnModel().getColumn(4).setHeaderValue(i18n.get("usuario.listar.table.correo"));
+        tableUsers.getColumnModel().getColumn(5).setHeaderValue(i18n.get("usuario.listar.table.telefono"));
+        tableUsers.getColumnModel().getColumn(6).setHeaderValue(i18n.get("usuario.listar.table.rol"));
+        tableUsers.getTableHeader().repaint();
+    }
+
+    public void aplicarIconos() {
+        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.USUARIO));
+        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
+        btnListar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR));
+    }
+
+    public void cargarRol(){
+        if (cbxRol != null) {
+            cbxRol.removeAllItems();
+            cbxRol.addItem("Todos");
+            for (Rol rol : Rol.values()) {
+                cbxRol.addItem(rol);
+            }
+        }
+    }
+
+    public void cargarTabla() {
         modelo = new DefaultTableModel(
                 new Object[]{
                         "Usuario",
@@ -95,17 +161,6 @@ public class UsuarioListarView extends JInternalFrame {
                 tableUsers.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             }
         }
-
-        if (cbxRol != null) {
-            cbxRol.removeAllItems();
-            cbxRol.addItem("Todos");
-            for (Rol rol : Rol.values()) {
-                cbxRol.addItem(rol);
-            }
-        }
-
-        aplicaraIdioma();
-        aplicarIconos();
 
     }
 
@@ -219,52 +274,5 @@ public class UsuarioListarView extends JInternalFrame {
 
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
-    }
-
-    public void mostrarUsuarios(List<Usuario> usuarios) {
-        modelo.setRowCount(0);
-        Locale locale = i18n.getLocale(); // <--- ¡Esta es la forma correcta!
-        for (Usuario usuario : usuarios) {
-            String fechaFormateada = "";
-            if (usuario.getFechaNacimiento() != null) {
-                fechaFormateada = FormateadorUtils.formatearFecha(usuario.getFechaNacimiento(), locale);
-            }
-            modelo.addRow(new Object[]{
-                    usuario.getUserName(),
-                    usuario.getContrasena(),
-                    usuario.getNombreCompleto(),
-                    fechaFormateada,
-                    usuario.getCorreo(),
-                    usuario.getTelefono(),
-                    usuario.getRol().name()
-            });
-        }
-    }
-
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public void aplicaraIdioma() {
-        setTitle(i18n.get("usuario.listar.title"));
-        lblTitulo.setText(i18n.get("usuario.listar.titulo"));
-        lblUsuario.setText(i18n.get("usuario.listar.lbl.usuario"));
-        lblRol.setText(i18n.get("usuario.listar.lbl.rol"));
-        btnBuscar.setText(i18n.get("usuario.listar.btn.buscar"));
-        btnListar.setText(i18n.get("usuario.listar.btn.listar"));
-        tableUsers.getColumnModel().getColumn(0).setHeaderValue(i18n.get("usuario.listar.table.usuario"));
-        tableUsers.getColumnModel().getColumn(1).setHeaderValue(i18n.get("usuario.listar.table.contrasena"));
-        tableUsers.getColumnModel().getColumn(2).setHeaderValue(i18n.get("usuario.listar.table.nombreCompleto"));
-        tableUsers.getColumnModel().getColumn(3).setHeaderValue(i18n.get("usuario.listar.table.fechaNacimiento"));
-        tableUsers.getColumnModel().getColumn(4).setHeaderValue(i18n.get("usuario.listar.table.correo"));
-        tableUsers.getColumnModel().getColumn(5).setHeaderValue(i18n.get("usuario.listar.table.telefono"));
-        tableUsers.getColumnModel().getColumn(6).setHeaderValue(i18n.get("usuario.listar.table.rol"));
-        tableUsers.getTableHeader().repaint();
-    }
-
-    public void aplicarIconos() {
-        setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.USUARIO));
-        btnBuscar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BUSCAR));
-        btnListar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR));
     }
 }

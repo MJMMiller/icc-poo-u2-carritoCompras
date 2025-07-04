@@ -123,9 +123,9 @@ public class RegisterController {
     }
 
     private void mostrarPreguntasEnVista() {
-        registerView.getLblPregunta1().setText(preguntasRandom.get(0).getTexto());
-        registerView.getLblPregunta2().setText(preguntasRandom.get(1).getTexto());
-        registerView.getLblPregunta3().setText(preguntasRandom.get(2).getTexto());
+        registerView.getLblPregunta1().setText(i18n.get(preguntasRandom.get(0).getTexto()));
+        registerView.getLblPregunta2().setText(i18n.get(preguntasRandom.get(1).getTexto()));
+        registerView.getLblPregunta3().setText(i18n.get(preguntasRandom.get(2).getTexto()));
     }
 
     private void limpiarCampos() {

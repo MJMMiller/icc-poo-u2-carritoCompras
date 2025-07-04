@@ -30,9 +30,49 @@ public class LogInView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 300);
         setLocationRelativeTo(null);
+
         aplicarIdioma();
         aplicarIconos();
         actualizarOpcionesIdioma();
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
+    }
+
+    public int mostrarMensajeAlert(String mensaje, String titulo, int tipo) {
+        Object[] botones = {i18n.get("mensaje.confirmacion"), i18n.get("mensaje.cancelacion")};
+        return JOptionPane.showOptionDialog(
+                this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, tipo,
+                null, botones, botones[0]);
+    }
+
+    public void actualizarOpcionesIdioma() {
+        cbxIdioma.removeAllItems();
+        cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.es"));
+        cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.en"));
+        cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.fr"));
+    }
+
+    public void aplicarIdioma() {
+        setTitle(i18n.get("login.title"));
+        lblTitulo.setText(i18n.get("login.lblTitulo"));
+        lblIdioma.setText(i18n.get("login.lblIdioma"));
+        lblUsuario.setText(i18n.get("login.lblUsuario"));
+        lblContrasena.setText(i18n.get("login.lblContrasena"));
+        btnInicioSesion.setText(i18n.get("login.btnInicioSesion"));
+        btnSalir.setText(i18n.get("login.btnSalir"));
+        btnRegistro.setText(i18n.get("login.btnRegistro"));
+        btnRecuContra.setText(i18n.get("login.btnRecuContra"));
+    }
+
+    public void aplicarIconos() {
+        setIconImage(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.POO_LOGO).getImage());
+        btnInicioSesion.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BLOGIN));
+        btnSalir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
+        btnRegistro.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.REGISTRO_USUARIO));
+        btnRecuContra.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.RECUPERAR_CONTRASENA));
     }
 
     public JButton getBtnRecuContra() {
@@ -148,42 +188,4 @@ public class LogInView extends JFrame {
 
     public void setLblIdioma(JLabel lblIdioma) {this.lblIdioma = lblIdioma;}
 
-    public void mostrarMensaje(String mensaje, String titulo, int tipo) {
-        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-    }
-
-    public int mostrarMensajeAlert(String mensaje, String titulo, int tipo) {
-        Object[] botones = {"Confirm", "Cancel"};
-        return JOptionPane.showOptionDialog(
-                this, mensaje, titulo,
-                JOptionPane.DEFAULT_OPTION, tipo,
-                null, botones, botones[0]);
-    }
-
-    public void actualizarOpcionesIdioma() {
-            cbxIdioma.removeAllItems();
-            cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.es"));
-            cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.en"));
-            cbxIdioma.addItem(i18n.get("login.cbxIdioma.opcion.fr"));
-    }
-
-    public void aplicarIdioma() {
-        setTitle(i18n.get("login.title"));
-        lblTitulo.setText(i18n.get("login.lblTitulo"));
-        lblIdioma.setText(i18n.get("login.lblIdioma"));
-        lblUsuario.setText(i18n.get("login.lblUsuario"));
-        lblContrasena.setText(i18n.get("login.lblContrasena"));
-        btnInicioSesion.setText(i18n.get("login.btnInicioSesion"));
-        btnSalir.setText(i18n.get("login.btnSalir"));
-        btnRegistro.setText(i18n.get("login.btnRegistro"));
-        btnRecuContra.setText(i18n.get("login.btnRecuContra"));
-    }
-
-    public void aplicarIconos() {
-        setIconImage(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LOGIN).getImage());
-        btnInicioSesion.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.BLOGIN));
-        btnSalir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
-        btnRegistro.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.REGISTRO_USUARIO));
-        btnRecuContra.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.RECUPERAR_CONTRASENA));
-    }
 }

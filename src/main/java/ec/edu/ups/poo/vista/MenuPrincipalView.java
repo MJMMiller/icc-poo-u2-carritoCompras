@@ -229,6 +229,9 @@ public class MenuPrincipalView extends JFrame {
     }
 
     public void aplicarIconos() {
+
+        setIconImage(((ImageIcon) ec.edu.ups.poo.util.Direccion.icono(TipoIcono.POO_LOGO)).getImage());
+
         menuItemCrearProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CREAR));
         menuItemEditarProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.EDITAR));
         menuItemBuscarProducto.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.LISTAR_MENU));
