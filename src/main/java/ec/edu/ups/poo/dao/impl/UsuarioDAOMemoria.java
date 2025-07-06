@@ -33,7 +33,7 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
                 telefonoAdmin
         );
         List<PreguntaUsuario> preguntasAdmin = new ArrayList<>();
-        preguntasAdmin.add(new PreguntaUsuario(preguntas.get(0), "Rocky"));
+        preguntasAdmin.add(new PreguntaUsuario(preguntas.get(0), "Rocko"));
         preguntasAdmin.add(new PreguntaUsuario(preguntas.get(1), "Cuenca"));
         preguntasAdmin.add(new PreguntaUsuario(preguntas.get(2), "Pizza"));
         usuarioAdmin.setPreguntaValidacion(preguntasAdmin);

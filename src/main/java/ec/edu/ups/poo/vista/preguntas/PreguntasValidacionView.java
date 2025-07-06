@@ -12,24 +12,28 @@ public class PreguntasValidacionView extends JFrame{
 
     private JPanel panelAll;
     private JPanel panelSuperior;
-    private JLabel lblPregunta1;
-    private JTextField txtPregunta1;
-    private JLabel lblPregunta2;
+    private JLabel lblPreguntaSeguridad;
+    private JTextField txtPregunta;
     private JPanel panelForm;
-    private JTextField txtPregunta2;
-    private JTextField txtPregunta3;
-    private JLabel lblPregunta3;
     private JButton btnEnviar;
     private JButton btnClean;
     private JTextField txtNuevaContra;
     private JLabel lblNuevaContra;
     private JLabel lblTitulo;
+    private JComboBox cbxPreguntas;
+    private JTextField txtRespuestaSeguidad;
+    private JLabel lblQuestion;
+    private JButton btnsiguientePregunta;
+    private JTextField txtRespuestComparar;
+    private JLabel lblPregunta;
+    private JComboBox cbxIdioma;
+    private JLabel lblIdioma;
+    private JButton btnExit;
 
     private MensajeInternacionalizacionHandler i18n;
 
     public PreguntasValidacionView(Usuario usuario, UsuarioDAO usuarioDAO, MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
-        setTitle("Registro de Preguntas de Validación");
         setContentPane(panelAll);
         setSize(400, 500);
         setLocationRelativeTo(null);
@@ -54,131 +58,94 @@ public class PreguntasValidacionView extends JFrame{
 
     public void aplicarIdiomas() {
         setTitle(i18n.get("producto.aplicar.idiomas"));
+        btnExit.setText(i18n.get("register.btnSalir"));
+        lblIdioma.setText(i18n.get("login.lblIdioma"));
         lblTitulo.setText(i18n.get("preguntas.validacion.lbl.titulo"));
-        lblPregunta1.setText(i18n.get("preguntas.validacion.lbll.pregunta1"));
-        lblPregunta2.setText(i18n.get("preguntas.validacion.lbl.pregunta2"));
-        lblPregunta3.setText(i18n.get("preguntas.validacion.lbl.pregunta3"));
+        lblPreguntaSeguridad.setText(i18n.get("preguntas.validacion.lbll.pregunta"));
+        btnsiguientePregunta.setText(i18n.get("preguntas.validacion.btn.siguiente"));
         btnEnviar.setText(i18n.get("preguntas.validacion.btn.enviar"));
         btnClean.setText(i18n.get("preguntas.validacion.btn.limpiar"));
         lblNuevaContra.setText(i18n.get("preguntas.validacion.lbl.nueva.contra"));
+        actualizarOpcionesIdioma();
     }
 
     public void aplicarIconos() {
         setIconImage(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.PREGUNTA).getImage());
+        btnExit.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
         btnClean.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CLEAN));
         btnEnviar.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.GUARDAR));
     }
 
+    public void actualizarOpcionesIdioma() {
+        String code = i18n.getCodigoIdioma();
+        cbxIdioma.removeAllItems();
+        cbxIdioma.addItem(i18n.get("idioma.espanol"));
+        cbxIdioma.addItem(i18n.get("idioma.ingles"));
+        cbxIdioma.addItem(i18n.get("idioma.frances"));
+
+        int idx = 0;
+        if (code.equals("en")) idx = 1;
+        else if (code.equals("fr")) idx = 2;
+        cbxIdioma.setSelectedIndex(idx);
+    }
+
+
+    public JButton getBtnExit() {return btnExit;}
+    public void setBtnExit(JButton btnExit) {this.btnExit = btnExit;}
+    public JComboBox getCbxIdioma() {return cbxIdioma;}
+    public void setCbxIdioma(JComboBox cbxIdioma) {this.cbxIdioma = cbxIdioma;}
+    public JLabel getLblIdioma() {return lblIdioma;}
+    public void setLblIdioma(JLabel lblIdioma) {this.lblIdioma = lblIdioma;}
     public JPanel getPanelAll() {
         return panelAll;
     }
-
     public void setPanelAll(JPanel panelAll) {
         this.panelAll = panelAll;
     }
-
     public JPanel getPanelSuperior() {
         return panelSuperior;
     }
-
     public void setPanelSuperior(JPanel panelSuperior) {
         this.panelSuperior = panelSuperior;
     }
-
-    public JLabel getLblPregunta1() {
-        return lblPregunta1;
+    public JLabel getLblPreguntaSeguridad() {
+        return lblPreguntaSeguridad;
     }
-
-    public void setLblPregunta1(JLabel lblPregunta1) {
-        this.lblPregunta1 = lblPregunta1;
+    public void setLblPreguntaSeguridad(JLabel lblPreguntaSeguridad) {this.lblPreguntaSeguridad = lblPreguntaSeguridad;}
+    public JTextField getTxtPregunta() {
+        return txtPregunta;
     }
-
-    public JTextField getTxtPregunta1() {
-        return txtPregunta1;
+    public void setTxtPregunta(JTextField txtPregunta) {
+        this.txtPregunta = txtPregunta;
     }
-
-    public void setTxtPregunta1(JTextField txtPregunta1) {
-        this.txtPregunta1 = txtPregunta1;
-    }
-
-    public JLabel getLblPregunta2() {
-        return lblPregunta2;
-    }
-
-    public void setLblPregunta2(JLabel lblPregunta2) {
-        this.lblPregunta2 = lblPregunta2;
-    }
-
     public JPanel getPanelForm() {
         return panelForm;
     }
-
     public void setPanelForm(JPanel panelForm) {
         this.panelForm = panelForm;
     }
-
-    public JTextField getTxtPregunta2() {
-        return txtPregunta2;
-    }
-
-    public void setTxtPregunta2(JTextField txtPregunta2) {
-        this.txtPregunta2 = txtPregunta2;
-    }
-
-    public JTextField getTxtPregunta3() {
-        return txtPregunta3;
-    }
-
-    public void setTxtPregunta3(JTextField txtPregunta3) {
-        this.txtPregunta3 = txtPregunta3;
-    }
-
-    public JLabel getLblPregunta3() {
-        return lblPregunta3;
-    }
-
-    public void setLblPregunta3(JLabel lblPregunta3) {
-        this.lblPregunta3 = lblPregunta3;
-    }
-
-    public JButton getBtnEnviar() {
-        return btnEnviar;
-    }
-
-    public void setBtnEnviar(JButton btnEnviar) {
-        this.btnEnviar = btnEnviar;
-    }
-
-    public JButton getBtnClean() {
-        return btnClean;
-    }
-
-    public void setBtnClean(JButton btnClean) {
-        this.btnClean = btnClean;
-    }
-
-    public JTextField getTxtNuevaContra() {
-        return txtNuevaContra;
-    }
-
-    public void setTxtNuevaContra(JTextField txtNuevaContra) {
-        this.txtNuevaContra = txtNuevaContra;
-    }
-
-    public JLabel getLblNuevaContra() {
-        return lblNuevaContra;
-    }
-
-    public void setLblNuevaContra(JLabel lblNuevaContra) {
-        this.lblNuevaContra = lblNuevaContra;
-    }
-
-    public JLabel getLblTitulo() {
-        return lblTitulo;
-    }
-
-    public void setLblTitulo(JLabel lblTitulo) {
-        this.lblTitulo = lblTitulo;
-    }
-
+    public JButton getBtnEnviar() {return btnEnviar;}
+    public void setBtnEnviar(JButton btnEnviar) {this.btnEnviar = btnEnviar;}
+    public JButton getBtnClean() {return btnClean;}
+    public void setBtnClean(JButton btnClean) {this.btnClean = btnClean;}
+    public JTextField getTxtNuevaContra() {return txtNuevaContra;}
+    public void setTxtNuevaContra(JTextField txtNuevaContra) {this.txtNuevaContra = txtNuevaContra;}
+    public JLabel getLblNuevaContra() {return lblNuevaContra;}
+    public void setLblNuevaContra(JLabel lblNuevaContra) {this.lblNuevaContra = lblNuevaContra;}
+    public JLabel getLblTitulo() {return lblTitulo;}
+    public void setLblTitulo(JLabel lblTitulo) {this.lblTitulo = lblTitulo;}
+    public JComboBox getCbxPreguntas() {return cbxPreguntas;}
+    public void setCbxPreguntas(JComboBox cbxPreguntas) {this.cbxPreguntas = cbxPreguntas;}
+    public JTextField getTxtRespuestaSeguidad() {return txtRespuestaSeguidad;}
+    public void setTxtRespuestaSeguidad(JTextField txtRespuestaSeguidad) {this.txtRespuestaSeguidad = txtRespuestaSeguidad;}
+    public JLabel getLblQuestion() {return lblQuestion;}
+    public void setLblQuestion(JLabel lblQuestion) {this.lblQuestion = lblQuestion;}
+    public JButton getBtnsiguientePregunta() {return btnsiguientePregunta;}
+    public void setBtnsiguientePregunta(JButton btnsiguientePregunta) {this.btnsiguientePregunta = btnsiguientePregunta;}
+    public JTextField getTxtRespuestComparar() {return txtRespuestComparar;}
+    public void setTxtRespuestComparar(JTextField txtRespuestComparar) {this.txtRespuestComparar = txtRespuestComparar;}
+    public JLabel getLblPregunta() {return lblPregunta;}
+    public void setLblPregunta(JLabel lblPregunta) {this.lblPregunta = lblPregunta;}
+    public MensajeInternacionalizacionHandler getI18n() {return i18n;}
+    public void setI18n(MensajeInternacionalizacionHandler i18n) {this.i18n = i18n;}
 }

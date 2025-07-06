@@ -1,5 +1,7 @@
 package ec.edu.ups.poo.controlador;
 
+import ec.edu.ups.poo.dao.CarritoDAO;
+import ec.edu.ups.poo.dao.ProductoDAO;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.modelo.enums.Rol;
@@ -8,6 +10,7 @@ import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.inicio.RegisterView;
+import ec.edu.ups.poo.vista.inicio.LogInView;
 
 import javax.swing.*;
 import java.util.*;
@@ -16,44 +19,43 @@ public class RegisterController {
 
     private final UsuarioDAO usuarioDAO;
     private final PreguntaDAO preguntaDAO;
+    private final ProductoDAO productoDAO;
     private final RegisterView registerView;
+    private final CarritoDAO carritoDAO;
     private final List<Pregunta> preguntasRandom;
     private final MensajeInternacionalizacionHandler i18n;
 
     public RegisterController(
             UsuarioDAO usuarioDAO,
             PreguntaDAO preguntaDAO,
+            ProductoDAO productoDAO,
+            CarritoDAO carritoDAO,
             RegisterView registerView,
             MensajeInternacionalizacionHandler i18n
     ) {
         this.usuarioDAO = usuarioDAO;
         this.preguntaDAO = preguntaDAO;
+        this.productoDAO = productoDAO;
+        this.carritoDAO = carritoDAO;
         this.registerView = registerView;
         this.i18n = i18n;
 
         preguntasRandom = getPreguntasRandom();
-        mostrarPreguntasEnVista();
-        limpiarCampos();
-
         configurarEventos();
+        mostrarPreguntasEnVista();
+        registerView.aplicarIdioma();
     }
 
     private void configurarEventos() {
-        configurarRegistro();
-        configurarLimpieza();
-        configurarSalir();
-    }
-
-    private void configurarRegistro() {
         registerView.getBtnRegistro().addActionListener(e -> registrarUsuario());
-    }
-
-    private void configurarLimpieza() {
         registerView.getBtnClean().addActionListener(e -> limpiarCampos());
+        registerView.getBtnSalir().addActionListener(e -> salir());
+        registerView.getCbxIdioma().addActionListener(e -> cambioDeIdiomaDesdeCbx());
     }
 
-    private void configurarSalir() {
-        registerView.getBtnSalir().addActionListener(e -> registerView.dispose());
+    private void salir() {
+        registerView.dispose();
+        abrirLogin();
     }
 
     private void registrarUsuario() {
@@ -118,8 +120,8 @@ public class RegisterController {
                 i18n.get("global.success"),
                 JOptionPane.INFORMATION_MESSAGE
         );
-        System.out.println(usuario);
         registerView.dispose();
+        abrirLogin();
     }
 
     private void mostrarPreguntasEnVista() {
@@ -155,5 +157,25 @@ public class RegisterController {
         List<Pregunta> lista = new ArrayList<>(preguntaDAO.listarTodas());
         Collections.shuffle(lista);
         return lista.subList(0, 3);
+    }
+
+    private void cambioDeIdiomaDesdeCbx() {
+        int selectedIndex = registerView.getCbxIdioma().getSelectedIndex();
+        switch (selectedIndex) {
+            case 0: i18n.setLenguaje("es", "EC"); break;
+            case 1: i18n.setLenguaje("en", "US"); break;
+            case 2: i18n.setLenguaje("fr", "FR"); break;
+            default: i18n.setLenguaje("es", "EC");
+        }
+        registerView.aplicarIdioma();
+        mostrarPreguntasEnVista();
+    }
+
+    private void abrirLogin() {
+        SwingUtilities.invokeLater(() -> {
+            LogInView logInView = new LogInView(i18n);
+            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+            logInView.setVisible(true);
+        });
     }
 }

@@ -7,7 +7,7 @@ public class MiJDesktopPane extends JDesktopPane {
 
     public MiJDesktopPane() {
         setOpaque(true);
-        setBackground(new Color(33, 37, 43)); // Fondo gris oscuro
+        setBackground(new Color(33, 37, 43));
     }
 
     @Override
@@ -20,8 +20,7 @@ public class MiJDesktopPane extends JDesktopPane {
         int fullW = getWidth();
         int fullH = getHeight();
 
-        // Escalado reducido
-        double scale = 0.4; // Puedes bajar a 0.35 si aún lo ves muy grande
+        double scale = 0.4;
         int scaledW = (int)(fullW * scale);
         int scaledH = (int)(fullH * scale);
 
@@ -43,32 +42,26 @@ public class MiJDesktopPane extends JDesktopPane {
 
         int bordeRadio = Math.min(w, h) / 22;
 
-        // Fondo blanco redondeado
         g2.setColor(Color.WHITE);
         g2.fillRoundRect(0, 0, w, h, bordeRadio * 2, bordeRadio * 2);
 
-        // Franjas amarillas
         int franjaAmarilla = (int)(h * 0.13);
         g2.setColor(amarilloOxxo);
         g2.fillRect(0, 0, w, franjaAmarilla);
         g2.fillRect(0, h - franjaAmarilla, w, franjaAmarilla);
 
-        // Franjas blancas
         int franjaBlanca = (int)(h * 0.04);
         g2.setColor(Color.WHITE);
         g2.fillRect(0, franjaAmarilla, w, franjaBlanca);
         g2.fillRect(0, h - franjaAmarilla - franjaBlanca, w, franjaBlanca);
 
-        // Fondo rojo central
         int yRojo = franjaAmarilla + franjaBlanca;
         int hRojo = h - 2 * (franjaAmarilla + franjaBlanca);
         g2.setColor(rojoOxxo);
         g2.fillRect(0, yRojo, w, hRojo);
 
-        // === TEXTO "POO" ===
         String texto = "POO";
 
-        // Tamaño fuente para el texto
         int fontSize = (int)(hRojo * 1.0);
         Font fuente = new Font("Segoe UI", Font.BOLD, fontSize);
         g2.setFont(fuente);
@@ -79,15 +72,12 @@ public class MiJDesktopPane extends JDesktopPane {
 
         int xTexto = (w - textoAncho) / 2;
 
-        // Aquí centramos verticalmente mejor:
         int yTexto = yRojo + (hRojo / 2) + (textoAlto / 2) - 120;
 
-        // Sombra del texto
         int sombraDespl = fontSize / 20;
         g2.setColor(sombraColor);
         g2.drawString(texto, xTexto + sombraDespl, yTexto + sombraDespl);
 
-        // Texto principal
         g2.setColor(Color.WHITE);
         g2.drawString(texto, xTexto, yTexto);
     }

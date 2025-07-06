@@ -40,7 +40,6 @@ public class CarritoListarView extends JInternalFrame {
     public CarritoListarView(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
         setContentPane(panelAll);
-        setTitle("Carrito de Compras");
         setSize(600, 500);
         setClosable(true);
         setIconifiable(true);

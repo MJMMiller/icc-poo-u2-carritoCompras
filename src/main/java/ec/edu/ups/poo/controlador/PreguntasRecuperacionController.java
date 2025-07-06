@@ -1,123 +1,173 @@
 package ec.edu.ups.poo.controlador;
 
+import ec.edu.ups.poo.dao.CarritoDAO;
+import ec.edu.ups.poo.dao.PreguntaDAO;
+import ec.edu.ups.poo.dao.ProductoDAO;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
+import ec.edu.ups.poo.vista.inicio.LogInView;
 import ec.edu.ups.poo.vista.preguntas.PreguntasValidacionView;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class PreguntasRecuperacionController {
 
     private final Usuario usuario;
     private final UsuarioDAO usuarioDAO;
+    private final PreguntaDAO preguntaDAO;
+    private final ProductoDAO productoDAO;
+    private final CarritoDAO carritoDAO;
     private final PreguntasValidacionView preguntasView;
     private final MensajeInternacionalizacionHandler i18n;
-    private boolean estado;
+    private final List<PreguntaUsuario> preguntasGuardadas;
+
+    private int preguntaActual = 0;
+    private int cicloIntentos = 0;
+    private final int intentos = 3;
+    private boolean puedeCambiarContrasena = false;
 
     public PreguntasRecuperacionController(
             Usuario usuario,
             UsuarioDAO usuarioDAO,
+            PreguntaDAO preguntaDAO,
+            ProductoDAO productoDAO,
+            CarritoDAO carritoDAO,
             PreguntasValidacionView preguntasView,
             MensajeInternacionalizacionHandler i18n
     ) {
         this.usuario = usuario;
         this.usuarioDAO = usuarioDAO;
+        this.preguntaDAO = preguntaDAO;
+        this.productoDAO = productoDAO;
+        this.carritoDAO = carritoDAO;
         this.preguntasView = preguntasView;
         this.i18n = i18n;
-        this.estado = false;
+        this.preguntasGuardadas = usuario.getPreguntaValidacion();
 
         inicializarVista();
         configurarEventos();
+        mostrarPreguntaActual();
+        preguntasView.aplicarIdiomas();
     }
 
     private void inicializarVista() {
-        List<PreguntaUsuario> preguntasGuardadas = usuario.getPreguntaValidacion();
-
-        preguntasView.getLblPregunta1().setText(preguntasGuardadas.get(0).getPregunta().getTexto());
-        preguntasView.getLblPregunta2().setText(preguntasGuardadas.get(1).getPregunta().getTexto());
-        preguntasView.getLblPregunta3().setText(preguntasGuardadas.get(2).getPregunta().getTexto());
-
-        preguntasView.getTxtPregunta1().setText("");
-        preguntasView.getTxtPregunta2().setText("");
-        preguntasView.getTxtPregunta3().setText("");
+        preguntaActual = 0;
+        cicloIntentos = 0;
+        puedeCambiarContrasena = false;
 
         preguntasView.getLblNuevaContra().setVisible(false);
         preguntasView.getTxtNuevaContra().setVisible(false);
-        preguntasView.getTxtNuevaContra().setEnabled(false);
+
+        preguntasView.getLblPreguntaSeguridad().setVisible(false);
+        preguntasView.getCbxPreguntas().setVisible(false);
+        preguntasView.getLblQuestion().setVisible(false);
+        preguntasView.getTxtRespuestaSeguidad().setVisible(false);
+
+        preguntasView.getLblPregunta().setVisible(true);
+        preguntasView.getLblPregunta().setEnabled(true);
+        preguntasView.getTxtRespuestComparar().setVisible(true);
+        preguntasView.getBtnsiguientePregunta().setVisible(true);
+
+        preguntasView.getTxtRespuestComparar().setEnabled(true);
+        preguntasView.getTxtRespuestComparar().setEditable(true);
     }
 
     private void configurarEventos() {
-        configurarEnvioPreguntas();
-        configurarLimpiar();
-    }
-
-    private void configurarEnvioPreguntas() {
-        preguntasView.getBtnEnviar().addActionListener(e -> procesarPreguntas());
-    }
-
-    private void configurarLimpiar() {
+        preguntasView.getBtnsiguientePregunta().addActionListener(e -> comprobarRespuesta());
+        preguntasView.getBtnEnviar().addActionListener(e -> cambiarContrasena());
         preguntasView.getBtnClean().addActionListener(e -> limpiarCampos());
+        preguntasView.getCbxIdioma().addActionListener(e -> cambioDeIdiomaDesdeCbx());
+        preguntasView.getBtnExit().addActionListener(e -> regresarAlLogin());
     }
 
-    private void procesarPreguntas() {
-        List<PreguntaUsuario> preguntasGuardadas = usuario.getPreguntaValidacion();
+    private void mostrarPreguntaActual() {
+        if (preguntaActual < preguntasGuardadas.size()) {
+            String claveI18n = preguntasGuardadas.get(preguntaActual).getPregunta().getTexto();
+            preguntasView.getLblPregunta().setText(i18n.get(
+                    claveI18n != null ? claveI18n : preguntasGuardadas.get(preguntaActual).getPregunta().getTexto()
+            ));
+        } else {
+            preguntasView.getLblPregunta().setText(i18n.get("preguntas.recuperacion.info.sin_preguntas"));
+        }
+    }
 
-        String respuesta1 = preguntasView.getTxtPregunta1().getText().trim();
-        String respuesta2 = preguntasView.getTxtPregunta2().getText().trim();
-        String respuesta3 = preguntasView.getTxtPregunta3().getText().trim();
+    private void comprobarRespuesta() {
+        if (puedeCambiarContrasena) return;
 
-        if (respuesta1.isEmpty() || respuesta2.isEmpty() || respuesta3.isEmpty()) {
+        String respuestaUsuario = preguntasView.getTxtRespuestComparar().getText().trim();
+        if (respuestaUsuario.isEmpty()) {
             preguntasView.mostrarMensaje(
-                    i18n.get("preguntas.recuperacion.error.responder_todas"),
+                    i18n.get("preguntas.recuperacion.error.responder"),
                     i18n.get("global.error"),
                     JOptionPane.ERROR_MESSAGE
             );
             return;
         }
 
-        boolean correcto =
-                preguntasGuardadas.get(0).getRespuesta().equalsIgnoreCase(respuesta1) &&
-                        preguntasGuardadas.get(1).getRespuesta().equalsIgnoreCase(respuesta2) &&
-                        preguntasGuardadas.get(2).getRespuesta().equalsIgnoreCase(respuesta3);
-
-        if (correcto) {
-            preguntasView.mostrarMensaje(
-                    i18n.get("preguntas.recuperacion.exito.respuestas_correctas"),
-                    i18n.get("global.success"),
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-            mostrarCambioContrasena();
+        PreguntaUsuario pregunta = preguntasGuardadas.get(preguntaActual);
+        if (pregunta.getRespuesta().equalsIgnoreCase(respuestaUsuario)) {
+            habilitarCambioContrasena();
         } else {
-            preguntasView.mostrarMensaje(
-                    i18n.get("preguntas.recuperacion.error.respuesta_incorrecta"),
-                    i18n.get("global.error"),
-                    JOptionPane.ERROR_MESSAGE
-            );
+            preguntaActual++;
+            if (preguntaActual >= preguntasGuardadas.size()) {
+                cicloIntentos++;
+                if (cicloIntentos < intentos) {
+                    int intentosRestantes = intentos - cicloIntentos;
+                    preguntasView.mostrarMensaje(
+                            i18n.get("preguntas.recuperacion.error.tres_mal") + " " +
+                                    i18n.get("preguntas.recuperacion.info.intentos_restantes") + ": " + intentosRestantes,
+                            i18n.get("global.warning"),
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                    preguntaActual = 0;
+                    preguntasView.getTxtRespuestComparar().setText("");
+                    mostrarPreguntaActual();
+                } else {
+                    int opcion = JOptionPane.showConfirmDialog(
+                            preguntasView,
+                            i18n.get("preguntas.recuperacion.error.intentos_agotados"),
+                            i18n.get("preguntas.recuperacion.confirmar.titulo"),
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    if (opcion == JOptionPane.YES_OPTION) {
+                        preguntasView.dispose();
+                    } else {
+                        System.exit(0);
+                    }
+                }
+            } else {
+                preguntasView.mostrarMensaje(
+                        i18n.get("preguntas.recuperacion.error.respuesta_incorrecta"),
+                        i18n.get("global.warning"),
+                        JOptionPane.WARNING_MESSAGE
+                );
+                preguntasView.getTxtRespuestComparar().setText("");
+                mostrarPreguntaActual();
+            }
         }
     }
 
-    private void mostrarCambioContrasena() {
-        estado = true;
+    private void habilitarCambioContrasena() {
+        preguntasView.getBtnsiguientePregunta().setVisible(false);
+        puedeCambiarContrasena = true;
+        preguntasView.mostrarMensaje(
+                i18n.get("preguntas.recuperacion.exito.respuesta_correcta"),
+                i18n.get("global.success"),
+                JOptionPane.INFORMATION_MESSAGE
+        );
         preguntasView.getLblNuevaContra().setVisible(true);
-        preguntasView.getLblNuevaContra().setEnabled(true);
         preguntasView.getTxtNuevaContra().setVisible(true);
         preguntasView.getTxtNuevaContra().setEnabled(true);
         preguntasView.getTxtNuevaContra().setEditable(true);
-        preguntasView.getTxtPregunta1().setEnabled(false);
-        preguntasView.getTxtPregunta2().setEnabled(false);
-        preguntasView.getTxtPregunta3().setEnabled(false);
 
-        preguntasView.getBtnEnviar().setText(i18n.get("preguntas.recuperacion.btn.cambiar_contrasena"));
+        preguntasView.getBtnEnviar().setEnabled(true);
 
-        // Limpiar y agregar solo el listener de cambio de contraseña
-        for (ActionListener al : preguntasView.getBtnEnviar().getActionListeners()) {
-            preguntasView.getBtnEnviar().removeActionListener(al);
-        }
-        preguntasView.getBtnEnviar().addActionListener(ev -> cambiarContrasena());
+        preguntasView.getTxtRespuestComparar().setEnabled(false);
+        preguntasView.getBtnsiguientePregunta().setEnabled(false);
     }
 
     private void cambiarContrasena() {
@@ -138,15 +188,39 @@ public class PreguntasRecuperacionController {
                 JOptionPane.INFORMATION_MESSAGE
         );
         preguntasView.dispose();
+        SwingUtilities.invokeLater(() -> {
+            LogInView logInView = new LogInView(i18n);
+            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+            logInView.setVisible(true);
+        });
     }
 
     private void limpiarCampos() {
-        if (!estado){
-            preguntasView.getTxtPregunta1().setText("");
-            preguntasView.getTxtPregunta2().setText("");
-            preguntasView.getTxtPregunta3().setText("");
+        if (!puedeCambiarContrasena) {
+            preguntasView.getTxtRespuestComparar().setText("");
         } else {
             preguntasView.getTxtNuevaContra().setText("");
         }
+    }
+
+    private void cambioDeIdiomaDesdeCbx() {
+        int selectedIndex = preguntasView.getCbxIdioma().getSelectedIndex();
+        switch (selectedIndex) {
+            case 0: i18n.setLenguaje("es", "EC"); break;
+            case 1: i18n.setLenguaje("en", "US"); break;
+            case 2: i18n.setLenguaje("fr", "FR"); break;
+            default: i18n.setLenguaje("es", "EC");
+        }
+        preguntasView.aplicarIdiomas();     // Actualiza todo, incluyendo el ComboBox
+        mostrarPreguntaActual();            // Actualiza la pregunta mostrada
+    }
+
+    private void regresarAlLogin(){
+        preguntasView.dispose();
+        SwingUtilities.invokeLater(() -> {
+            LogInView logInView = new LogInView(i18n);
+            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+            logInView.setVisible(true);
+        });
     }
 }

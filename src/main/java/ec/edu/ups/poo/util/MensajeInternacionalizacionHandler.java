@@ -25,4 +25,9 @@ public class MensajeInternacionalizacionHandler {
     public Locale getLocale() {
         return locale;
     }
+
+    public String getCodigoIdioma() {
+        return locale.getLanguage();
+    }
+
 }

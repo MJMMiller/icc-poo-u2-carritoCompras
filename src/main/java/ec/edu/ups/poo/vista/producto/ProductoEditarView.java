@@ -27,7 +27,6 @@ public class ProductoEditarView extends JInternalFrame {
     public ProductoEditarView(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
         setContentPane(panelAll);
-        setTitle("Editar Producto");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 250);
         setClosable(true);
@@ -48,6 +47,11 @@ public class ProductoEditarView extends JInternalFrame {
                 this, mensaje, titulo,
                 JOptionPane.DEFAULT_OPTION, tipo,
                 null, botones, botones[0]);
+    }
+
+    public void mostrarProductos(List<Producto> productos) {
+        txtNombre.setText(productos.get(0).getNombre());
+        txtPrecio.setText(String.valueOf(productos.get(0).getPrecio()));
     }
 
     public void limpiarCampos() {
@@ -75,117 +79,85 @@ public class ProductoEditarView extends JInternalFrame {
     public JPanel getPanelAll() {
         return panelAll;
     }
-
     public void setPanelAll(JPanel panelAll) {
         this.panelAll = panelAll;
     }
-
     public JTextField getTxtCodigo() {
         return txtCodigo;
     }
-
     public void setTxtCodigo(JTextField txtCodigo) {
         this.txtCodigo = txtCodigo;
     }
-
     public JButton getBtnBuscar() {
         return btnBuscar;
     }
-
     public void setBtnBuscar(JButton btnBuscar) {
         this.btnBuscar = btnBuscar;
     }
-
     public JTextField getTxtNombre() {
         return txtNombre;
     }
-
     public void setTxtNombre(JTextField txtNombre) {
         this.txtNombre = txtNombre;
     }
-
     public JLabel getTxtCodeTitle() {
         return lblCodigo;
     }
-
     public void setTxtCodeTitle(JLabel txtCodeTitle) {
         this.lblCodigo = txtCodeTitle;
     }
-
     public JPanel getPanelCenter() {
         return panelCenter;
     }
-
     public void setPanelCenter(JPanel panelCenter) {
         this.panelCenter = panelCenter;
     }
-
     public JPanel getPanelTop() {
         return panelTop;
     }
-
     public void setPanelTop(JPanel panelTop) {
         this.panelTop = panelTop;
     }
-
     public JTextField getTxtPrecio() {
         return txtPrecio;
     }
-
     public void setTxtPrecio(JTextField txtPrecio) {
         this.txtPrecio = txtPrecio;
     }
-
     public JButton getBtnActualizar() {
         return btnActualizar;
     }
-
     public void setBtnActualizar(JButton btnActualizar) {
         this.btnActualizar = btnActualizar;
     }
-
     public JLabel getTxtPriceTitle() {
         return lblPrecio;
     }
-
     public void setTxtPriceTitle(JLabel txtPriceTitle) {
         this.lblPrecio = txtPriceTitle;
     }
-
-    public JLabel getTxtNameTitle() {
-        return lblNombre;
-    }
-
+    public JLabel getTxtNameTitle() {return lblNombre;}
     public void setTxtNameTitle(JLabel txtNameTitle) {
         this.lblNombre = txtNameTitle;
     }
-
     public JPanel getPanelMenor() {
         return panelMenor;
     }
-
     public void setPanelMenor(JPanel panelMenor) {
         this.panelMenor = panelMenor;
     }
-
     public JLabel getTxtSettingsProduc() {
         return lblTitulo;
     }
-
     public void setTxtSettingsProduc(JLabel txtSettingsProduc) {
         this.lblTitulo = txtSettingsProduc;
     }
-
     public JScrollPane getScroll() {
         return scroll;
     }
-
     public void setScroll(JScrollPane scroll) {
         this.scroll = scroll;
     }
 
-    public void mostrarProductos(List<Producto> productos) {
-        txtNombre.setText(productos.get(0).getNombre());
-        txtPrecio.setText(String.valueOf(productos.get(0).getPrecio()));
-    }
+
 }

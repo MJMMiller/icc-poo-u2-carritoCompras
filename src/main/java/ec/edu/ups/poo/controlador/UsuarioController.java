@@ -65,6 +65,32 @@ public class UsuarioController {
         view.getBtnClean().addActionListener(e -> limpiarCamposCrear(view, cbxRol));
     }
 
+    public void configurarUsuarioEditarView(UsuarioEditarView view, Usuario usuarioAutenticado) {
+        JComboBox cbxRol = view.getCbxRol();
+        llenarComboRoles(cbxRol);
+
+        if (usuarioAutenticado.getRol().equals(Rol.USUARIO)) {
+            setCamposUsuarioAutenticado(view, usuarioAutenticado, cbxRol);
+        } else {
+            view.getTxtUsuario().setEditable(true);
+            view.getBtnBuscar().setEnabled(true);
+            view.getBtnBuscar().addActionListener(e -> buscarUsuarioParaEditar(view, cbxRol));
+        }
+
+        view.getBtnActualizar().addActionListener(e -> actualizarUsuarioDesdeView(view, cbxRol));
+        view.getBtnClean().addActionListener(e -> limpiarCamposEditar(view, cbxRol));
+    }
+
+    public void configurarUsuarioEliminarView(UsuarioElimiarView view) {
+        view.getBtnBuscar().addActionListener(e -> buscarUsuarioParaEliminar(view));
+        view.getBtnEliminar().addActionListener(e -> eliminarUsuarioDesdeView(view));
+    }
+
+    public void configurarUsuarioListarView(UsuarioListarView view) {
+        view.getBtnListar().addActionListener(e -> listarUsuarios(view));
+        view.getBtnBuscar().addActionListener(e -> buscarUsuarios(view));
+    }
+
     private void registrarUsuarioDesdeView(UsuarioAnadirView view, JComboBox cbxRol) {
         String username = view.getTxtUsuario().getText().trim();
         String password = view.getTxtContrasena().getText().trim();
@@ -94,22 +120,6 @@ public class UsuarioController {
         usuarioDAO.crearUsuario(nuevoUsuario);
         view.mostrarMensaje(i18n.get("usuario.exito.creado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
         limpiarCamposCrear(view, cbxRol);
-    }
-
-    public void configurarUsuarioEditarView(UsuarioEditarView view, Usuario usuarioAutenticado) {
-        JComboBox cbxRol = view.getCbxRol();
-        llenarComboRoles(cbxRol);
-
-        if (usuarioAutenticado.getRol().equals(Rol.USUARIO)) {
-            setCamposUsuarioAutenticado(view, usuarioAutenticado, cbxRol);
-        } else {
-            view.getTxtUsuario().setEditable(true);
-            view.getBtnBuscar().setEnabled(true);
-            view.getBtnBuscar().addActionListener(e -> buscarUsuarioParaEditar(view, cbxRol));
-        }
-
-        view.getBtnActualizar().addActionListener(e -> actualizarUsuarioDesdeView(view, cbxRol));
-        view.getBtnClean().addActionListener(e -> limpiarCamposEditar(view, cbxRol));
     }
 
     private void setCamposUsuarioAutenticado(UsuarioEditarView view, Usuario usuarioAutenticado, JComboBox cbxRol) {
@@ -167,6 +177,14 @@ public class UsuarioController {
             view.mostrarMensaje(i18n.get("usuario.error.campos_obligatorios"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (!correo.contains("@") || !correo.contains(".")) {
+            view.mostrarMensaje(i18n.get("register.error.correo"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!telefono.matches("\\d{10}")) {
+            view.mostrarMensaje(i18n.get("register.error.telefono"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Usuario usuarioExistente = usuarioDAO.buscarUsuario(username);
         if (usuarioExistente == null) {
             view.mostrarMensaje(i18n.get("usuario.error.no_existe"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
@@ -178,11 +196,6 @@ public class UsuarioController {
         usuarioExistente.setRol(rol);
         usuarioDAO.actualizar(username, password, rol);
         view.mostrarMensaje(i18n.get("usuario.exito.actualizado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public void configurarUsuarioEliminarView(UsuarioElimiarView view) {
-        view.getBtnBuscar().addActionListener(e -> buscarUsuarioParaEliminar(view));
-        view.getBtnEliminar().addActionListener(e -> eliminarUsuarioDesdeView(view));
     }
 
     private void buscarUsuarioParaEliminar(UsuarioElimiarView view) {
@@ -231,11 +244,6 @@ public class UsuarioController {
         }
     }
 
-    public void configurarUsuarioListarView(UsuarioListarView view) {
-        view.getBtnListar().addActionListener(e -> listarUsuarios(view));
-        view.getBtnBuscar().addActionListener(e -> buscarUsuarios(view));
-    }
-
     private void listarUsuarios(UsuarioListarView view) {
         List<Usuario> usuarios = usuarioDAO.listarUsuariosTodos();
         view.mostrarUsuarios(usuarios);
@@ -261,8 +269,6 @@ public class UsuarioController {
             view.mostrarUsuarios(usuarioDAO.listarUsuariosTodos());
         }
     }
-
-    // UTILS
 
     private void llenarComboRoles(JComboBox cbxRol) {
         cbxRol.removeAllItems();

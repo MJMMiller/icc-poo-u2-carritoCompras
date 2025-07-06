@@ -10,11 +10,7 @@ import ec.edu.ups.poo.modelo.enums.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
-import ec.edu.ups.poo.vista.carrito.CarritoAnadirView;
-import ec.edu.ups.poo.vista.carrito.CarritoEditarView;
-import ec.edu.ups.poo.vista.carrito.CarritoEliminarView;
-import ec.edu.ups.poo.vista.carrito.CarritoListarItemsView;
-import ec.edu.ups.poo.vista.carrito.CarritoListarView;
+import ec.edu.ups.poo.vista.carrito.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +28,6 @@ public class CarritoController {
     private final MensajeInternacionalizacionHandler i18n;
 
     private static int contadorCarrito = 1;
-
     private Carrito carritoCargado = null;
     private List<ItemCarrito> copiaItemsEdit = null;
     public CarritoListarItemsView itemsView = null;
@@ -55,23 +50,18 @@ public class CarritoController {
     }
 
     private void configurarEventos() {
-        // Eventos para CarritoAnadirView
-        if (carritoView != null) {
-            carritoView.getBtnAnadir().addActionListener(e -> agregarAlCarrito());
-            carritoView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionado());
-            carritoView.getBtnCancel().addActionListener(e -> vaciarCarrito());
-            carritoView.getBtnSave().addActionListener(e -> guardarCarrito());
-        }
+        // Añadir Carrito
+        carritoView.getBtnAnadir().addActionListener(e -> agregarAlCarrito());
+        carritoView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionado());
+        carritoView.getBtnCancel().addActionListener(e -> vaciarCarrito());
+        carritoView.getBtnSave().addActionListener(e -> guardarCarrito());
 
-        // Eventos para CarritoEditarView
-        if (carritoEditarView != null) {
-            carritoEditarView.getBtnBuscarCarrito().addActionListener(e -> buscarYMostrarCarritoEditar());
-            carritoEditarView.getBtnActualizar().addActionListener(e -> guardarCambiosEdicion());
-            carritoEditarView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionadoEditar());
-            carritoEditarView.getBtnClean().addActionListener(e -> limpiarCarritoEditar());
-            carritoEditarView.getBtnBuscarProducto().addActionListener(e -> buscarProductoParaEditar());
-            carritoEditarView.getBtnAnadir().addActionListener(e -> agregarProductoAlCarritoEditar());
-        }
+        carritoEditarView.getBtnBuscarCarrito().addActionListener(e -> buscarYMostrarCarritoEditar());
+        carritoEditarView.getBtnActualizar().addActionListener(e -> guardarCambiosEdicion());
+        carritoEditarView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionadoEditar());
+        carritoEditarView.getBtnClean().addActionListener(e -> limpiarCarritoEditar());
+        carritoEditarView.getBtnBuscarProducto().addActionListener(e -> buscarProductoParaEditar());
+        carritoEditarView.getBtnAnadir().addActionListener(e -> agregarProductoAlCarritoEditar());
     }
 
     public void configurarEventosListar(CarritoListarView carritoListarView) {
@@ -173,6 +163,29 @@ public class CarritoController {
         }
     }
 
+    public void listarCarritos(CarritoListarView carritoListarView) {
+        List<Carrito> carritos;
+        if (usuarioAutenticado.getRol() == Rol.USUARIO) {
+            carritos = carritoDAO.listarPorUsuario(usuarioAutenticado.getUserName());
+            carritoListarView.getBtnBuscar().setEnabled(false);
+        } else {
+            carritos = carritoDAO.listarCarritos();
+        }
+
+        DefaultTableModel modelo = (DefaultTableModel) carritoListarView.getTblCarritos().getModel();
+        modelo.setRowCount(0);
+        for (Carrito carrito : carritos) {
+            modelo.addRow(new Object[]{
+                    carrito.getId(),
+                    carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
+                    FormateadorUtils.formatearFecha(carrito.getFecha(), i18n.getLocale()),
+                    FormateadorUtils.formatearMoneda(carrito.getSubtotal(), i18n.getLocale()),
+                    FormateadorUtils.formatearMoneda(carrito.getIva(), i18n.getLocale()),
+                    FormateadorUtils.formatearMoneda(carrito.getTotal(), i18n.getLocale())
+            });
+        }
+    }
+
     private void buscarYMostrarCarritoPorId(CarritoListarView carritoListarView) {
         String idText = carritoListarView.getTxtCodigo().getText().trim();
         if (idText.isEmpty()) {
@@ -201,31 +214,6 @@ public class CarritoController {
             });
         } else {
             carritoListarView.mostrarMensaje(i18n.get("carrito.info.no_encontrado"), i18n.get("global.info"), JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    public void listarCarritos(CarritoListarView carritoListarView) {
-        List<Carrito> carritos;
-
-        if (usuarioAutenticado.getRol() == Rol.USUARIO) {
-            carritos = carritoDAO.listarPorUsuario(usuarioAutenticado.getUserName());
-            carritoListarView.getBtnBuscar().setEnabled(false);
-        } else {
-            carritos = carritoDAO.listarCarritos();
-        }
-
-        DefaultTableModel modelo = (DefaultTableModel) carritoListarView.getTblCarritos().getModel();
-        modelo.setRowCount(0);
-
-        for (Carrito carrito : carritos) {
-            modelo.addRow(new Object[]{
-                    carrito.getId(),
-                    carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
-                    FormateadorUtils.formatearFecha(carrito.getFecha(), i18n.getLocale()),
-                    FormateadorUtils.formatearMoneda(carrito.getSubtotal(), i18n.getLocale()),
-                    FormateadorUtils.formatearMoneda(carrito.getIva(), i18n.getLocale()),
-                    FormateadorUtils.formatearMoneda(carrito.getTotal(), i18n.getLocale())
-            });
         }
     }
 
@@ -491,7 +479,6 @@ public class CarritoController {
             limpiarCamposEliminarCarrito(eliminarView);
             return;
         }
-
         int id;
         try {
             id = Integer.parseInt(idText);
@@ -507,7 +494,6 @@ public class CarritoController {
             limpiarCamposEliminarCarrito(eliminarView);
             return;
         }
-
         DefaultTableModel modelo = (DefaultTableModel) eliminarView.getTblProducts().getModel();
         modelo.setRowCount(0);
         for (ItemCarrito item : carrito.getItems()) {
@@ -520,7 +506,6 @@ public class CarritoController {
                     FormateadorUtils.formatearMoneda(item.getTotalItem(), i18n.getLocale())
             });
         }
-
         eliminarView.getTxtSubTotal().setText(FormateadorUtils.formatearMoneda(carrito.getSubtotal(), i18n.getLocale()));
         eliminarView.getTxtIva().setText(FormateadorUtils.formatearMoneda(carrito.getIva(), i18n.getLocale()));
         eliminarView.getTxtTotal().setText(FormateadorUtils.formatearMoneda(carrito.getTotal(), i18n.getLocale()));

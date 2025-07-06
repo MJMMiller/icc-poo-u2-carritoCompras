@@ -57,7 +57,8 @@ public class MenuPrincipalView extends JFrame {
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         centerPanel.setOpaque(false);
 
-        lblBienvenida = new JLabel("Bienvenido al sistema de compras: " + usuarioAutenticado.getUserName(), SwingConstants.CENTER);
+
+        lblBienvenida = new JLabel();
         lblBienvenida.setFont(new Font("Arial", Font.BOLD, 26));
         lblBienvenida.setForeground(Color.WHITE);
         lblBienvenida.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
@@ -137,62 +138,12 @@ public class MenuPrincipalView extends JFrame {
         add(panelNorth, BorderLayout.NORTH);
         add(desktop, BorderLayout.CENTER);
 
-        setTitle("Sistema de Carrito de Compras");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
 
         aplicarIdioma();
         aplicarIconos();
     }
-
-    public JDesktopPane getjDesktopPane() { return desktop; }
-    public void setjDesktopPane(MiJDesktopPane desktop) { this.desktop = desktop; }
-
-    public JMenuItem getMenuItemCrearProducto() { return menuItemCrearProducto; }
-    public void setMenuItemCrearProducto(JMenuItem menuItemCrearProducto) { this.menuItemCrearProducto = menuItemCrearProducto; }
-    public JMenuItem getMenuItemEditarProducto() { return menuItemEditarProducto; }
-    public void setMenuItemEditarProducto(JMenuItem menuItemEditarProducto) { this.menuItemEditarProducto = menuItemEditarProducto; }
-    public JMenuItem getMenuItemBuscarProducto() { return menuItemBuscarProducto; }
-    public void setMenuItemBuscarProducto(JMenuItem menuItemBuscarProducto){ this.menuItemBuscarProducto = menuItemBuscarProducto; }
-    public JMenuItem getMenuItemEliminarProducto() { return menuItemEliminarProducto; }
-    public void setMenuItemEliminarProducto(JMenuItem menuItemEliminarProducto) { this.menuItemEliminarProducto = menuItemEliminarProducto;}
-
-    public JMenuItem getMenuItemCrearCarrito() { return menuItemCrearCarrito; }
-    public void setMenuItemCrearCarrito(JMenuItem menuItemCrearCarrito) { this.menuItemCrearCarrito = menuItemCrearCarrito; }
-    public JMenuItem getMenuItemEditarCarrito() { return menuItemEditarCarrito; }
-    public void setMenuItemEditarCarrito(JMenuItem menuItemEditarCarrito) { this.menuItemEditarCarrito = menuItemEditarCarrito; }
-    public JMenuItem getMenuItemEliminarCarrito() { return menuItemEliminarCarrito; }
-    public void setMenuItemEliminarCarrito(JMenuItem menuItemEliminarCarrito) { this.menuItemEliminarCarrito = menuItemEliminarCarrito; }
-    public JMenuItem getMenuItemListarCarritos() { return menuItemListarCarritos; }
-    public void setMenuItemListarCarritos(JMenuItem menuItemListarCarritos) { this.menuItemListarCarritos = menuItemListarCarritos; }
-
-    public JMenu getMenuUsuarios() { return menuUsuarios; }
-    public void setMenuUsuarios(JMenu menuUsuarios) { this.menuUsuarios = menuUsuarios; }
-    public JMenuItem getMenuItemCrearUsuario() { return menuItemCrearUsuario; }
-    public void setMenuItemCrearUsuario(JMenuItem menuItemCrearUsuario) { this.menuItemCrearUsuario = menuItemCrearUsuario; }
-    public JMenuItem getMenuItemEditarUsuario() { return menuItemEditarUsuario; }
-    public void setMenuItemEditarUsuario(JMenuItem menuItemEditarUsuario) { this.menuItemEditarUsuario = menuItemEditarUsuario; }
-    public JMenuItem getMenuItemEliminarUsuario() { return menuItemEliminarUsuario; }
-    public void setMenuItemEliminarUsuario(JMenuItem menuItemEliminarUsuario) { this.menuItemEliminarUsuario = menuItemEliminarUsuario; }
-    public JMenuItem getMenuItemListarUsuarios() { return menuItemListarUsuarios; }
-    public void setMenuItemListarUsuarios(JMenuItem menuItemListarUsuarios) { this.menuItemListarUsuarios = menuItemListarUsuarios; }
-
-    public JMenu getMenuProducto() { return menuProducto; }
-    public void setMenuProducto(JMenu menuProducto) { this.menuProducto = menuProducto; }
-    public JMenu getMenuCarrito() { return menuCarrito; }
-    public void setMenuCarrito(JMenu menuCarrito) { this.menuCarrito = menuCarrito; }
-
-    public JMenu getMenuIdioma() { return menuIdioma; }
-    public void setMenuIdioma(JMenu menuIdioma) { this.menuIdioma = menuIdioma; }
-    public JMenuItem getMenuItemEspanol() { return menuItemEspanol; }
-    public void setMenuItemEspanol(JMenuItem menuItemEspanol) { this.menuItemEspanol = menuItemEspanol; }
-    public JMenuItem getMenuItemIngles() { return menuItemIngles; }
-    public void setMenuItemIngles(JMenuItem menuItemIngles) { this.menuItemIngles = menuItemIngles; }
-    public JMenuItem getMenuItemFrances() { return menuItemFrances; }
-    public void setMenuItemFrances(JMenuItem menuItemFrances) { this.menuItemFrances = menuItemFrances; }
-
-    public JMenuItem getMenuItemLogout() { return menuItemLogout; }
-    public void setMenuItemLogout(JMenuItem menuItemLogout) { this.menuItemLogout = menuItemLogout; }
 
     public void aplicarIdioma(){
 
@@ -259,4 +210,48 @@ public class MenuPrincipalView extends JFrame {
         menuSesion.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.SESIONM));
         menuIdioma.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.IDIOMAM));
     }
+
+    public JDesktopPane getjDesktopPane() { return desktop; }
+    public void setjDesktopPane(MiJDesktopPane desktop) { this.desktop = desktop; }
+    public JMenuItem getMenuItemCrearProducto() { return menuItemCrearProducto; }
+    public void setMenuItemCrearProducto(JMenuItem menuItemCrearProducto) { this.menuItemCrearProducto = menuItemCrearProducto; }
+    public JMenuItem getMenuItemEditarProducto() { return menuItemEditarProducto; }
+    public void setMenuItemEditarProducto(JMenuItem menuItemEditarProducto) { this.menuItemEditarProducto = menuItemEditarProducto; }
+    public JMenuItem getMenuItemBuscarProducto() { return menuItemBuscarProducto; }
+    public void setMenuItemBuscarProducto(JMenuItem menuItemBuscarProducto){ this.menuItemBuscarProducto = menuItemBuscarProducto; }
+    public JMenuItem getMenuItemEliminarProducto() { return menuItemEliminarProducto; }
+    public void setMenuItemEliminarProducto(JMenuItem menuItemEliminarProducto) { this.menuItemEliminarProducto = menuItemEliminarProducto;}
+    public JMenuItem getMenuItemCrearCarrito() { return menuItemCrearCarrito; }
+    public void setMenuItemCrearCarrito(JMenuItem menuItemCrearCarrito) { this.menuItemCrearCarrito = menuItemCrearCarrito; }
+    public JMenuItem getMenuItemEditarCarrito() { return menuItemEditarCarrito; }
+    public void setMenuItemEditarCarrito(JMenuItem menuItemEditarCarrito) { this.menuItemEditarCarrito = menuItemEditarCarrito; }
+    public JMenuItem getMenuItemEliminarCarrito() { return menuItemEliminarCarrito; }
+    public void setMenuItemEliminarCarrito(JMenuItem menuItemEliminarCarrito) { this.menuItemEliminarCarrito = menuItemEliminarCarrito; }
+    public JMenuItem getMenuItemListarCarritos() { return menuItemListarCarritos; }
+    public void setMenuItemListarCarritos(JMenuItem menuItemListarCarritos) { this.menuItemListarCarritos = menuItemListarCarritos; }
+    public JMenu getMenuUsuarios() { return menuUsuarios; }
+    public void setMenuUsuarios(JMenu menuUsuarios) { this.menuUsuarios = menuUsuarios; }
+    public JMenuItem getMenuItemCrearUsuario() { return menuItemCrearUsuario; }
+    public void setMenuItemCrearUsuario(JMenuItem menuItemCrearUsuario) { this.menuItemCrearUsuario = menuItemCrearUsuario; }
+    public JMenuItem getMenuItemEditarUsuario() { return menuItemEditarUsuario; }
+    public void setMenuItemEditarUsuario(JMenuItem menuItemEditarUsuario) { this.menuItemEditarUsuario = menuItemEditarUsuario; }
+    public JMenuItem getMenuItemEliminarUsuario() { return menuItemEliminarUsuario; }
+    public void setMenuItemEliminarUsuario(JMenuItem menuItemEliminarUsuario) { this.menuItemEliminarUsuario = menuItemEliminarUsuario; }
+    public JMenuItem getMenuItemListarUsuarios() { return menuItemListarUsuarios; }
+    public void setMenuItemListarUsuarios(JMenuItem menuItemListarUsuarios) { this.menuItemListarUsuarios = menuItemListarUsuarios; }
+    public JMenu getMenuProducto() { return menuProducto; }
+    public void setMenuProducto(JMenu menuProducto) { this.menuProducto = menuProducto; }
+    public JMenu getMenuCarrito() { return menuCarrito; }
+    public void setMenuCarrito(JMenu menuCarrito) { this.menuCarrito = menuCarrito; }
+    public JMenu getMenuIdioma() { return menuIdioma; }
+    public void setMenuIdioma(JMenu menuIdioma) { this.menuIdioma = menuIdioma; }
+    public JMenuItem getMenuItemEspanol() { return menuItemEspanol; }
+    public void setMenuItemEspanol(JMenuItem menuItemEspanol) { this.menuItemEspanol = menuItemEspanol; }
+    public JMenuItem getMenuItemIngles() { return menuItemIngles; }
+    public void setMenuItemIngles(JMenuItem menuItemIngles) { this.menuItemIngles = menuItemIngles; }
+    public JMenuItem getMenuItemFrances() { return menuItemFrances; }
+    public void setMenuItemFrances(JMenuItem menuItemFrances) { this.menuItemFrances = menuItemFrances; }
+    public JMenuItem getMenuItemLogout() { return menuItemLogout; }
+    public void setMenuItemLogout(JMenuItem menuItemLogout) { this.menuItemLogout = menuItemLogout; }
+
 }

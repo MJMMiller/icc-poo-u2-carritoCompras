@@ -60,7 +60,6 @@ public class CarritoAnadirView extends JInternalFrame {
     public CarritoAnadirView(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
         setContentPane(panelAll);
-        setTitle("Carrito de Compras");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 500);
         setClosable(true);

@@ -11,16 +11,16 @@ Su objetivo es demostrar el uso de patrones de diseño aplicados en una aplicaci
 
 - **Asignatura:** Programación Orientada a Objetos  
 - **Periodo:** 66  
-- **Docente:** Ing. Grabiel Leon  
+- **Docente:** Ing. Gabriel Leon  
 - **Estudiante:** Mateo Miller
-- **Fecha de entrega:** 6 de Julio de 2025  
+- **Fecha de entrega:** 6 de julio de 2025  
 
 ---
 
 ## 🎯 Objetivo del Proyecto
 
 Implementar un sistema educativo y empresarial que simula un **carrito de compras**, aplicando buenas prácticas de diseño y una arquitectura desacoplada basada en **MVC**, **DAO** y los principios de **POO** y **SOLID**.  
-Permite la gestión completa de inventario, usuarios, ventas, autenticación y recuperación segura de contraseñas, con soporte multilenguaje e interfaz gráfica personalizable.
+Permite la gestión completa de inventario, usuarios, ventas, autenticación y recuperación segura de contraseñas, con soporte multi lenguaje e interfaz gráfica personalizable.
 
 ---
 
@@ -34,7 +34,7 @@ Permite la gestión completa de inventario, usuarios, ventas, autenticación y r
     - modelo
     - dao (e impl/)
     - controlador
-    - vista (y subpaquetes)
+    - vista (y sub paquetes)
     - util (y enums)
 - 🌍 **Internacionalización:** Español, Inglés y Francés (archivos `.properties`)
 - 🧱 **Patrones de Diseño aplicados:**
@@ -104,13 +104,13 @@ src/
   Métodos: manejar eventos de creación, modificación, eliminación, listado, login, recuperación, etc.
 
 ### 4️⃣ vista (Vistas Swing)
-- **Subpaquetes:** carrito, producto, usuario, inicio, preguntas
+- **Sub paquetes:** carrito, producto, usuario, inicio, preguntas
 - **Clases:** Formularios y ventanas para crear, modificar, eliminar, listar entidades.
   Ejemplo: `CarritoAnadirView`, `ProductoListarView`, `UsuarioAnadirView`, `LogInView`, etc.
 
 ### 5️⃣ util (Utilidades)
 - **FormateadorUtils:** Métodos de formateo de datos.
-- **MensajeInternacionalizacionHandler:** Soporte para internacionalización y cambio de idioma.
+- **Mensaje Internacionalización Handler:** Soporte para internacionalización y cambio de idioma.
 - **TipoIcono, Url:** Gestión de iconos y rutas de recursos.
 
 ---

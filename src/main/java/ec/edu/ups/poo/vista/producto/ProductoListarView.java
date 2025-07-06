@@ -32,7 +32,6 @@ public class ProductoListarView extends JInternalFrame{
     public ProductoListarView(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
         setContentPane(panelAll);
-        setTitle("Lista de Productos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 400);
         setClosable(true);
@@ -121,98 +120,41 @@ public class ProductoListarView extends JInternalFrame{
     public JPanel getPanelCenter() {
         return panelCenter;
     }
-
     public void setPanelCenter(JPanel panelCenter) {
         this.panelCenter = panelCenter;
     }
-
     public JLabel getTxtNameProduct() {
         return lblNombre;
     }
-
     public void setTxtNameProduct(JLabel txtNameProduct) {
         this.lblNombre = txtNameProduct;
     }
-
     public JTextField getLblNameProdcutSearch() {
         return txtNombre;
     }
-
     public void setLblNameProdcutSearch(JTextField lblNameProdcutSearch) {
         this.txtNombre = lblNameProdcutSearch;
     }
-
     public JButton getBtnSearch() {
         return btnBuscar;
     }
-
     public void setBtnSearch(JButton btnSearch) {
         this.btnBuscar = btnSearch;
     }
-
-    public JButton getBtnListProducts() {
-        return btnListar;
-    }
-
-    public void setBtnListProducts(JButton btnListProducts) {
-        this.btnListar = btnListProducts;
-    }
-
-    public JPanel getPanelButtom() {
-        return panelButtom;
-    }
-
-    public void setPanelButtom(JPanel panelButtom) {
-        this.panelButtom = panelButtom;
-    }
-
-    public JTable getTableProdcuts() {
-        return tableProdcuts;
-    }
-
-    public void setTableProdcuts(JTable tableProdcuts) {
-        this.tableProdcuts = tableProdcuts;
-    }
-
-    public JPanel getPanelTop() {
-        return panelTop;
-    }
-
-    public void setPanelTop(JPanel panelTop) {
-        this.panelTop = panelTop;
-    }
-
-    public JLabel getTxtSearchProdcut() {
-        return lblTitulo;
-    }
-
-    public void setTxtSearchProdcut(JLabel txtSearchProdcut) {
-        this.lblTitulo = txtSearchProdcut;
-    }
-
-    public JPanel getPanelAll() {
-        return panelAll;
-    }
-
-    public void setPanelAll(JPanel panelAll) {
-        this.panelAll = panelAll;
-    }
-
-    public JScrollPane getScroll() {
-        return scroll;
-    }
-
-    public void setScroll(JScrollPane scroll) {
-        this.scroll = scroll;
-    }
-
-    public DefaultTableModel getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(DefaultTableModel modelo) {
-        this.modelo = modelo;
-    }
-
-
+    public JButton getBtnListProducts() {return btnListar;}
+    public void setBtnListProducts(JButton btnListProducts) {this.btnListar = btnListProducts;}
+    public JPanel getPanelButtom() {return panelButtom;}
+    public void setPanelButtom(JPanel panelButtom) {this.panelButtom = panelButtom;}
+    public JTable getTableProdcuts() {return tableProdcuts;}
+    public void setTableProdcuts(JTable tableProdcuts) {this.tableProdcuts = tableProdcuts;}
+    public JPanel getPanelTop() {return panelTop;}
+    public void setPanelTop(JPanel panelTop) {this.panelTop = panelTop;}
+    public JLabel getTxtSearchProdcut() {return lblTitulo;}
+    public void setTxtSearchProdcut(JLabel txtSearchProdcut) {this.lblTitulo = txtSearchProdcut;}
+    public JPanel getPanelAll() {return panelAll;}
+    public void setPanelAll(JPanel panelAll) {this.panelAll = panelAll;}
+    public JScrollPane getScroll() {return scroll;}
+    public void setScroll(JScrollPane scroll) {this.scroll = scroll;}
+    public DefaultTableModel getModelo() {return modelo;}
+    public void setModelo(DefaultTableModel modelo) {this.modelo = modelo;}
 }

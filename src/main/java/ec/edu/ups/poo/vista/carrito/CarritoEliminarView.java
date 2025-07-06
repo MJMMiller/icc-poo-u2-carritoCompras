@@ -38,7 +38,6 @@ public class CarritoEliminarView extends JInternalFrame {
     public CarritoEliminarView(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
         setContentPane(panelAll);
-        setTitle("Delete Cart");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 400);
         setClosable(true);
