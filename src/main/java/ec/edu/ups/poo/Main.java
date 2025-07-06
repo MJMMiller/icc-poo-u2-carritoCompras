@@ -12,6 +12,7 @@ import ec.edu.ups.poo.dao.impl.UsuarioDAOMemoria;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.inicio.LogInView;
 
+
 public class Main {
     public static UsuarioDAO usuarioDAO;
     public static ProductoDAO productoDAO;
