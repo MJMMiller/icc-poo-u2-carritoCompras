@@ -44,13 +44,17 @@ Permite la gestión completa de inventario, usuarios, ventas, autenticación y r
 
 ---
 
-## 📐 Diagrama UML de Clases
+## 📐 Diagrama UML
 
-*Puedes agregar aquí una imagen de tu diagrama UML, por ejemplo:*
+Este es un **resumen visual** del diagrama UML del sistema:
 
-```
-[ UML_DIAGRAMA.png ]
-```
+![Diagrama UML resumen](https://raw.githubusercontent.com/MJMMiller/POO_DIAGRAMS/1b21859d1ef3fbaedf51e9777d6fdc821a8c11ce/uml_CarritoCompras.jpg)
+
+📄 **Diagrama completo en PDF**:  
+
+Puedes consultar el diagrama UML detallado desde el siguiente enlace:  
+[🔗 Ver diagrama completo (PDF)](https://github.com/MJMMiller/icc-poo-u2-carritoCompras/blob/f37371cb7a213a6dc447594ee30aedb38c670e34/src/main/resources/uml/uml_carritoCompras.pdf)
+
 
 ---
 
