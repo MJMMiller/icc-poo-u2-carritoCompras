@@ -1,6 +1,5 @@
 package ec.edu.ups.poo.util;
 
-import ec.edu.ups.poo.util.enums.TipoIcono;
 import javax.swing.*;
 
 public class Direccion {

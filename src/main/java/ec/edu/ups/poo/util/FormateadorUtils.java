@@ -10,7 +10,6 @@ public class FormateadorUtils {
         NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(locale);
         return formatoMoneda.format(cantidad);
     }
-
     public static String formatearFecha(Date fecha, Locale locale) {
         DateFormat formato = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
         return formato.format(fecha);

@@ -2,7 +2,7 @@ package ec.edu.ups.poo.controlador;
 
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.dao.PreguntaDAO;
-import ec.edu.ups.poo.modelo.enums.Rol;
+import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;

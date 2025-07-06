@@ -13,7 +13,7 @@ import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import javax.swing.*;
 import java.util.List;
 
-public class PreguntasRecuperacionController {
+public class PreguntaRecuperacionController {
 
     private final Usuario usuario;
     private final UsuarioDAO usuarioDAO;
@@ -29,7 +29,7 @@ public class PreguntasRecuperacionController {
     private final int intentos = 3;
     private boolean puedeCambiarContrasena = false;
 
-    public PreguntasRecuperacionController(
+    public PreguntaRecuperacionController(
             Usuario usuario,
             UsuarioDAO usuarioDAO,
             PreguntaDAO preguntaDAO,

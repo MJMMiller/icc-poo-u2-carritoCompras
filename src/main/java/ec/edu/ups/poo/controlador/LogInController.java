@@ -73,7 +73,7 @@ public class LogInController {
             logInView.dispose();
             if (res == 0) {
                 PreguntasValidacionView preguntasView = new PreguntasValidacionView(usuario, usuarioDAO, i18n);
-                new PreguntasValidacionController(usuario, usuarioDAO, preguntaDAO, productoDAO, carritoDAO, preguntasView, i18n);
+                new PreguntaValidacionController(usuario, usuarioDAO, preguntaDAO, productoDAO, carritoDAO, preguntasView, i18n);
                 preguntasView.setVisible(true);
             }
             return;
@@ -119,7 +119,7 @@ public class LogInController {
         }
 
         PreguntasValidacionView preguntasView = new PreguntasValidacionView(usuario, usuarioDAO, i18n);
-        new PreguntasRecuperacionController(usuario, usuarioDAO, preguntaDAO, productoDAO, carritoDAO, preguntasView, i18n);
+        new PreguntaRecuperacionController(usuario, usuarioDAO, preguntaDAO, productoDAO, carritoDAO, preguntasView, i18n);
         preguntasView.setVisible(true);
         logInView.dispose();
     }

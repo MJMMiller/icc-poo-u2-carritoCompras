@@ -1,7 +1,5 @@
 package ec.edu.ups.poo.modelo;
 
-import ec.edu.ups.poo.modelo.enums.Rol;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

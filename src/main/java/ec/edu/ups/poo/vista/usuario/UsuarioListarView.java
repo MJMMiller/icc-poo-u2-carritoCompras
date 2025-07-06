@@ -1,7 +1,7 @@
 package ec.edu.ups.poo.vista.usuario;
 
-import ec.edu.ups.poo.util.enums.TipoIcono;
-import ec.edu.ups.poo.modelo.enums.Rol;
+import ec.edu.ups.poo.util.TipoIcono;
+import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;

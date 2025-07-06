@@ -1,10 +1,10 @@
 package ec.edu.ups.poo.vista.carrito;
 
 import ec.edu.ups.poo.modelo.ItemCarrito;
-import ec.edu.ups.poo.modelo.enums.Rol;
+import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
-import ec.edu.ups.poo.util.enums.TipoIcono;
+import ec.edu.ups.poo.util.TipoIcono;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

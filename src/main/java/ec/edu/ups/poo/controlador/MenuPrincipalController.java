@@ -5,7 +5,7 @@ import ec.edu.ups.poo.dao.CarritoDAO;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.modelo.Usuario;
-import ec.edu.ups.poo.modelo.enums.Rol;
+import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.MenuPrincipalView;
 import ec.edu.ups.poo.vista.carrito.*;
@@ -247,9 +247,5 @@ public class MenuPrincipalController {
         if (carritoController.itemsView != null && carritoController.itemsView.isVisible()) {
             carritoController.itemsView.aplicarIdioma();
         }
-    }
-
-    public MenuPrincipalView getView() {
-        return principalView;
     }
 }

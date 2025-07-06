@@ -1,7 +1,7 @@
 package ec.edu.ups.poo.vista.inicio;
 
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
-import ec.edu.ups.poo.util.enums.TipoIcono;
+import ec.edu.ups.poo.util.TipoIcono;
 
 import javax.swing.*;
 

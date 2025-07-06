@@ -1,4 +1,4 @@
-package ec.edu.ups.poo.util.enums;
+package ec.edu.ups.poo.util;
 
 public enum TipoIcono {
 

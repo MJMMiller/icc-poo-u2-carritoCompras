@@ -14,7 +14,7 @@ import ec.edu.ups.poo.vista.inicio.LogInView;
 import javax.swing.*;
 import java.util.*;
 
-public class PreguntasValidacionController {
+public class PreguntaValidacionController {
 
     private final Usuario usuario;
     private final UsuarioDAO usuarioDAO;
@@ -23,11 +23,10 @@ public class PreguntasValidacionController {
     private final CarritoDAO carritoDAO;
     private final PreguntasValidacionView preguntasView;
     private final MensajeInternacionalizacionHandler i18n;
-
     private List<Pregunta> listaPreguntas;
     private final List<PreguntaUsuario> preguntasRespondidas = new ArrayList<>();
 
-    public PreguntasValidacionController(
+    public PreguntaValidacionController(
             Usuario usuario,
             UsuarioDAO usuarioDAO,
             PreguntaDAO preguntaDAO,
@@ -184,7 +183,6 @@ public class PreguntasValidacionController {
         preguntasView.getLblPregunta().setVisible(false);
         preguntasView.getTxtRespuestComparar().setVisible(false);
     }
-
 
     private void cambioDeIdiomaDesdeCbx() {
         int selectedIndex = preguntasView.getCbxIdioma().getSelectedIndex();

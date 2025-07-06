@@ -1,6 +1,6 @@
 package ec.edu.ups.poo.dao;
 
-import ec.edu.ups.poo.modelo.enums.Rol;
+import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 
 import java.util.List;

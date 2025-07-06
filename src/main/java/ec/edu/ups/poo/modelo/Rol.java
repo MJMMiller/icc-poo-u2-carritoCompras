@@ -1,4 +1,4 @@
-package ec.edu.ups.poo.modelo.enums;
+package ec.edu.ups.poo.modelo;
 
 public enum Rol {
     USUARIO,

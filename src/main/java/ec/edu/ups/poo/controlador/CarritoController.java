@@ -6,7 +6,7 @@ import ec.edu.ups.poo.dao.impl.CarritoDAOMemoria;
 import ec.edu.ups.poo.modelo.Carrito;
 import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Producto;
-import ec.edu.ups.poo.modelo.enums.Rol;
+import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.util.FormateadorUtils;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
@@ -144,7 +144,7 @@ public class CarritoController {
         carritoView.getTxtTot().setText(FormateadorUtils.formatearMoneda(total, i18n.getLocale()));
     }
 
-    public void guardarCarrito() {
+    private void guardarCarrito() {
         if (carritoDAO.estaVacio()) {
             carritoView.mostrarMensaje(i18n.get("carrito.error.vacio"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
         } else {
@@ -163,7 +163,7 @@ public class CarritoController {
         }
     }
 
-    public void listarCarritos(CarritoListarView carritoListarView) {
+    private void listarCarritos(CarritoListarView carritoListarView) {
         List<Carrito> carritos;
         if (usuarioAutenticado.getRol() == Rol.USUARIO) {
             carritos = carritoDAO.listarPorUsuario(usuarioAutenticado.getUserName());
@@ -217,7 +217,7 @@ public class CarritoController {
         }
     }
 
-    public void verCarrito(CarritoListarView carritoListarView) {
+    private void verCarrito(CarritoListarView carritoListarView) {
         int fila = carritoListarView.getTblCarritos().getSelectedRow();
         if (fila == -1) {
             carritoListarView.mostrarMensaje(i18n.get("carrito.warning.seleccione_carrito_ver"), i18n.get("global.warning"), JOptionPane.WARNING_MESSAGE);

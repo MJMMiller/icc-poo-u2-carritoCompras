@@ -3,7 +3,7 @@ package ec.edu.ups.poo.dao.impl;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
-import ec.edu.ups.poo.modelo.enums.Rol;
+import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 
 import java.util.ArrayList;
@@ -105,19 +105,6 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         if (usuario != null) {
             usuario.setContrasena(contrasena);
             usuario.setRol(rol);
-        }
-    }
-
-    public void actualizarUsuario(Usuario usuarioActualizado) {
-        Usuario usuario = buscarUsuario(usuarioActualizado.getUserName());
-        if (usuario != null) {
-            usuario.setContrasena(usuarioActualizado.getContrasena());
-            usuario.setRol(usuarioActualizado.getRol());
-            usuario.setPreguntaValidacion(usuarioActualizado.getPreguntaValidacion());
-            usuario.setNombreCompleto(usuarioActualizado.getNombreCompleto());
-            usuario.setFechaNacimiento(usuarioActualizado.getFechaNacimiento());
-            usuario.setCorreo(usuarioActualizado.getCorreo());
-            usuario.setTelefono(usuarioActualizado.getTelefono());
         }
     }
 
