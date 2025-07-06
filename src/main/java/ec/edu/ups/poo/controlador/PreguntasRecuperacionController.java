@@ -135,6 +135,11 @@ public class PreguntasRecuperacionController {
                     );
                     if (opcion == JOptionPane.YES_OPTION) {
                         preguntasView.dispose();
+                        SwingUtilities.invokeLater(() -> {
+                            LogInView logInView = new LogInView(i18n);
+                            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+                            logInView.setVisible(true);
+                        });
                     } else {
                         System.exit(0);
                     }
