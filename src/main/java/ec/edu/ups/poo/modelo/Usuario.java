@@ -1,12 +1,17 @@
 package ec.edu.ups.poo.modelo;
 
+import ec.edu.ups.poo.excepciones.CedulaInvalidaException;
+import ec.edu.ups.poo.excepciones.ContrasenaInvalidaException;
+import ec.edu.ups.poo.util.ValidadorCedula;
+import ec.edu.ups.poo.util.ValidadorContrasena;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Usuario {
 
-    private String userName;
+    private String cedula;
     private String contrasena;
     private Rol rol;
     private String nombreCompleto;
@@ -20,9 +25,10 @@ public class Usuario {
         this.carritos = new ArrayList<>();
     }
 
-    public Usuario(String userName, String contrasena, Rol rol, String nombreCompleto, Date fechaNacimiento, String correo, String telefono) {
-        this.userName = userName;
-        this.contrasena = contrasena;
+    public Usuario(String cedula, String contrasena, Rol rol, String nombreCompleto, Date fechaNacimiento, String correo, String telefono)
+            throws CedulaInvalidaException, ContrasenaInvalidaException {
+        setCedula(cedula);
+        setContrasena(contrasena);
         this.rol = rol;
         this.nombreCompleto = nombreCompleto;
         this.fechaNacimiento = fechaNacimiento;
@@ -31,10 +37,20 @@ public class Usuario {
         this.carritos = new ArrayList<>();
     }
 
-    public String getUserName() { return userName; }
-    public void setUserName(String userName) { this.userName = userName; }
+    public String getCedula() { return cedula; }
+    public void setCedula(String cedula) throws CedulaInvalidaException {
+        if (!ValidadorCedula.esCedulaValida(cedula)) {
+            throw new CedulaInvalidaException("La cédula ingresada no es válida.");
+        }
+        this.cedula = cedula;
+    }
     public String getContrasena() { return contrasena; }
-    public void setContrasena(String contrasena) { this.contrasena = contrasena; }
+    public void setContrasena(String contrasena) throws ContrasenaInvalidaException {
+        if (!ValidadorContrasena.esContrasenaValida(contrasena)) {
+            throw new ContrasenaInvalidaException("La contraseña no cumple los requisitos.");
+        }
+        this.contrasena = contrasena;
+    }
     public Rol getRol() { return rol; }
     public void setRol(Rol rol) { this.rol = rol; }
     public String getNombreCompleto() { return nombreCompleto; }
@@ -53,7 +69,7 @@ public class Usuario {
     @Override
     public String toString() {
         return "Usuario{" +
-                "userName='" + userName + '\'' +
+                "userName='" + cedula + '\'' +
                 ", nombreCompleto='" + nombreCompleto + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", correo='" + correo + '\'' +

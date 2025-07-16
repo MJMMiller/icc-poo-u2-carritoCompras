@@ -148,7 +148,7 @@ public class MenuPrincipalView extends JFrame {
     public void aplicarIdioma(){
 
         setTitle(i18n.get("menu.titulo"));
-        lblBienvenida.setText(i18n.get("menu.lblBienvenida") + ": " + usuarioAutenticado.getUserName());
+        lblBienvenida.setText(i18n.get("menu.lblBienvenida") + ": " + usuarioAutenticado.getCedula());
 
         menuProducto.setText(i18n.get("menu.producto"));
         menuCarrito.setText(i18n.get("menu.carrito"));

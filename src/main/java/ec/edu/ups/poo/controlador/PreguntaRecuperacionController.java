@@ -185,19 +185,27 @@ public class PreguntaRecuperacionController {
             );
             return;
         }
-        usuario.setContrasena(nuevaContrasena);
-        usuarioDAO.actualizar(usuario.getUserName(), usuario.getContrasena(), usuario.getRol());
-        preguntasView.mostrarMensaje(
-                i18n.get("preguntas.recuperacion.exito.cambio_contrasena"),
-                i18n.get("global.success"),
-                JOptionPane.INFORMATION_MESSAGE
-        );
-        preguntasView.dispose();
-        SwingUtilities.invokeLater(() -> {
-            LogInView logInView = new LogInView(i18n);
-            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
-            logInView.setVisible(true);
-        });
+        try {
+            usuario.setContrasena(nuevaContrasena);
+            usuarioDAO.actualizar(usuario.getCedula(), usuario.getContrasena(), usuario.getRol());
+            preguntasView.mostrarMensaje(
+                    i18n.get("preguntas.recuperacion.exito.cambio_contrasena"),
+                    i18n.get("global.success"),
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            preguntasView.dispose();
+            SwingUtilities.invokeLater(() -> {
+                LogInView logInView = new LogInView(i18n);
+                new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+                logInView.setVisible(true);
+            });
+        } catch (ec.edu.ups.poo.excepciones.ContrasenaInvalidaException ex) {
+            preguntasView.mostrarMensaje(
+                    ex.getMessage(),
+                    i18n.get("global.error"),
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     private void limpiarCampos() {

@@ -166,7 +166,7 @@ public class CarritoController {
     private void listarCarritos(CarritoListarView carritoListarView) {
         List<Carrito> carritos;
         if (usuarioAutenticado.getRol() == Rol.USUARIO) {
-            carritos = carritoDAO.listarPorUsuario(usuarioAutenticado.getUserName());
+            carritos = carritoDAO.listarPorUsuario(usuarioAutenticado.getCedula());
             carritoListarView.getBtnBuscar().setEnabled(false);
         } else {
             carritos = carritoDAO.listarCarritos();
@@ -177,7 +177,7 @@ public class CarritoController {
         for (Carrito carrito : carritos) {
             modelo.addRow(new Object[]{
                     carrito.getId(),
-                    carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
+                    carrito.getUsuario() != null ? carrito.getUsuario().getCedula() : "N/A",
                     FormateadorUtils.formatearFecha(carrito.getFecha(), i18n.getLocale()),
                     FormateadorUtils.formatearMoneda(carrito.getSubtotal(), i18n.getLocale()),
                     FormateadorUtils.formatearMoneda(carrito.getIva(), i18n.getLocale()),
@@ -206,7 +206,7 @@ public class CarritoController {
         if (carrito != null) {
             modelo.addRow(new Object[]{
                     carrito.getId(),
-                    carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
+                    carrito.getUsuario() != null ? carrito.getUsuario().getCedula() : "N/A",
                     FormateadorUtils.formatearFecha(carrito.getFecha(), i18n.getLocale()),
                     FormateadorUtils.formatearMoneda(carrito.getSubtotal(), i18n.getLocale()),
                     FormateadorUtils.formatearMoneda(carrito.getIva(), i18n.getLocale()),
@@ -235,7 +235,7 @@ public class CarritoController {
                         carrito.getSubtotal(),
                         carrito.getIva(),
                         carrito.getTotal(),
-                        carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
+                        carrito.getUsuario() != null ? carrito.getUsuario().getCedula() : "N/A",
                         carrito.getUsuario() != null ? carrito.getUsuario().getRol() : null,
                         fechaFormateada,
                         i18n
@@ -251,7 +251,7 @@ public class CarritoController {
                         carrito.getSubtotal(),
                         carrito.getIva(),
                         carrito.getTotal(),
-                        carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
+                        carrito.getUsuario() != null ? carrito.getUsuario().getCedula() : "N/A",
                         carrito.getUsuario() != null ? carrito.getUsuario().getRol() : null,
                         fechaFormateada
                 );

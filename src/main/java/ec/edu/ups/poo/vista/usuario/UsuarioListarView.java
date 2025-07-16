@@ -58,7 +58,7 @@ public class UsuarioListarView extends JInternalFrame {
                 fechaFormateada = FormateadorUtils.formatearFecha(usuario.getFechaNacimiento(), locale);
             }
             modelo.addRow(new Object[]{
-                    usuario.getUserName(),
+                    usuario.getCedula(),
                     usuario.getContrasena(),
                     usuario.getNombreCompleto(),
                     fechaFormateada,

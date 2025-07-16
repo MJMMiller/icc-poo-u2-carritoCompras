@@ -68,7 +68,7 @@ public class ProductoController {
 
     private void configurarEventosEditar() {
         productoEditarView.getBtnBuscar().addActionListener(e -> buscarProductoGestion());
-        productoEditarView.getBtnActualizar().addActionListener(e -> actualizarProducto());
+        productoEditarView.getBtnActualizar().addActionListener(e -> actualistreamzarProducto());
     }
 
     private void configurarEventosEliminar() {
@@ -270,7 +270,7 @@ public class ProductoController {
         }
     }
 
-    private void actualizarProducto() {
+    private void actualistreamzarProducto() {
         String txtCod = productoEditarView.getTxtCodigo().getText();
         if (!txtCod.isEmpty()) {
             try {

@@ -6,6 +6,8 @@ import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
+import ec.edu.ups.poo.excepciones.CedulaInvalidaException;
+import ec.edu.ups.poo.excepciones.ContrasenaInvalidaException;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.usuario.*;
 
@@ -45,10 +47,14 @@ public class UsuarioController {
         for (int i = 0; i < 3; i++) {
             preguntasUsuario.add(new PreguntaUsuario(preguntas.get(i), respuestas.get(i)));
         }
-        Usuario usuario = new Usuario(username, password, rol, nombreCompleto, fechaNacimiento, correo, telefono);
-        usuario.setPreguntaValidacion(preguntasUsuario);
-        usuarioDAO.crearUsuario(usuario);
-        return true;
+        try {
+            Usuario usuario = new Usuario(username, password, rol, nombreCompleto, fechaNacimiento, correo, telefono);
+            usuario.setPreguntaValidacion(preguntasUsuario);
+            usuarioDAO.crearUsuario(usuario);
+            return true;
+        } catch (CedulaInvalidaException | ContrasenaInvalidaException ex) {
+            return false;
+        }
     }
 
     public List<Pregunta> obtenerPreguntasRandom() {
@@ -116,14 +122,18 @@ public class UsuarioController {
             view.mostrarMensaje(i18n.get("usuario.error.existe"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
             return;
         }
-        Usuario nuevoUsuario = new Usuario(username, password, rol, nombreCompleto, fechaNacimiento, correo, telefono);
-        usuarioDAO.crearUsuario(nuevoUsuario);
-        view.mostrarMensaje(i18n.get("usuario.exito.creado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
-        limpiarCamposCrear(view, cbxRol);
+        try {
+            Usuario nuevoUsuario = new Usuario(username, password, rol, nombreCompleto, fechaNacimiento, correo, telefono);
+            usuarioDAO.crearUsuario(nuevoUsuario);
+            view.mostrarMensaje(i18n.get("usuario.exito.creado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
+            limpiarCamposCrear(view, cbxRol);
+        } catch (CedulaInvalidaException | ContrasenaInvalidaException ex) {
+            view.mostrarMensaje(ex.getMessage(), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void setCamposUsuarioAutenticado(UsuarioEditarView view, Usuario usuarioAutenticado, JComboBox cbxRol) {
-        view.getTxtUsuario().setText(usuarioAutenticado.getUserName());
+        view.getTxtUsuario().setText(usuarioAutenticado.getCedula());
         view.getTxtUsuario().setEditable(false);
         view.getTxtContrasena().setText(usuarioAutenticado.getContrasena());
         view.getTxtNombreCompleto().setText(usuarioAutenticado.getNombreCompleto());
@@ -190,12 +200,18 @@ public class UsuarioController {
             view.mostrarMensaje(i18n.get("usuario.error.no_existe"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
             return;
         }
-        usuarioExistente.setContrasena(password);
-        usuarioExistente.setCorreo(correo);
-        usuarioExistente.setTelefono(telefono);
-        usuarioExistente.setRol(rol);
-        usuarioDAO.actualizar(username, password, rol);
-        view.mostrarMensaje(i18n.get("usuario.exito.actualizado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
+        try {
+            usuarioExistente.setContrasena(password);
+            usuarioExistente.setCorreo(correo);
+            usuarioExistente.setTelefono(telefono);
+            usuarioExistente.setRol(rol);
+            usuarioExistente.setNombreCompleto(nombreCompleto);
+            usuarioExistente.setFechaNacimiento(fechaNacimiento);
+            usuarioDAO.actualizar(username, password, rol);
+            view.mostrarMensaje(i18n.get("usuario.exito.actualizado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
+        } catch (ContrasenaInvalidaException ex) {
+            view.mostrarMensaje(ex.getMessage(), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void buscarUsuarioParaEliminar(UsuarioElimiarView view) {

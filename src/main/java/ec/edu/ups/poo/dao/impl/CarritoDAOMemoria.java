@@ -100,7 +100,7 @@ public class CarritoDAOMemoria implements CarritoDAO {
     public List<Carrito> listarPorUsuario(String username) {
         List<Carrito> carritosUsuario = new ArrayList<>();
         for (Carrito carrito : carritos) {
-            if (carrito.getUsuario().getUserName().equals(username)) {
+            if (carrito.getUsuario().getCedula().equals(username)) {
                 carritosUsuario.add(carrito);
             }
         }

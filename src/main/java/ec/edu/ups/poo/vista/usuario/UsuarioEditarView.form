@@ -45,16 +45,16 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="d4aca" class="javax.swing.JLabel" binding="lblUsuario">
+          <component id="d4aca" class="javax.swing.JLabel" binding="lblCedula">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <foreground color="-394241"/>
-              <text value="Usuario"/>
+              <text value="Cedula"/>
             </properties>
           </component>
-          <component id="df478" class="javax.swing.JTextField" binding="txtUsuario">
+          <component id="df478" class="javax.swing.JTextField" binding="txtCedula">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>

@@ -12,8 +12,8 @@ public class UsuarioAnadirView extends JInternalFrame {
     private JPanel panelSuperior;
     private JLabel lblTitulo;
     private JPanel panelCenter;
-    private JTextField txtUsuario;
-    private JLabel lblUsuario;
+    private JTextField txtCedula;
+    private JLabel lblCedula;
     private JTextField txtContrasena;
     private JLabel lblContrasena;
     private JComboBox cbxRol;
@@ -68,7 +68,7 @@ public class UsuarioAnadirView extends JInternalFrame {
     public void aplicarIdioma() {
         setTitle(i18n.get("usuario.anadir.titulo"));
         lblTitulo.setText(i18n.get("usuario.anadir.lbl.titulo"));
-        lblUsuario.setText(i18n.get("usuario.anadir.lbl.usuario"));
+        lblCedula.setText(i18n.get("usuario.anadir.lbl.usuario"));
         lblContrasena.setText(i18n.get("usuario.anadir.lbl.contrasena"));
         lblRol.setText(i18n.get("usuario.anadir.lbl.rol"));
         btnRegistrar.setText(i18n.get("usuario.anadir.btn.registrar"));
@@ -138,16 +138,16 @@ public class UsuarioAnadirView extends JInternalFrame {
         this.panelCenter = panelCenter;
     }
     public JTextField getTxtUsuario() {
-        return txtUsuario;
+        return txtCedula;
     }
     public void setTxtUsuario(JTextField txtUsuario) {
-        this.txtUsuario = txtUsuario;
+        this.txtCedula = txtUsuario;
     }
     public JLabel getLblUsuario() {
-        return lblUsuario;
+        return lblCedula;
     }
     public void setLblUsuario(JLabel lblUsuario) {
-        this.lblUsuario = lblUsuario;
+        this.lblCedula = lblUsuario;
     }
     public JTextField getTxtContrasena() {
         return txtContrasena;

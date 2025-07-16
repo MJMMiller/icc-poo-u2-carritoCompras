@@ -51,7 +51,7 @@ public class Carrito {
                 ", iva=" + iva +
                 ", total=" + total +
                 ", fecha=" + fecha +
-                ", usuario=" + (usuario != null ? usuario.getUserName() : "null") +
+                ", usuario=" + (usuario != null ? usuario.getCedula() : "null") +
                 '}';
     }
 }

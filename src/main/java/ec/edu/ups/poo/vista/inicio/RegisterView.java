@@ -12,13 +12,13 @@ public class RegisterView extends JFrame {
     private JPanel panelSuperior;
     private JLabel lblTitulo;
     private JPanel panelCentral;
-    private JTextField txtUsuario;
+    private JTextField txtCedula;
     private JTextField txtContrasena;
     private JButton btnRegistro;
     private JButton btnClean;
     private JButton btnSalir;
     private JPanel panelInferior;
-    private JLabel lblUsuario;
+    private JLabel lblCedula;
     private JLabel lblContrasena;
     private JPanel panelForm;
     private JLabel lblPregunta1;
@@ -88,7 +88,7 @@ public class RegisterView extends JFrame {
         setTitle(i18n.get("register.title"));
         lblIdioma.setText(i18n.get("login.lblIdioma"));
         lblTitulo.setText(i18n.get("register.title"));
-        lblUsuario.setText(i18n.get("register.lblUsuario"));
+        lblCedula.setText(i18n.get("register.lblUsuario"));
         lblContrasena.setText(i18n.get("register.lblContrasena"));
         lblNombreCompleto.setText(i18n.get("register.lblNombreCompleto"));
         lblFechaNacimiento.setText(i18n.get("register.lblFechaNacimiento"));
@@ -169,10 +169,10 @@ public class RegisterView extends JFrame {
         this.panelCentral = panelCentral;
     }
     public JTextField getTxtUsuario() {
-        return txtUsuario;
+        return txtCedula;
     }
     public void setTxtUsuario(JTextField txtUsuario) {
-        this.txtUsuario = txtUsuario;
+        this.txtCedula = txtUsuario;
     }
     public JTextField getTxtContrasena() {
         return txtContrasena;
@@ -205,10 +205,10 @@ public class RegisterView extends JFrame {
         this.panelInferior = panelInferior;
     }
     public JLabel getLblUsuario() {
-        return lblUsuario;
+        return lblCedula;
     }
     public void setLblUsuario(JLabel lblUsuario) {
-        this.lblUsuario = lblUsuario;
+        this.lblCedula = lblUsuario;
     }
     public JLabel getLblContrasena() {
         return lblContrasena;

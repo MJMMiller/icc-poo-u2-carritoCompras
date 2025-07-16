@@ -100,7 +100,7 @@ public class CarritoListarView extends JInternalFrame {
             for (Carrito carrito : carritos) {
                 modelo.addRow(new Object[]{
                         carrito.getId(),
-                        carrito.getUsuario() != null ? carrito.getUsuario().getUserName() : "N/A",
+                        carrito.getUsuario() != null ? carrito.getUsuario().getCedula() : "N/A",
                         FormateadorUtils.formatearFecha(carrito.getFecha(), locale),
                         FormateadorUtils.formatearMoneda(carrito.getSubtotal(), locale),
                         FormateadorUtils.formatearMoneda(carrito.getIva(), locale),

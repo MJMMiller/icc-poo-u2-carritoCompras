@@ -11,8 +11,15 @@ import ec.edu.ups.poo.dao.impl.PreguntaDAOMemoria;
 import ec.edu.ups.poo.dao.impl.UsuarioDAOMemoria;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.inicio.LogInView;
-
-
+/*
+ * Universidad Politécnica Salesiana
+ * Carrera de Ingeniería en Sistemas Computacionales
+ * Materia: Programación Orientada a Objetos
+ * Proyecto: Sistema de Compras y Ventas
+ *
+ * Autor:
+ * - Mateo Miller
+ */
 public class Main {
     public static UsuarioDAO usuarioDAO;
     public static ProductoDAO productoDAO;

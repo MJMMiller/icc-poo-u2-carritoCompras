@@ -146,7 +146,7 @@ public class PreguntaValidacionController {
 
     private void guardarPreguntasValidacion() {
         usuario.setPreguntaValidacion(new ArrayList<>(preguntasRespondidas));
-        usuarioDAO.actualizar(usuario.getUserName(), usuario.getContrasena(), usuario.getRol());
+        usuarioDAO.actualizar(usuario.getCedula(), usuario.getContrasena(), usuario.getRol());
         preguntasView.mostrarMensaje(
                 i18n.get("preguntas.validacion.exito.guardado"),
                 i18n.get("global.success"),

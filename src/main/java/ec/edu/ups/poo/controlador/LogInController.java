@@ -7,6 +7,7 @@ import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.vista.inicio.LogInView;
 import ec.edu.ups.poo.vista.inicio.RegisterView;
+import ec.edu.ups.poo.vista.inicio.SeleccionarArchivoView;
 import ec.edu.ups.poo.vista.preguntas.PreguntasValidacionView;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
@@ -38,6 +39,7 @@ public class LogInController {
         logInView.getBtnRegister().addActionListener(e -> configurarRegistro());
         logInView.getBtnLogIn().addActionListener(e -> configurarLogin());
         logInView.getCbxIdioma().addActionListener(e -> cambioDeIdiomaDesdeCbx());
+        logInView.getBtnUbicacion().addActionListener(e -> abrirUbicacionGuardar());
     }
 
     private void cambioDeIdiomaDesdeCbx() {
@@ -50,6 +52,7 @@ public class LogInController {
         }
         logInView.aplicarIdioma();
     }
+
 
     private void configurarLogin() {
         String user = logInView.getTxtUserName().getText();
@@ -133,6 +136,47 @@ public class LogInController {
         if (respuesta == JOptionPane.OK_OPTION || respuesta == 0) {
             System.out.println(i18n.get("login.gracias.salir"));
             System.exit(0);
+        }
+    }
+
+    public void abrirUbicacionGuardar() {
+        int selectedIndex = logInView.getCbxUbicacionGuardar().getSelectedIndex();
+        switch (selectedIndex) {
+            case 0:
+                logInView.mostrarMensaje(
+                        i18n.get("dao.memoria.seleccionado"),
+                        i18n.get("global.info"),
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE
+                );
+            break;
+            case 1: // Texto
+                SeleccionarArchivoView seleccionarArchivoView = new SeleccionarArchivoView(logInView);
+                seleccionarArchivoView.setLocationRelativeTo(logInView);
+                seleccionarArchivoView.setVisible(true);
+                String rutaSeleccionada = seleccionarArchivoView.getRutaSeleccionada();
+                if (rutaSeleccionada != null && !rutaSeleccionada.isEmpty()) {
+                    logInView.mostrarMensaje(
+                            i18n.get("archivo.ruta") + ": " + rutaSeleccionada,
+                            i18n.get("global.info"),
+                            javax.swing.JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
+            break;
+            case 2: // Binario
+                logInView.mostrarMensaje(
+                        selectedIndex == 1
+                                ? i18n.get("archivo.ruta")
+                                : i18n.get("archivo.binario.seleccionado"),
+                        i18n.get("global.info"),
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE
+                );
+            break;
+            default:
+                logInView.mostrarMensaje(
+                        i18n.get("error.opcion.no.valida"),
+                        i18n.get("global.error"),
+                        javax.swing.JOptionPane.ERROR_MESSAGE
+                );
         }
     }
 }

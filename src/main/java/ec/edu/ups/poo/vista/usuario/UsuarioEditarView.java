@@ -11,13 +11,13 @@ public class UsuarioEditarView extends JInternalFrame {
     private JPanel panelAll;
     private JPanel panelSuperior;
     private JLabel lblTitulo;
-    private JTextField txtUsuario;
+    private JTextField txtCedula;
     private JTextField txtContrasena;
     private JComboBox cbxRol;
     private JButton btnActualizar;
     private JButton btnClean;
     private JButton btnBuscar;
-    private JLabel lblUsuario;
+    private JLabel lblCedula;
     private JLabel lblContrasena;
     private JLabel lblRol;
     private JComboBox cbxDia;
@@ -69,7 +69,7 @@ public class UsuarioEditarView extends JInternalFrame {
     public void aplicarIdioma() {
         setTitle(i18n.get("usuario.editar.titulo"));
         lblTitulo.setText(i18n.get("usuario.editar.lbl.titulo"));
-        lblUsuario.setText(i18n.get("usuario.editar.lbl.usuario"));
+        lblCedula.setText(i18n.get("usuario.editar.lbl.usuario"));
         lblContrasena.setText(i18n.get("usuario.editar.lblcontrasena"));
         lblRol.setText(i18n.get("usuario.editar.lbl.rol"));
         btnActualizar.setText(i18n.get("usuario.editar.btn.actualizar"));
@@ -132,10 +132,10 @@ public class UsuarioEditarView extends JInternalFrame {
         this.lblTitulo = lblTitulo;
     }
     public JTextField getTxtUsuario() {
-        return txtUsuario;
+        return txtCedula;
     }
     public void setTxtUsuario(JTextField txtUsuario) {
-        this.txtUsuario = txtUsuario;
+        this.txtCedula = txtUsuario;
     }
     public JTextField getTxtContrasena() {
         return txtContrasena;
@@ -168,10 +168,10 @@ public class UsuarioEditarView extends JInternalFrame {
         this.btnBuscar = btnBuscar;
     }
     public JLabel getLblUsuario() {
-        return lblUsuario;
+        return lblCedula;
     }
     public void setLblUsuario(JLabel lblUsuario) {
-        this.lblUsuario = lblUsuario;
+        this.lblCedula = lblUsuario;
     }
     public JLabel getLblContrasena() {
         return lblContrasena;

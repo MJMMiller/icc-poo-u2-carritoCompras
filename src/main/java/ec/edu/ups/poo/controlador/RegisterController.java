@@ -8,6 +8,8 @@ import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
+import ec.edu.ups.poo.excepciones.CedulaInvalidaException;
+import ec.edu.ups.poo.excepciones.ContrasenaInvalidaException;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.inicio.RegisterView;
 import ec.edu.ups.poo.vista.inicio.LogInView;
@@ -105,23 +107,27 @@ public class RegisterController {
             return;
         }
 
-        Usuario usuario = new Usuario(username, password, Rol.USUARIO, nombreCompleto, fechaNacimiento, correo, telefono);
+        try {
+            Usuario usuario = new Usuario(username, password, Rol.USUARIO, nombreCompleto, fechaNacimiento, correo, telefono);
 
-        List<PreguntaUsuario> preguntasUsuario = new ArrayList<>();
-        preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(0), respuesta1));
-        preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(1), respuesta2));
-        preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(2), respuesta3));
-        usuario.setPreguntaValidacion(preguntasUsuario);
+            List<PreguntaUsuario> preguntasUsuario = new ArrayList<>();
+            preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(0), respuesta1));
+            preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(1), respuesta2));
+            preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(2), respuesta3));
+            usuario.setPreguntaValidacion(preguntasUsuario);
 
-        usuarioDAO.crearUsuario(usuario);
+            usuarioDAO.crearUsuario(usuario);
 
-        registerView.mostrarMensaje(
-                i18n.get("register.exito.usuario_registrado"),
-                i18n.get("global.success"),
-                JOptionPane.INFORMATION_MESSAGE
-        );
-        registerView.dispose();
-        abrirLogin();
+            registerView.mostrarMensaje(
+                    i18n.get("register.exito.usuario_registrado"),
+                    i18n.get("global.success"),
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            registerView.dispose();
+            abrirLogin();
+        } catch (CedulaInvalidaException | ContrasenaInvalidaException ex) {
+            registerView.mostrarMensaje(ex.getMessage(), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void mostrarPreguntasEnVista() {

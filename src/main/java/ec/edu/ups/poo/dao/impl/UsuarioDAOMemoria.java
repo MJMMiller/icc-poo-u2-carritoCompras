@@ -5,6 +5,8 @@ import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
 import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
+import ec.edu.ups.poo.excepciones.ContrasenaInvalidaException;
+import ec.edu.ups.poo.excepciones.CedulaInvalidaException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,39 +22,47 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         usuarios = new ArrayList<>();
 
         String nombreAdmin = "Administrador General";
-        Date fechaAdmin = getDate(2006, 6, 16); // 1 enero 1980
+        Date fechaAdmin = getDate(2006, 6, 16);
         String correoAdmin = "admin@admin.com";
         String telefonoAdmin = "0999999999";
-        Usuario usuarioAdmin = new Usuario(
-                "admin",
-                "admin123",
-                Rol.ADMINISTRADOR,
-                nombreAdmin,
-                fechaAdmin,
-                correoAdmin,
-                telefonoAdmin
-        );
-        List<PreguntaUsuario> preguntasAdmin = new ArrayList<>();
-        preguntasAdmin.add(new PreguntaUsuario(preguntas.get(0), "Rocko"));
-        preguntasAdmin.add(new PreguntaUsuario(preguntas.get(1), "Cuenca"));
-        preguntasAdmin.add(new PreguntaUsuario(preguntas.get(2), "Pizza"));
-        usuarioAdmin.setPreguntaValidacion(preguntasAdmin);
-        crearUsuario(usuarioAdmin);
+        try {
+            Usuario usuarioAdmin = new Usuario(
+                    "0150303923",
+                    "Admin@1",
+                    Rol.ADMINISTRADOR,
+                    nombreAdmin,
+                    fechaAdmin,
+                    correoAdmin,
+                    telefonoAdmin
+            );
+            List<PreguntaUsuario> preguntasAdmin = new ArrayList<>();
+            preguntasAdmin.add(new PreguntaUsuario(preguntas.get(0), "Rocko"));
+            preguntasAdmin.add(new PreguntaUsuario(preguntas.get(1), "Cuenca"));
+            preguntasAdmin.add(new PreguntaUsuario(preguntas.get(2), "Pizza"));
+            usuarioAdmin.setPreguntaValidacion(preguntasAdmin);
+            crearUsuario(usuarioAdmin);
+        } catch (ContrasenaInvalidaException | CedulaInvalidaException e) {
+            e.printStackTrace();
+        }
 
         String nombreUser = "Usuario de Prueba";
         Date fechaUser = getDate(1990, 5, 15);
         String correoUser = "user@user.com";
         String telefonoUser = "0888888888";
-        Usuario usuarioNormal = new Usuario(
-                "user",
-                "user123",
-                Rol.USUARIO,
-                nombreUser,
-                fechaUser,
-                correoUser,
-                telefonoUser
-        );
-        crearUsuario(usuarioNormal);
+        try {
+            Usuario usuarioNormal = new Usuario(
+                    "0150303923",
+                    "User_2a",
+                    Rol.USUARIO,
+                    nombreUser,
+                    fechaUser,
+                    correoUser,
+                    telefonoUser
+            );
+            crearUsuario(usuarioNormal);
+        } catch (ContrasenaInvalidaException | CedulaInvalidaException e) {
+            e.printStackTrace();
+        }
     }
 
     private Date getDate(int year, int month, int day) {
@@ -65,7 +75,7 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
     @Override
     public Usuario autenticarUsuario(String userName, String contrasena) {
         for (Usuario usuario : usuarios) {
-            if (usuario.getUserName().equals(userName) && usuario.getContrasena().equals(contrasena)) {
+            if (usuario.getCedula().equals(userName) && usuario.getContrasena().equals(contrasena)) {
                 return usuario;
             }
         }
@@ -74,13 +84,15 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
 
     @Override
     public void crearUsuario(Usuario usuario) {
-        usuarios.add(usuario);
+        if (buscarUsuario(usuario.getCedula()) == null) {
+            usuarios.add(usuario);
+        }
     }
 
     @Override
     public Usuario buscarUsuario(String username) {
         for (Usuario u : usuarios) {
-            if (u.getUserName().equalsIgnoreCase(username)) {
+            if (u.getCedula().equalsIgnoreCase(username)) {
                 return u;
             }
         }
@@ -92,7 +104,7 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         Iterator<Usuario> iterator = usuarios.iterator();
         while (iterator.hasNext()) {
             Usuario usuario = iterator.next();
-            if (usuario.getUserName().equals(userName)) {
+            if (usuario.getCedula().equals(userName)) {
                 iterator.remove();
                 break;
             }
@@ -103,7 +115,10 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
     public void actualizar(String userName, String contrasena, Rol rol) {
         Usuario usuario = buscarUsuario(userName);
         if (usuario != null) {
-            usuario.setContrasena(contrasena);
+            try {
+                usuario.setContrasena(contrasena);
+            } catch (ContrasenaInvalidaException e) {
+            }
             usuario.setRol(rol);
         }
     }
