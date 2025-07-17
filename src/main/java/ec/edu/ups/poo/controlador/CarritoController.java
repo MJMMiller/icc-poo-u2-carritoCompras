@@ -2,7 +2,7 @@ package ec.edu.ups.poo.controlador;
 
 import ec.edu.ups.poo.dao.CarritoDAO;
 import ec.edu.ups.poo.dao.ProductoDAO;
-import ec.edu.ups.poo.dao.impl.CarritoDAOMemoria;
+import ec.edu.ups.poo.dao.impl.memoria.CarritoDAOMemoria;
 import ec.edu.ups.poo.modelo.Carrito;
 import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Producto;

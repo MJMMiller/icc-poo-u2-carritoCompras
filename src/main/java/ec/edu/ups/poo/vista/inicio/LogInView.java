@@ -4,6 +4,10 @@ import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.util.TipoIcono;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LogInView extends JFrame {
     private JPanel panelAll;
@@ -24,7 +28,11 @@ public class LogInView extends JFrame {
     private JLabel lblUbicacionGuardar;
     private JComboBox cbxUbicacionGuardar;
     private JButton btnUbicacion;
+    private JLabel lblRuta;
+    private JTextField txtRuta;
     private MensajeInternacionalizacionHandler i18n;
+    private String look;
+
 
     public LogInView(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
@@ -36,6 +44,50 @@ public class LogInView extends JFrame {
         aplicarIdioma();
         aplicarIconos();
         actualizarOpcionesGuardado();
+    }
+
+    public void ventanaBrowser() {
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//
+//            UIManager.put("Button.font", UIManager.get("SystemFont"));
+//            UIManager.put("Label.font", UIManager.get("SystemFont"));
+//            UIManager.put("TextField.font", UIManager.get("SystemFont"));
+//            UIManager.put("ComboBox.font", UIManager.get("SystemFont"));
+//        } catch (Exception ex) {
+//            Logger.getLogger(LogInView.class.getName()).log(Level.SEVERE, "Error al configurar Look", ex);
+//        }
+
+        cbxUbicacionGuardar.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                          int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value != null) {
+                    setText(value.toString());
+                }
+                return this;
+            }
+        });
+    }
+
+    public void seleccionarDirectorio() {
+        JFileChooser fileChooser = new JFileChooser();
+
+        String userHome = System.getProperty("user.home");
+        File desktopDir = new File(userHome, "Desktop");
+        fileChooser.setCurrentDirectory(desktopDir);
+
+        fileChooser.setDialogTitle(i18n.get("select.directory"));
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+
+        int resultado = fileChooser.showOpenDialog(this);
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            File directorioSeleccionado = fileChooser.getSelectedFile();
+            String ruta = directorioSeleccionado.getAbsolutePath();
+            txtRuta.setText(ruta);
+        }
     }
 
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
@@ -64,12 +116,20 @@ public class LogInView extends JFrame {
     }
 
     public void actualizarOpcionesGuardado() {
+        int selected = cbxUbicacionGuardar.getSelectedIndex();
+
         cbxUbicacionGuardar.removeAllItems();
         cbxUbicacionGuardar.addItem(i18n.get("dao.memoria"));
         cbxUbicacionGuardar.addItem(i18n.get("archivo.texto"));
         cbxUbicacionGuardar.addItem(i18n.get("archivo.binario"));
-        cbxUbicacionGuardar.setSelectedIndex(0);
+
+        if (selected >= 0 && selected < cbxUbicacionGuardar.getItemCount()) {
+            cbxUbicacionGuardar.setSelectedIndex(selected);
+        } else {
+            cbxUbicacionGuardar.setSelectedIndex(0);
+        }
     }
+
 
     public void aplicarIdioma() {
         setTitle(i18n.get("login.title"));
@@ -78,12 +138,14 @@ public class LogInView extends JFrame {
         lblUsuario.setText(i18n.get("login.lblUsuario"));
         lblContrasena.setText(i18n.get("login.lblContrasena"));
         lblUbicacionGuardar.setText(i18n.get("login.lblUbicacionGuardar"));
+        lblRuta.setText(i18n.get("archivo.ruta"));
         btnUbicacion.setText(i18n.get("login.btnUbicacion"));
         btnInicioSesion.setText(i18n.get("login.btnInicioSesion"));
         btnSalir.setText(i18n.get("login.btnSalir"));
         btnRegistro.setText(i18n.get("login.btnRegistro"));
         btnRecuContra.setText(i18n.get("login.btnRecuContra"));
         actualizarOpcionesIdioma();
+        actualizarOpcionesGuardado();
     }
 
     public void aplicarIconos() {
@@ -96,6 +158,10 @@ public class LogInView extends JFrame {
         btnRecuContra.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.RECUPERAR_CONTRASENA));
     }
 
+    public JTextField getTxtRuta() {return txtRuta;}
+    public void setTxtRuta(JTextField txtRuta) {this.txtRuta = txtRuta;}
+    public JLabel getLblRuta() {return lblRuta;}
+    public void setLblRuta(JLabel lblRuta) {this.lblRuta = lblRuta;}
     public JButton getBtnUbicacion() {return btnUbicacion;}
     public void setBtnUbicacion(JButton btnUbicacion) {this.btnUbicacion = btnUbicacion;}
     public JLabel getLblUbicacionGuardar() {return lblUbicacionGuardar;}

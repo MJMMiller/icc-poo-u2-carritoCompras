@@ -1,4 +1,4 @@
-package ec.edu.ups.poo.dao.impl;
+package ec.edu.ups.poo.dao.impl.memoria;
 
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.modelo.Pregunta;

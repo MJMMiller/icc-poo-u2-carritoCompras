@@ -224,8 +224,8 @@ public class PreguntaRecuperacionController {
             case 2: i18n.setLenguaje("fr", "FR"); break;
             default: i18n.setLenguaje("es", "EC");
         }
-        preguntasView.aplicarIdiomas();     // Actualiza todo, incluyendo el ComboBox
-        mostrarPreguntaActual();            // Actualiza la pregunta mostrada
+        preguntasView.aplicarIdiomas();
+        mostrarPreguntaActual();
     }
 
     private void regresarAlLogin(){

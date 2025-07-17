@@ -1,4 +1,4 @@
-package ec.edu.ups.poo.dao.impl;
+package ec.edu.ups.poo.dao.impl.binario;
 
 import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.modelo.Pregunta;
@@ -7,12 +7,15 @@ import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreguntaDAOMemoria implements PreguntaDAO {
+public class PreguntaDAOArchivoBinario implements PreguntaDAO {
 
     private final List<Pregunta> preguntas = new ArrayList<>();
     private MensajeInternacionalizacionHandler i18n;
+    private final String rutaArchivo;
 
-    public PreguntaDAOMemoria(MensajeInternacionalizacionHandler i18n) {
+
+    public PreguntaDAOArchivoBinario(MensajeInternacionalizacionHandler i18n, String rutaArchivo) {
+        this.rutaArchivo = rutaArchivo;
         this.i18n = i18n;
         preguntas.add(new Pregunta(1, "pregunta.primer_mascota"));
         preguntas.add(new Pregunta(2, "pregunta.ciudad_nacimiento"));

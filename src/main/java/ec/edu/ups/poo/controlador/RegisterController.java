@@ -8,8 +8,6 @@ import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
-import ec.edu.ups.poo.excepciones.CedulaInvalidaException;
-import ec.edu.ups.poo.excepciones.ContrasenaInvalidaException;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.inicio.RegisterView;
 import ec.edu.ups.poo.vista.inicio.LogInView;
@@ -18,7 +16,6 @@ import javax.swing.*;
 import java.util.*;
 
 public class RegisterController {
-
     private final UsuarioDAO usuarioDAO;
     private final PreguntaDAO preguntaDAO;
     private final ProductoDAO productoDAO;
@@ -35,6 +32,14 @@ public class RegisterController {
             RegisterView registerView,
             MensajeInternacionalizacionHandler i18n
     ) {
+        // Validar DAOs no nulos
+        if (usuarioDAO == null) throw new IllegalArgumentException("usuarioDAO no puede ser nulo");
+        if (preguntaDAO == null) throw new IllegalArgumentException("preguntaDAO no puede ser nulo");
+        if (productoDAO == null) throw new IllegalArgumentException("productoDAO no puede ser nulo");
+        if (carritoDAO == null) throw new IllegalArgumentException("carritoDAO no puede ser nulo");
+        if (registerView == null) throw new IllegalArgumentException("registerView no puede ser nulo");
+        if (i18n == null) throw new IllegalArgumentException("i18n no puede ser nulo");
+
         this.usuarioDAO = usuarioDAO;
         this.preguntaDAO = preguntaDAO;
         this.productoDAO = productoDAO;
@@ -42,7 +47,7 @@ public class RegisterController {
         this.registerView = registerView;
         this.i18n = i18n;
 
-        preguntasRandom = getPreguntasRandom();
+        this.preguntasRandom = getPreguntasRandom();
         configurarEventos();
         mostrarPreguntasEnVista();
         registerView.aplicarIdioma();
@@ -61,6 +66,8 @@ public class RegisterController {
     }
 
     private void registrarUsuario() {
+        System.out.println("Clase real de usuarioDAO: " + usuarioDAO.getClass().getName());
+        System.out.println("Botón registro presionado...");
         String username = registerView.getTxtUsuario().getText().trim();
         String password = registerView.getTxtContrasena().getText().trim();
         String nombreCompleto = registerView.getTxtNombreCompleto().getText().trim();
@@ -71,6 +78,7 @@ public class RegisterController {
         String respuesta2 = registerView.getTxtPregunta2().getText().trim();
         String respuesta3 = registerView.getTxtPregunta3().getText().trim();
 
+        // Validaciones
         if (camposVacios(username, password, respuesta1, respuesta2, respuesta3)) {
             registerView.mostrarMensaje(
                     i18n.get("register.error.llenar_todos"),
@@ -116,6 +124,7 @@ public class RegisterController {
             preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(2), respuesta3));
             usuario.setPreguntaValidacion(preguntasUsuario);
 
+            System.out.println("Llamando a crearUsuario en el DAO...");
             usuarioDAO.crearUsuario(usuario);
 
             registerView.mostrarMensaje(
@@ -125,7 +134,7 @@ public class RegisterController {
             );
             registerView.dispose();
             abrirLogin();
-        } catch (CedulaInvalidaException | ContrasenaInvalidaException ex) {
+        } catch (Exception ex) {
             registerView.mostrarMensaje(ex.getMessage(), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -160,7 +169,8 @@ public class RegisterController {
     }
 
     private List<Pregunta> getPreguntasRandom() {
-        List<Pregunta> lista = new ArrayList<>(preguntaDAO.listarTodas());
+        List<Pregunta> lista = preguntaDAO.listarTodas();
+        if (lista.size() < 3) throw new IllegalStateException("No hay suficientes preguntas para el registro");
         Collections.shuffle(lista);
         return lista.subList(0, 3);
     }
