@@ -1,22 +1,19 @@
-package ec.edu.ups.poo.dao.impl.texto;
+package ec.edu.ups.poo.dao.impl.randomico;
 
 import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.modelo.Pregunta;
-import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreguntaDAOArchivoTexto implements PreguntaDAO {
-
+public class PreguntaDAOArchivoBinario implements PreguntaDAO {
     private final List<Pregunta> preguntas = new ArrayList<>();
     private final String rutaArchivo;
-    private final MensajeInternacionalizacionHandler i18n;
 
-    public PreguntaDAOArchivoTexto(MensajeInternacionalizacionHandler i18n, String rutaArchivo) {
-        this.i18n = i18n;
+    public PreguntaDAOArchivoBinario(String rutaArchivo) {
         this.rutaArchivo = rutaArchivo;
+        crearArchivoSiNoExiste();
         cargarPreguntas();
         if (preguntas.isEmpty()) {
             agregarPreguntasPorDefecto();
@@ -24,29 +21,35 @@ public class PreguntaDAOArchivoTexto implements PreguntaDAO {
         }
     }
 
+    private void crearArchivoSiNoExiste() {
+        File f = new File(rutaArchivo);
+        if (!f.exists()) {
+            try { f.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
+        }
+    }
+
     private void cargarPreguntas() {
+        preguntas.clear();
         File archivo = new File(rutaArchivo);
         if (!archivo.exists()) return;
-        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split("\\|");
-                if (partes.length == 2) {
-                    int id = Integer.parseInt(partes[0]);
-                    String clave = partes[1];
-                    preguntas.add(new Pregunta(id, clave));
-                }
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(archivo))) {
+            while (dis.available() > 0) {
+                int id = dis.readInt();
+                String texto = dis.readUTF();
+                preguntas.add(new Pregunta(id, texto));
             }
+        } catch (EOFException eof) {
+            // fin de archivo
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void guardarPreguntas() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaArchivo))) {
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(rutaArchivo, false))) {
             for (Pregunta pregunta : preguntas) {
-                bw.write(pregunta.getId() + "|" + pregunta.getTexto());
-                bw.newLine();
+                dos.writeInt(pregunta.getId());
+                dos.writeUTF(pregunta.getTexto());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,12 +71,17 @@ public class PreguntaDAOArchivoTexto implements PreguntaDAO {
 
     @Override
     public List<Pregunta> listarTodas() {
-        // Si modificas la lista retornada, llama a guardarPreguntas() manualmente DESPUÉS.
-        return preguntas;
+        // Devuelve una copia para evitar modificación externa directa
+        return new ArrayList<>(preguntas);
     }
 
     // Si editas/agregas/eliminas preguntas desde fuera usando la lista, llama a este método luego
     public void guardarCambios() {
         guardarPreguntas();
+    }
+
+    // Opcional: Permite recargar preguntas desde el archivo (útil si otro proceso las modifica)
+    public void recargarPreguntas() {
+        cargarPreguntas();
     }
 }

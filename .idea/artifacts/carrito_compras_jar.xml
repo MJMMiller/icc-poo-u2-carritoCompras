@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="carrito_compras:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/carrito_compras_jar</output-path>
+    <root id="archive" name="carrito_compras.jar">
+      <element id="module-output" name="carrito_compras" />
+    </root>
+  </artifact>
+</component>

@@ -4,14 +4,16 @@ import ec.edu.ups.poo.dao.CarritoDAO;
 import ec.edu.ups.poo.dao.PreguntaDAO;
 import ec.edu.ups.poo.dao.ProductoDAO;
 import ec.edu.ups.poo.dao.UsuarioDAO;
-import ec.edu.ups.poo.dao.impl.binario.CarritoDAOArchivoBinario;
-import ec.edu.ups.poo.dao.impl.binario.ProductoDAOArchivoBinario;
-import ec.edu.ups.poo.dao.impl.binario.UsuarioDAOArchivoBinario;
+import ec.edu.ups.poo.dao.impl.randomico.CarritoDAOArchivoBinario;
+import ec.edu.ups.poo.dao.impl.randomico.PreguntaDAOArchivoBinario;
+import ec.edu.ups.poo.dao.impl.randomico.ProductoDAOArchivoBinario;
+import ec.edu.ups.poo.dao.impl.randomico.UsuarioDAOArchivoBinario;
 import ec.edu.ups.poo.dao.impl.memoria.CarritoDAOMemoria;
 import ec.edu.ups.poo.dao.impl.memoria.PreguntaDAOMemoria;
 import ec.edu.ups.poo.dao.impl.memoria.ProductoDAOMemoria;
 import ec.edu.ups.poo.dao.impl.memoria.UsuarioDAOMemoria;
 import ec.edu.ups.poo.dao.impl.texto.CarritoDAOArchivoTexto;
+import ec.edu.ups.poo.dao.impl.texto.PreguntaDAOArchivoTexto;
 import ec.edu.ups.poo.dao.impl.texto.ProductoDAOArchivoTexto;
 import ec.edu.ups.poo.dao.impl.texto.UsuarioDAOArchivoTexto;
 import ec.edu.ups.poo.modelo.Pregunta;
@@ -50,7 +52,13 @@ public class DAODireccion {
         }
     }
 
+
     public static PreguntaDAO getPreguntaDAO(int tipo, String ruta, MensajeInternacionalizacionHandler i18n) {
-        return new PreguntaDAOMemoria(i18n);
+        switch (tipo) {
+            case 0: return new PreguntaDAOMemoria(i18n);
+            case 1: return new PreguntaDAOArchivoTexto(i18n, ruta + "/preguntas.txt");
+            case 2: return new PreguntaDAOArchivoBinario(ruta + "/preguntas.dat");
+            default: throw new IllegalArgumentException("Tipo incorrecto");
+        }
     }
 }

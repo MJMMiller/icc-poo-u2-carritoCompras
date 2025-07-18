@@ -4,6 +4,7 @@ import ec.edu.ups.poo.dao.CarritoDAO;
 import ec.edu.ups.poo.dao.ProductoDAO;
 import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.dao.PreguntaDAO;
+import ec.edu.ups.poo.dao.impl.texto.UsuarioDAOArchivoTexto;
 import ec.edu.ups.poo.modelo.Usuario;
 import ec.edu.ups.poo.modelo.Pregunta;
 import ec.edu.ups.poo.modelo.PreguntaUsuario;
@@ -171,7 +172,10 @@ public class PreguntaValidacionController {
 
     private void guardarPreguntasValidacion() {
         usuario.setPreguntaValidacion(new ArrayList<>(preguntasRespondidas));
-        usuarioDAO.actualizar(usuario.getCedula(), usuario.getContrasena(), usuario.getRol());
+        // Lo CORRECTO: Actualiza TODO el usuario en el archivo para conservar las preguntas de todos
+        usuarioDAO.agregarPreguntasAUsuario(usuario.getCedula(), preguntasRespondidas);
+        UsuarioDAOArchivoTexto.limpiarDuplicadosUsuarios(rutaCarpetaDatos + "/usuarios.txt");
+
         preguntasView.mostrarMensaje(
                 i18n.get("preguntas.validacion.exito.guardado"),
                 i18n.get("global.success"),

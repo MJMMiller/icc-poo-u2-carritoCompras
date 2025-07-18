@@ -1,5 +1,6 @@
 package ec.edu.ups.poo.dao;
 
+import ec.edu.ups.poo.modelo.PreguntaUsuario;
 import ec.edu.ups.poo.modelo.Rol;
 import ec.edu.ups.poo.modelo.Usuario;
 
@@ -14,4 +15,5 @@ public interface UsuarioDAO {
     List<Usuario> listarUsuariosTodos();
     List<Usuario> buscarUsuariosPorRol(Rol rol);
     void actualizarTodo(Usuario usuario);
+    void agregarPreguntasAUsuario(String cedula, List<PreguntaUsuario> nuevasPreguntas);
 }

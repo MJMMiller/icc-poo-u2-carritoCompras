@@ -143,4 +143,18 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
     public void actualizarTodo(Usuario usuario) {
         actualizar(usuario.getCedula(), usuario.getContrasena(), usuario.getRol());
     }
+
+    @Override
+    public void agregarPreguntasAUsuario(String cedula, List<PreguntaUsuario> nuevasPreguntas) {
+        Usuario usuario = buscarUsuario(cedula);
+        if (usuario != null) {
+            List<PreguntaUsuario> preguntasExistentes = usuario.getPreguntaValidacion();
+            for (PreguntaUsuario nuevaPregunta : nuevasPreguntas) {
+                if (!preguntasExistentes.contains(nuevaPregunta)) {
+                    preguntasExistentes.add(nuevaPregunta);
+                }
+            }
+            usuario.setPreguntaValidacion(preguntasExistentes);
+        }
+    }
 }

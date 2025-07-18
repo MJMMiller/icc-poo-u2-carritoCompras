@@ -231,6 +231,7 @@ public class LogInController {
                 crearArchivoSiNoExiste(ruta + "/usuarios.txt");
                 crearArchivoSiNoExiste(ruta + "/productos.txt");
                 crearArchivoSiNoExiste(ruta + "/carritos.txt");
+                crearArchivoSiNoExiste(ruta + "/preguntas.txt");
             } else if (tipo == 2) { // Binario
                 crearArchivoSiNoExiste(ruta + "/usuarios.dat");
                 crearArchivoSiNoExiste(ruta + "/productos.dat");

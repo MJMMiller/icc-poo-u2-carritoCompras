@@ -19,7 +19,8 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         this.preguntas = preguntas;
         this.rutaArchivo = rutaArchivo;
         this.usuarios = new ArrayList<>();
-        cargarUsuarios();
+        limpiarDuplicadosUsuarios(rutaArchivo);     // Limpia duplicados primero
+        cargarUsuarios();                           // Carga usuarios completos (con preguntas)
         if (usuarios.isEmpty()) {
             crearUsuariosPorDefecto();
         }
@@ -28,7 +29,7 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
     @Override
     public Usuario buscarUsuario(String cedula) {
         for (Usuario usuario : usuarios) {
-            if (usuario.getCedula().equals(cedula)) {
+            if (usuario.getCedula().trim().equals(cedula.trim())) {
                 return usuario;
             }
         }
@@ -47,20 +48,22 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
     }
 
     private void cargarUsuarios() {
+        usuarios.clear(); // Limpia la lista antes de cargar
         File archivo = new File(rutaArchivo);
         if (!archivo.exists()) return;
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] partes = linea.split("\\|");
-                if (partes.length < 8) continue;
-                String cedula = partes[0];
-                String contrasena = partes[1];
-                Rol rol = Rol.valueOf(partes[2]);
-                String nombre = partes[3];
-                Date fechaNacimiento = DATE_FORMAT.parse(partes[4]);
-                String correo = partes[5];
-                String telefono = partes[6];
+                if (partes.length < 7) continue; // Permite que existan usuarios sin carritos/preguntas
+
+                String cedula = partes[0].trim();
+                String contrasena = partes[1].trim();
+                Rol rol = Rol.valueOf(partes[2].trim());
+                String nombre = partes[3].trim();
+                Date fechaNacimiento = DATE_FORMAT.parse(partes[4].trim());
+                String correo = partes[5].trim();
+                String telefono = partes[6].trim();
 
                 Usuario usuario;
                 try {
@@ -70,9 +73,9 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
                     continue;
                 }
 
-                // Leer carritos y items
+                // Carritos (partes[7])
                 List<Carrito> carritos = new ArrayList<>();
-                if (!partes[7].isEmpty()) {
+                if (partes.length > 7 && !partes[7].isEmpty()) {
                     String[] carritosStr = partes[7].split(";");
                     for (String carritoStr : carritosStr) {
                         String[] datosCarrito = carritoStr.split(",", 6);
@@ -105,6 +108,7 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
                 }
                 usuario.setCarritos(carritos);
 
+                // Preguntas (partes[8])
                 List<PreguntaUsuario> preguntasUsuario = new ArrayList<>();
                 if (partes.length > 8 && !partes[8].isEmpty()) {
                     String[] preguntasStr = partes[8].split(";");
@@ -120,8 +124,8 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
                             }
                         }
                     }
-                    usuario.setPreguntaValidacion(preguntasUsuario);
                 }
+                usuario.setPreguntaValidacion(preguntasUsuario);
 
                 usuarios.add(usuario);
             }
@@ -195,23 +199,21 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
 
     @Override
     public Usuario autenticarUsuario(String cedula, String contrasena) {
-        System.out.println("Buscando: " + cedula + " / " + contrasena);
-        System.out.println("Usuarios cargados: " + usuarios.size());
         for (Usuario usuario : usuarios) {
-            System.out.println("Comparando con: " + usuario.getCedula() + " / " + usuario.getContrasena());
-            if (usuario.getCedula().trim().equals(cedula.trim()) && usuario.getContrasena().trim().equals(contrasena.trim())) {
-                System.out.println("¡Usuario encontrado!");
+            if (usuario.getCedula().trim().equals(cedula.trim()) &&
+                    usuario.getContrasena().trim().equals(contrasena.trim())) {
                 return usuario;
             }
         }
-        System.out.println("Usuario no encontrado.");
         return null;
     }
 
     @Override
     public void crearUsuario(Usuario usuario) {
-        usuarios.add(usuario);
-        guardarUsuarios();
+        if (buscarUsuario(usuario.getCedula()) == null) {
+            usuarios.add(usuario);
+            guardarUsuarios();
+        }
     }
 
     @Override
@@ -328,5 +330,49 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
             }
             usuario.setCarritos(carritosUsuario);
         }
+    }
+
+    @Override
+    public void agregarPreguntasAUsuario(String cedula, List<PreguntaUsuario> nuevasPreguntas) {
+        cargarUsuarios(); // Siempre carga desde archivo para asegurar preguntas
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario usuario = usuarios.get(i);
+            if (usuario.getCedula().equals(cedula)) {
+                usuario.setPreguntaValidacion(nuevasPreguntas);
+                usuarios.set(i, usuario);
+                break;
+            }
+        }
+        guardarUsuarios();
+    }
+
+    /**
+     * Borra duplicados en el archivo de usuarios, dejando solo la última línea por cédula.
+     */
+    public static void limpiarDuplicadosUsuarios(String rutaArchivo) {
+        Map<String, String> cedulaALinea = new LinkedHashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                linea = linea.trim();
+                if (linea.isEmpty()) continue;
+                String[] partes = linea.split("\\|");
+                if (partes.length < 1) continue;
+                String cedula = partes[0].trim();
+                cedulaALinea.put(cedula, linea); // Solo la última ocurrencia
+            }
+        } catch (Exception e) {
+            System.out.println("Error leyendo archivo: " + e.getMessage());
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaArchivo, false))) {
+            for (String lineaUsuario : cedulaALinea.values()) {
+                bw.write(lineaUsuario);
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            System.out.println("Error escribiendo archivo: " + e.getMessage());
+        }
+        System.out.println("¡Duplicados eliminados!");
     }
 }
