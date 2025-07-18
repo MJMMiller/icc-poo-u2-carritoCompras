@@ -138,4 +138,9 @@ public class UsuarioDAOMemoria implements UsuarioDAO {
         }
         return usuariosRol;
     }
+
+    @Override
+    public void actualizarTodo(Usuario usuario) {
+        actualizar(usuario.getCedula(), usuario.getContrasena(), usuario.getRol());
+    }
 }

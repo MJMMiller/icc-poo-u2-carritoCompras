@@ -24,15 +24,20 @@ public class RegisterController {
     private final List<Pregunta> preguntasRandom;
     private final MensajeInternacionalizacionHandler i18n;
 
+    // NUEVO: para recordar la ruta y el tipo de almacenamiento
+    private final String rutaCarpetaDatos;
+    private final int tipoAlmacenamientoIndex;
+
     public RegisterController(
             UsuarioDAO usuarioDAO,
             PreguntaDAO preguntaDAO,
             ProductoDAO productoDAO,
             CarritoDAO carritoDAO,
             RegisterView registerView,
-            MensajeInternacionalizacionHandler i18n
+            MensajeInternacionalizacionHandler i18n,
+            String rutaCarpetaDatos,
+            int tipoAlmacenamientoIndex
     ) {
-        // Validar DAOs no nulos
         if (usuarioDAO == null) throw new IllegalArgumentException("usuarioDAO no puede ser nulo");
         if (preguntaDAO == null) throw new IllegalArgumentException("preguntaDAO no puede ser nulo");
         if (productoDAO == null) throw new IllegalArgumentException("productoDAO no puede ser nulo");
@@ -46,6 +51,8 @@ public class RegisterController {
         this.carritoDAO = carritoDAO;
         this.registerView = registerView;
         this.i18n = i18n;
+        this.rutaCarpetaDatos = rutaCarpetaDatos;
+        this.tipoAlmacenamientoIndex = tipoAlmacenamientoIndex;
 
         this.preguntasRandom = getPreguntasRandom();
         configurarEventos();
@@ -66,8 +73,6 @@ public class RegisterController {
     }
 
     private void registrarUsuario() {
-        System.out.println("Clase real de usuarioDAO: " + usuarioDAO.getClass().getName());
-        System.out.println("Botón registro presionado...");
         String username = registerView.getTxtUsuario().getText().trim();
         String password = registerView.getTxtContrasena().getText().trim();
         String nombreCompleto = registerView.getTxtNombreCompleto().getText().trim();
@@ -124,7 +129,6 @@ public class RegisterController {
             preguntasUsuario.add(new PreguntaUsuario(preguntasRandom.get(2), respuesta3));
             usuario.setPreguntaValidacion(preguntasUsuario);
 
-            System.out.println("Llamando a crearUsuario en el DAO...");
             usuarioDAO.crearUsuario(usuario);
 
             registerView.mostrarMensaje(
@@ -190,8 +194,10 @@ public class RegisterController {
     private void abrirLogin() {
         SwingUtilities.invokeLater(() -> {
             LogInView logInView = new LogInView(i18n);
-            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+            logInView.getTxtRuta().setText(rutaCarpetaDatos);
+            logInView.getCbxUbicacionGuardar().setSelectedIndex(tipoAlmacenamientoIndex);
             logInView.setVisible(true);
+            new LogInController(logInView, i18n);
         });
     }
 }

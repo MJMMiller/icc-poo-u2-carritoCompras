@@ -13,4 +13,5 @@ public interface UsuarioDAO {
     void actualizar(String userName, String contrasena, Rol rol);
     List<Usuario> listarUsuariosTodos();
     List<Usuario> buscarUsuariosPorRol(Rol rol);
+    void actualizarTodo(Usuario usuario);
 }

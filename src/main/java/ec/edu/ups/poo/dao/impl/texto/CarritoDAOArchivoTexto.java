@@ -1,13 +1,17 @@
 package ec.edu.ups.poo.dao.impl.texto;
 
 import ec.edu.ups.poo.dao.CarritoDAO;
+import ec.edu.ups.poo.excepciones.CedulaInvalidaException;
+import ec.edu.ups.poo.excepciones.ContrasenaInvalidaException;
 import ec.edu.ups.poo.modelo.Carrito;
 import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Producto;
 import ec.edu.ups.poo.modelo.Usuario;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,9 +21,13 @@ public class CarritoDAOArchivoTexto implements CarritoDAO {
     private final List<Carrito> carritos;
     private final String rutaArchivo;
 
-    // Se requiere acceso al listado de productos y usuarios para reconstruir los objetos al leer del archivo
     private final List<Producto> productos;
     private final List<Usuario> usuarios;
+
+    private FileReader fileReader;
+    private BufferedReader bufferedReader;
+
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     public CarritoDAOArchivoTexto(String rutaArchivo, List<Producto> productos, List<Usuario> usuarios) {
         this.rutaArchivo = rutaArchivo;
@@ -27,21 +35,6 @@ public class CarritoDAOArchivoTexto implements CarritoDAO {
         this.productos = productos;
         this.usuarios = usuarios;
         this.carritos = cargarCarritos();
-
-        if (carritos.isEmpty() && !usuarios.isEmpty() && !productos.isEmpty()) {
-            int id = 1;
-            List<ItemCarrito> itemsDefecto = new ArrayList<>();
-            itemsDefecto.add(new ItemCarrito(productos.get(0), 1));
-            double subtotal = productos.get(0).getPrecio();
-            double iva = subtotal * 0.12;
-            double total = subtotal + iva;
-            java.util.Date fecha = new java.util.Date();
-            Usuario usuario = usuarios.get(0);
-
-            Carrito carritoDefecto = new Carrito(id, itemsDefecto, subtotal, iva, total, fecha, usuario);
-            carritos.add(carritoDefecto);
-            guardarCarritosEnArchivo();
-        }
     }
 
     @Override
@@ -128,31 +121,46 @@ public class CarritoDAOArchivoTexto implements CarritoDAO {
     public List<Carrito> listarPorUsuario(String cedula) {
         List<Carrito> carritosUsuario = new ArrayList<>();
         for (Carrito carrito : carritos) {
-            if (carrito.getUsuario().getCedula().equals(cedula)) {
+            if (carrito.getUsuario() != null && carrito.getUsuario().getCedula().equals(cedula)) {
                 carritosUsuario.add(carrito);
             }
         }
         return carritosUsuario;
     }
 
+    @Override
+    public void actualizarCarrito(Carrito carritoActualizado) {
+        for (int i = 0; i < carritos.size(); i++) {
+            if (carritos.get(i).getId() == carritoActualizado.getId()) {
+                carritos.set(i, carritoActualizado);
+                guardarCarritosEnArchivo();
+                return;
+            }
+        }
+    }
+
     private void guardarCarritosEnArchivo() {
-        try {
-            File archivo = new File(rutaArchivo);
-            if (archivo.getParentFile() != null) archivo.getParentFile().mkdirs();
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
-                for (Carrito carrito : carritos) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(carrito.getId()).append("|")
-                            .append(carrito.getUsuario().getCedula()).append("|");
-                    for (ItemCarrito item : carrito.getItems()) {
-                        sb.append(item.getProducto().getCodigo())
-                                .append(",")
-                                .append(item.getCantidad())
-                                .append(";");
-                    }
-                    bw.write(sb.toString());
-                    bw.newLine();
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaArchivo))) {
+            for (Carrito carrito : carritos) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(carrito.getId()).append("|")
+                        .append(carrito.getSubtotal()).append("|")
+                        .append(carrito.getIva()).append("|")
+                        .append(carrito.getTotal()).append("|")
+                        .append(DATE_FORMAT.format(carrito.getFecha())).append("|")
+                        .append(carrito.getUsuario().getCedula()).append("|")
+                        .append(carrito.getUsuario().getNombreCompleto()).append("|")
+                        .append(carrito.getUsuario().getCorreo()).append("|")
+                        .append(carrito.getUsuario().getTelefono()).append("|");
+                for (ItemCarrito item : carrito.getItems()) {
+                    Producto p = item.getProducto();
+                    sb.append(p.getCodigo()).append(",")
+                            .append(p.getNombre()).append(",")
+                            .append(p.getPrecio()).append(",")
+                            .append(item.getCantidad()).append(";");
                 }
+                bw.write(sb.toString());
+                bw.newLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -166,46 +174,47 @@ public class CarritoDAOArchivoTexto implements CarritoDAO {
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split("\\|");
-                if (partes.length >= 3) {
-                    int id = Integer.parseInt(partes[0]);
-                    String cedulaUsuario = partes[1];
-                    Usuario usuario = buscarUsuarioPorCedula(cedulaUsuario);
-                    List<ItemCarrito> items = new ArrayList<>();
-                    String[] itemsStr = partes[2].split(";");
-                    for (String itemStr : itemsStr) {
-                        if (itemStr.isEmpty()) continue;
-                        String[] itemData = itemStr.split(",");
-                        int codigo = Integer.parseInt(itemData[0]);
-                        int cantidad = Integer.parseInt(itemData[1]);
-                        Producto producto = buscarProductoPorCodigo(codigo);
-                        items.add(new ItemCarrito(producto, cantidad));
-                    }
-                    // Calcula subtotal, iva, total, fecha para reconstruir Carrito
-                    double subtotal = 0;
-                    for (ItemCarrito item : items) {
-                        subtotal += item.getProducto().getPrecio() * item.getCantidad();
-                    }
-                    double iva = subtotal * 0.12;
-                    double total = subtotal + iva;
-                    java.util.Date fecha = new java.util.Date();
-                    Carrito carrito = new Carrito(id, items, subtotal, iva, total, fecha, usuario);
+                Carrito carrito = aCarritoDeString(linea);
+                if (carrito != null) {
                     lista.add(carrito);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return lista;
     }
 
-    private Producto buscarProductoPorCodigo(int codigo) {
-        for (Producto producto : productos) {
-            if (producto.getCodigo() == codigo) {
-                return producto;
-            }
+    private Carrito aCarritoDeString(String s) {
+        String[] partes = s.split("\\|");
+        if (partes.length < 10) return null;
+        int id = Integer.parseInt(partes[0]);
+        double subtotal = Double.parseDouble(partes[1]);
+        double iva = Double.parseDouble(partes[2]);
+        double total = Double.parseDouble(partes[3]);
+        Date fecha;
+        try { fecha = DATE_FORMAT.parse(partes[4]); }
+        catch (Exception e) { return null; }
+        String cedulaUsuario = partes[5];
+
+        // Usa la instancia real del usuario
+        Usuario usuario = buscarUsuarioPorCedula(cedulaUsuario);
+
+        List<ItemCarrito> items = new ArrayList<>();
+        String[] itemsStr = partes[9].split(";");
+        for (String itemStr : itemsStr) {
+            if (itemStr.isEmpty()) continue;
+            String[] itemData = itemStr.split(",");
+            if (itemData.length < 4) continue;
+            int codigo = Integer.parseInt(itemData[0]);
+            String nombre = itemData[1];
+            double precio = Double.parseDouble(itemData[2]);
+            int cantidad = Integer.parseInt(itemData[3]);
+            Producto producto = new Producto(codigo, nombre, precio);
+            items.add(new ItemCarrito(producto, cantidad));
         }
-        return null;
+        if (usuario == null) return null;
+        return new Carrito(id, items, subtotal, iva, total, fecha, usuario);
     }
 
     private Usuario buscarUsuarioPorCedula(String cedula) {

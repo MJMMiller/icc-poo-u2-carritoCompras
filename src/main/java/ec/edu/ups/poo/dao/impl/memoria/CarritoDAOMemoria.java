@@ -106,4 +106,15 @@ public class CarritoDAOMemoria implements CarritoDAO {
         }
         return carritosUsuario;
     }
+
+    @Override
+    public void actualizarCarrito(Carrito carrito) {
+        for (int i = 0; i < carritos.size(); i++) {
+            if (carritos.get(i).getId() == carrito.getId()) {
+                carritos.set(i, carrito);
+                return;
+            }
+        }
+        carritos.add(carrito);
+    }
 }

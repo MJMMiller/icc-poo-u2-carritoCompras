@@ -52,13 +52,18 @@ public class MenuPrincipalController {
     private final UsuarioEditarView usuarioEditarView;
     private final UsuarioElimiarView usuarioElimiarView;
 
+    private String rutaCarpetaDatos;
+    private int tipoAlmacenamientoIndex;
+
     public MenuPrincipalController(
             Usuario usuario,
             UsuarioDAO usuarioDAO,
             PreguntaDAO preguntaDAO,
             ProductoDAO productoDAO,
             CarritoDAO carritoDAO,
-            MensajeInternacionalizacionHandler i18n
+            MensajeInternacionalizacionHandler i18n,
+            String rutaCarpetaDatos,
+            int tipoAlmacenamientoIndex
     ) {
         this.usuario = usuario;
         this.usuarioDAO = usuarioDAO;
@@ -66,6 +71,8 @@ public class MenuPrincipalController {
         this.productoDAO = productoDAO;
         this.carritoDAO = carritoDAO;
         this.i18n = i18n;
+        this.rutaCarpetaDatos = rutaCarpetaDatos;
+        this.tipoAlmacenamientoIndex = tipoAlmacenamientoIndex;
 
         // Instanciar vistas
         this.principalView = new MenuPrincipalView(usuario, i18n);
@@ -101,7 +108,8 @@ public class MenuPrincipalController {
                 carritoAnadirView,
                 carritoEditarView,
                 usuario,
-                i18n
+                i18n,
+                usuarioDAO
         );
 
         configurarPermisosPorRol();
@@ -131,6 +139,7 @@ public class MenuPrincipalController {
 
             principalView.getMenuIdioma().setEnabled(true);
         }
+        // Si tienes otros roles, aquí puedes agregar más lógica.
     }
 
     private void configurarEventos() {
@@ -175,8 +184,10 @@ public class MenuPrincipalController {
             principalView.dispose();
             SwingUtilities.invokeLater(() -> {
                 LogInView logInView = new LogInView(i18n);
-                new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+                logInView.getTxtRuta().setText(rutaCarpetaDatos);
+                logInView.getCbxUbicacionGuardar().setSelectedIndex(tipoAlmacenamientoIndex);
                 logInView.setVisible(true);
+                new LogInController(logInView, i18n);
             });
         });
 

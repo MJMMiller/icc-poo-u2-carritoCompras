@@ -113,7 +113,7 @@
           </hspacer>
           <vspacer id="7eb57">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="6" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
           <component id="b40cd" class="javax.swing.JButton" binding="btnEliminar">
@@ -157,6 +157,11 @@
               <text value="Codigo"/>
             </properties>
           </component>
+          <vspacer id="161c7">
+            <constraints>
+              <grid row="4" column="3" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
     </children>

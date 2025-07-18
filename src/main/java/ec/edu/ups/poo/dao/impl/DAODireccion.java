@@ -51,7 +51,6 @@ public class DAODireccion {
     }
 
     public static PreguntaDAO getPreguntaDAO(int tipo, String ruta, MensajeInternacionalizacionHandler i18n) {
-        // Si tienes DAO de texto/binario para preguntas, agrégalo aquí.
         return new PreguntaDAOMemoria(i18n);
     }
 }

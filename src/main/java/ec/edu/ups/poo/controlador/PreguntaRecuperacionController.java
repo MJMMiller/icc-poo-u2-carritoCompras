@@ -24,6 +24,10 @@ public class PreguntaRecuperacionController {
     private final MensajeInternacionalizacionHandler i18n;
     private final List<PreguntaUsuario> preguntasGuardadas;
 
+    // Para recordar el modo y ruta de almacenamiento
+    private final String rutaCarpetaDatos;
+    private final int tipoAlmacenamientoIndex;
+
     private int preguntaActual = 0;
     private int cicloIntentos = 0;
     private final int intentos = 3;
@@ -36,7 +40,9 @@ public class PreguntaRecuperacionController {
             ProductoDAO productoDAO,
             CarritoDAO carritoDAO,
             PreguntasValidacionView preguntasView,
-            MensajeInternacionalizacionHandler i18n
+            MensajeInternacionalizacionHandler i18n,
+            String rutaCarpetaDatos,
+            int tipoAlmacenamientoIndex
     ) {
         this.usuario = usuario;
         this.usuarioDAO = usuarioDAO;
@@ -46,6 +52,8 @@ public class PreguntaRecuperacionController {
         this.preguntasView = preguntasView;
         this.i18n = i18n;
         this.preguntasGuardadas = usuario.getPreguntaValidacion();
+        this.rutaCarpetaDatos = rutaCarpetaDatos;
+        this.tipoAlmacenamientoIndex = tipoAlmacenamientoIndex;
 
         inicializarVista();
         configurarEventos();
@@ -134,12 +142,7 @@ public class PreguntaRecuperacionController {
                             JOptionPane.ERROR_MESSAGE
                     );
                     if (opcion == JOptionPane.YES_OPTION) {
-                        preguntasView.dispose();
-                        SwingUtilities.invokeLater(() -> {
-                            LogInView logInView = new LogInView(i18n);
-                            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
-                            logInView.setVisible(true);
-                        });
+                        regresarAlLogin();
                     } else {
                         System.exit(0);
                     }
@@ -193,12 +196,7 @@ public class PreguntaRecuperacionController {
                     i18n.get("global.success"),
                     JOptionPane.INFORMATION_MESSAGE
             );
-            preguntasView.dispose();
-            SwingUtilities.invokeLater(() -> {
-                LogInView logInView = new LogInView(i18n);
-                new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
-                logInView.setVisible(true);
-            });
+            regresarAlLogin();
         } catch (ec.edu.ups.poo.excepciones.ContrasenaInvalidaException ex) {
             preguntasView.mostrarMensaje(
                     ex.getMessage(),
@@ -232,8 +230,10 @@ public class PreguntaRecuperacionController {
         preguntasView.dispose();
         SwingUtilities.invokeLater(() -> {
             LogInView logInView = new LogInView(i18n);
-            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+            logInView.getTxtRuta().setText(rutaCarpetaDatos);
+            logInView.getCbxUbicacionGuardar().setSelectedIndex(tipoAlmacenamientoIndex);
             logInView.setVisible(true);
+            new LogInController(logInView, i18n);
         });
     }
 }

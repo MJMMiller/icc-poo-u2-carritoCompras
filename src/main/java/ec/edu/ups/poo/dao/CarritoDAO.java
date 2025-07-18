@@ -16,5 +16,6 @@ public interface CarritoDAO {
     Carrito obtenerCarrito(int idCarrito);
     void eliminarCarrtio(int idCarrito);
     List<Carrito> listarCarritos();
-    List<Carrito> listarPorUsuario(String username);
+    List<Carrito> listarPorUsuario(String cedulaUsuario);
+    void actualizarCarrito(Carrito carrito);
 }

@@ -134,6 +134,19 @@ public class CarritoDAOArchivoBinario implements CarritoDAO {
         return carritosUsuario;
     }
 
+    @Override
+    public void actualizarCarrito(Carrito carrito) {
+        for (int i = 0; i < carritos.size(); i++) {
+            if (carritos.get(i).getId() == carrito.getId()) {
+                carritos.set(i, carrito);
+                guardarCarritosEnArchivo();
+                return;
+            }
+        }
+        carritos.add(carrito);
+        guardarCarritosEnArchivo();
+    }
+
     private void guardarCarritosEnArchivo() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaArchivo))) {
             oos.writeObject(carritos);

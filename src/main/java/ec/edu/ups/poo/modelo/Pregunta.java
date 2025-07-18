@@ -11,6 +11,11 @@ public class Pregunta {
         this.texto = texto;
     }
 
+    public Pregunta(String texto) {
+        this.id = -1;
+        this.texto = texto;
+    }
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getTexto() { return texto; }

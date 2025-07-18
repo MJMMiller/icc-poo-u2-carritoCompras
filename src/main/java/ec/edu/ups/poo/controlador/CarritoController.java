@@ -2,7 +2,7 @@ package ec.edu.ups.poo.controlador;
 
 import ec.edu.ups.poo.dao.CarritoDAO;
 import ec.edu.ups.poo.dao.ProductoDAO;
-import ec.edu.ups.poo.dao.impl.memoria.CarritoDAOMemoria;
+import ec.edu.ups.poo.dao.UsuarioDAO;
 import ec.edu.ups.poo.modelo.Carrito;
 import ec.edu.ups.poo.modelo.ItemCarrito;
 import ec.edu.ups.poo.modelo.Producto;
@@ -26,7 +26,7 @@ public class CarritoController {
     private final CarritoEditarView carritoEditarView;
     private final Usuario usuarioAutenticado;
     private final MensajeInternacionalizacionHandler i18n;
-
+    private final UsuarioDAO usuarioDAO;
     private static int contadorCarrito = 1;
     private Carrito carritoCargado = null;
     private List<ItemCarrito> copiaItemsEdit = null;
@@ -38,7 +38,8 @@ public class CarritoController {
             CarritoAnadirView carritoView,
             CarritoEditarView carritoEditarView,
             Usuario usuarioAutenticado,
-            MensajeInternacionalizacionHandler i18n
+            MensajeInternacionalizacionHandler i18n,
+            UsuarioDAO usuarioDAO
     ) {
         this.i18n = i18n;
         this.carritoDAO = carritoDAO;
@@ -46,11 +47,11 @@ public class CarritoController {
         this.carritoView = carritoView;
         this.carritoEditarView = carritoEditarView;
         this.usuarioAutenticado = usuarioAutenticado;
+        this.usuarioDAO = usuarioDAO;
         configurarEventos();
     }
 
     private void configurarEventos() {
-        // Añadir Carrito
         carritoView.getBtnAnadir().addActionListener(e -> agregarAlCarrito());
         carritoView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionado());
         carritoView.getBtnCancel().addActionListener(e -> vaciarCarrito());
@@ -155,7 +156,14 @@ public class CarritoController {
                 double iva = subtotal * 0.15;
                 double total = subtotal + iva;
                 Carrito carrito = new Carrito(contadorCarrito++, items, subtotal, iva, total, new Date(), usuarioAutenticado);
-                ((CarritoDAOMemoria) carritoDAO).guardarCarrito(carrito);
+
+                // Guarda el carrito en archivo de carritos
+                carritoDAO.guardarCarrito(carrito);
+
+                // Añade el carrito a la instancia REAL del usuario
+                Usuario usuarioReal = usuarioDAO.buscarUsuario(usuarioAutenticado.getCedula());
+                usuarioReal.getCarritos().add(carrito);
+                usuarioDAO.actualizarTodo(usuarioReal);
 
                 carritoView.mostrarMensaje(i18n.get("carrito.success.guardado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
                 vaciarCarrito();
@@ -321,6 +329,23 @@ public class CarritoController {
             carritoCargado.getItems().add(new ItemCarrito(item.getProducto(), item.getCantidad()));
         }
         recalcularTotalesCarritoCargado();
+
+        carritoDAO.actualizarCarrito(carritoCargado);
+
+        // --- Actualiza el carrito en el usuario autenticado y guarda ---
+        boolean actualizado = false;
+        for (int i = 0; i < usuarioAutenticado.getCarritos().size(); i++) {
+            if (usuarioAutenticado.getCarritos().get(i).getId() == carritoCargado.getId()) {
+                usuarioAutenticado.getCarritos().set(i, carritoCargado);
+                actualizado = true;
+                break;
+            }
+        }
+        if (!actualizado) {
+            usuarioAutenticado.getCarritos().add(carritoCargado);
+        }
+        usuarioDAO.actualizar(usuarioAutenticado.getCedula(), usuarioAutenticado.getContrasena(), usuarioAutenticado.getRol());
+
         carritoEditarView.mostrarMensaje(i18n.get("carrito.success.cambios_guardados"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
         carritoEditarView.mostrarItemsCarrito(copiaItemsEdit);
         actualizarResumenEditar(carritoCargado.getSubtotal(), carritoCargado.getIva(), carritoCargado.getTotal());
@@ -529,6 +554,11 @@ public class CarritoController {
                 i18n.get("carrito.confirm.eliminar_carrito"), i18n.get("global.confirm"), JOptionPane.WARNING_MESSAGE);
         if (confirmacion == 0) {
             carritoDAO.eliminarCarrtio(id);
+
+            // --- Elimina el carrito del usuario y guarda ---
+            usuarioAutenticado.getCarritos().removeIf(c -> c.getId() == id);
+            usuarioDAO.actualizar(usuarioAutenticado.getCedula(), usuarioAutenticado.getContrasena(), usuarioAutenticado.getRol());
+
             eliminarView.mostrarMensaje(i18n.get("carrito.success.eliminado"), i18n.get("global.success"), JOptionPane.INFORMATION_MESSAGE);
             limpiarCamposEliminarCarrito(eliminarView);
         }

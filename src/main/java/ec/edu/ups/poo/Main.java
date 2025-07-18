@@ -1,14 +1,6 @@
 package ec.edu.ups.poo;
 
 import ec.edu.ups.poo.controlador.*;
-import ec.edu.ups.poo.dao.CarritoDAO;
-import ec.edu.ups.poo.dao.ProductoDAO;
-import ec.edu.ups.poo.dao.PreguntaDAO;
-import ec.edu.ups.poo.dao.UsuarioDAO;
-import ec.edu.ups.poo.dao.impl.memoria.CarritoDAOMemoria;
-import ec.edu.ups.poo.dao.impl.memoria.ProductoDAOMemoria;
-import ec.edu.ups.poo.dao.impl.memoria.PreguntaDAOMemoria;
-import ec.edu.ups.poo.dao.impl.memoria.UsuarioDAOMemoria;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import ec.edu.ups.poo.vista.inicio.LogInView;
 /*

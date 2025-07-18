@@ -26,6 +26,10 @@ public class PreguntaValidacionController {
     private List<Pregunta> listaPreguntas;
     private final List<PreguntaUsuario> preguntasRespondidas = new ArrayList<>();
 
+    // NUEVO: Para recordar el modo y ruta de almacenamiento
+    private final String rutaCarpetaDatos;
+    private final int tipoAlmacenamientoIndex;
+
     public PreguntaValidacionController(
             Usuario usuario,
             UsuarioDAO usuarioDAO,
@@ -33,7 +37,9 @@ public class PreguntaValidacionController {
             ProductoDAO productoDAO,
             CarritoDAO carritoDAO,
             PreguntasValidacionView preguntasView,
-            MensajeInternacionalizacionHandler i18n
+            MensajeInternacionalizacionHandler i18n,
+            String rutaCarpetaDatos,
+            int tipoAlmacenamientoIndex
     ) {
         this.usuario = usuario;
         this.usuarioDAO = usuarioDAO;
@@ -42,6 +48,8 @@ public class PreguntaValidacionController {
         this.carritoDAO = carritoDAO;
         this.preguntasView = preguntasView;
         this.i18n = i18n;
+        this.rutaCarpetaDatos = rutaCarpetaDatos;
+        this.tipoAlmacenamientoIndex = tipoAlmacenamientoIndex;
 
         mostrarPreguntasEnVista();
         configurarEventos();
@@ -61,7 +69,22 @@ public class PreguntaValidacionController {
         JComboBox<String> cbxPreguntas = preguntasView.getCbxPreguntas();
         cbxPreguntas.removeAllItems();
 
-        listaPreguntas = preguntaDAO.listarTodas();
+        List<Pregunta> todasLasPreguntas = preguntaDAO.listarTodas();
+
+        listaPreguntas = new ArrayList<>();
+        for (Pregunta p : todasLasPreguntas) {
+            boolean yaRespondida = false;
+            for (PreguntaUsuario pu : preguntasRespondidas) {
+                if (pu.getPregunta().equals(p)) {
+                    yaRespondida = true;
+                    break;
+                }
+            }
+            if (!yaRespondida) {
+                listaPreguntas.add(p);
+            }
+        }
+
         for (int i = 0; i < listaPreguntas.size(); i++) {
             cbxPreguntas.addItem(i18n.get("preguntas.validacion.nombre.cbx") + " " + (i + 1));
         }
@@ -71,6 +94,8 @@ public class PreguntaValidacionController {
             preguntasView.getLblQuestion().setText(i18n.get(
                     primeraPregunta.getTexto() != null ? primeraPregunta.getTexto() : primeraPregunta.getTexto()
             ));
+        } else {
+            preguntasView.getLblQuestion().setText("");
         }
     }
 
@@ -156,8 +181,10 @@ public class PreguntaValidacionController {
 
         SwingUtilities.invokeLater(() -> {
             LogInView logInView = new LogInView(i18n);
-            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+            logInView.getTxtRuta().setText(rutaCarpetaDatos);
+            logInView.getCbxUbicacionGuardar().setSelectedIndex(tipoAlmacenamientoIndex);
             logInView.setVisible(true);
+            new LogInController(logInView, i18n);
         });
     }
 
@@ -192,16 +219,18 @@ public class PreguntaValidacionController {
             case 2: i18n.setLenguaje("fr", "FR"); break;
             default: i18n.setLenguaje("en", "US");
         }
-        preguntasView.aplicarIdiomas();    // Actualiza todos los textos y el ComboBox
-        mostrarPreguntasEnVista();         // Repobla la lista de preguntas en el nuevo idioma
+        preguntasView.aplicarIdiomas();
+        mostrarPreguntasEnVista();
     }
 
     private void regresarAlLogin(){
         preguntasView.dispose();
         SwingUtilities.invokeLater(() -> {
             LogInView logInView = new LogInView(i18n);
-            new LogInController(usuarioDAO, preguntaDAO, productoDAO, carritoDAO, logInView, i18n);
+            logInView.getTxtRuta().setText(rutaCarpetaDatos);
+            logInView.getCbxUbicacionGuardar().setSelectedIndex(tipoAlmacenamientoIndex);
             logInView.setVisible(true);
+            new LogInController(logInView, i18n);
         });
     }
 }
