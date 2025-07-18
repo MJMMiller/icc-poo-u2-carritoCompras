@@ -14,10 +14,16 @@ import ec.edu.ups.poo.vista.carrito.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Controlador para la gestión de carritos de compras.
+ * Permite agregar, editar, listar y eliminar carritos e items.
+ */
 public class CarritoController {
 
     private final CarritoDAO carritoDAO;
@@ -32,6 +38,18 @@ public class CarritoController {
     private List<ItemCarrito> copiaItemsEdit = null;
     public CarritoListarItemsView itemsView = null;
 
+    /**
+     * Constructor de CarritoController.
+     * Inicializa los DAOs, vistas y usuario autenticado, y configura los eventos.
+     *
+     * @param carritoDAO DAO para operaciones de carrito.
+     * @param productoDAO DAO para operaciones de producto.
+     * @param carritoView Vista para añadir carritos.
+     * @param carritoEditarView Vista para editar carritos.
+     * @param usuarioAutenticado Usuario autenticado en sesión.
+     * @param i18n Manejador de internacionalización de mensajes.
+     * @param usuarioDAO DAO para operaciones de usuario.
+     */
     public CarritoController(
             CarritoDAO carritoDAO,
             ProductoDAO productoDAO,
@@ -51,31 +69,125 @@ public class CarritoController {
         configurarEventos();
     }
 
+    /**
+     * Configura los eventos de las vistas de añadir y editar carrito.
+     * No recibe parámetros ni retorna valores.
+     */
     private void configurarEventos() {
-        carritoView.getBtnAnadir().addActionListener(e -> agregarAlCarrito());
-        carritoView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionado());
-        carritoView.getBtnCancel().addActionListener(e -> vaciarCarrito());
-        carritoView.getBtnSave().addActionListener(e -> guardarCarrito());
+        carritoView.getBtnAnadir().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                agregarAlCarrito();
+            }
+        });
+        carritoView.getBtnEliminarItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarItemSeleccionado();
+            }
+        });
+        carritoView.getBtnCancel().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vaciarCarrito();
+            }
+        });
+        carritoView.getBtnSave().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guardarCarrito();
+            }
+        });
 
-        carritoEditarView.getBtnBuscarCarrito().addActionListener(e -> buscarYMostrarCarritoEditar());
-        carritoEditarView.getBtnActualizar().addActionListener(e -> guardarCambiosEdicion());
-        carritoEditarView.getBtnEliminarItem().addActionListener(e -> eliminarItemSeleccionadoEditar());
-        carritoEditarView.getBtnClean().addActionListener(e -> limpiarCarritoEditar());
-        carritoEditarView.getBtnBuscarProducto().addActionListener(e -> buscarProductoParaEditar());
-        carritoEditarView.getBtnAnadir().addActionListener(e -> agregarProductoAlCarritoEditar());
+        carritoEditarView.getBtnBuscarCarrito().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarYMostrarCarritoEditar();
+            }
+        });
+        carritoEditarView.getBtnActualizar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guardarCambiosEdicion();
+            }
+        });
+        carritoEditarView.getBtnEliminarItem().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarItemSeleccionadoEditar();
+            }
+        });
+        carritoEditarView.getBtnClean().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limpiarCarritoEditar();
+            }
+        });
+        carritoEditarView.getBtnBuscarProducto().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarProductoParaEditar();
+            }
+        });
+        carritoEditarView.getBtnAnadir().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                agregarProductoAlCarritoEditar();
+            }
+        });
     }
 
+    /**
+     * Configura los eventos para la vista de listar carritos.
+     *
+     * @param carritoListarView Vista para listar carritos.
+     */
     public void configurarEventosListar(CarritoListarView carritoListarView) {
-        carritoListarView.getBtnBuscar().addActionListener(e -> buscarYMostrarCarritoPorId(carritoListarView));
-        carritoListarView.getBtnListar().addActionListener(e -> listarCarritos(carritoListarView));
-        carritoListarView.getBtnVerCarrito().addActionListener(e -> verCarrito(carritoListarView));
+        carritoListarView.getBtnBuscar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarYMostrarCarritoPorId(carritoListarView);
+            }
+        });
+        carritoListarView.getBtnListar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                listarCarritos(carritoListarView);
+            }
+        });
+        carritoListarView.getBtnVerCarrito().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                verCarrito(carritoListarView);
+            }
+        });
     }
 
+    /**
+     * Configura los eventos para la vista de eliminar carritos.
+     *
+     * @param eliminarView Vista para eliminar carritos.
+     */
     public void configurarEventosEliminar(CarritoEliminarView eliminarView) {
-        eliminarView.getBtnBuscar().addActionListener(e -> mostrarCarritoAEliminar(eliminarView));
-        eliminarView.getBtnEliminar().addActionListener(e -> eliminarCarrito(eliminarView));
+        eliminarView.getBtnBuscar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarCarritoAEliminar(eliminarView);
+            }
+        });
+        eliminarView.getBtnEliminar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarCarrito(eliminarView);
+            }
+        });
     }
 
+    /**
+     * Agrega un producto al carrito actual.
+     * Valida los datos y actualiza la tabla de productos.
+     * No recibe parámetros ni retorna valores.
+     */
     private void agregarAlCarrito() {
         String codigoTexto = carritoView.getLblCodeProductSearch().getText();
         Object cantidadObj = carritoView.getCbxCantidad().getSelectedItem();
@@ -111,6 +223,11 @@ public class CarritoController {
         carritoView.limpiarCampos();
     }
 
+    /**
+     * Elimina el item seleccionado del carrito actual.
+     * Muestra confirmación antes de eliminar.
+     * No recibe parámetros ni retorna valores.
+     */
     private void eliminarItemSeleccionado() {
         int fila = carritoView.getTblProducts().getSelectedRow();
         if (fila != -1) {
@@ -128,11 +245,20 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Vacía todos los items del carrito actual.
+     * No recibe parámetros ni retorna valores.
+     */
     private void vaciarCarrito() {
         carritoDAO.vaciarCarrito();
         actualizarTabla();
     }
 
+    /**
+     * Actualiza la tabla de productos en la vista del carrito.
+     * Calcula y muestra subtotal, IVA y total.
+     * No recibe parámetros ni retorna valores.
+     */
     private void actualizarTabla() {
         List<ItemCarrito> items = carritoDAO.obtenerItems();
         carritoView.mostrarItemsCarrito(items);
@@ -145,6 +271,11 @@ public class CarritoController {
         carritoView.getTxtTot().setText(FormateadorUtils.formatearMoneda(total, i18n.getLocale()));
     }
 
+    /**
+     * Guarda el carrito actual en el sistema y lo asocia al usuario autenticado.
+     * Muestra mensajes de éxito o error según corresponda.
+     * No recibe parámetros ni retorna valores.
+     */
     private void guardarCarrito() {
         if (carritoDAO.estaVacio()) {
             carritoView.mostrarMensaje(i18n.get("carrito.error.vacio"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
@@ -171,6 +302,12 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Lista los carritos disponibles en la vista correspondiente.
+     * Si el usuario es normal, solo muestra sus propios carritos.
+     *
+     * @param carritoListarView Vista para listar carritos.
+     */
     private void listarCarritos(CarritoListarView carritoListarView) {
         List<Carrito> carritos;
         if (usuarioAutenticado.getRol() == Rol.USUARIO) {
@@ -194,6 +331,11 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Busca y muestra un carrito por su ID en la vista de listado.
+     *
+     * @param carritoListarView Vista para listar carritos.
+     */
     private void buscarYMostrarCarritoPorId(CarritoListarView carritoListarView) {
         String idText = carritoListarView.getTxtCodigo().getText().trim();
         if (idText.isEmpty()) {
@@ -225,6 +367,11 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Muestra los detalles de un carrito seleccionado en la vista de listado.
+     *
+     * @param carritoListarView Vista para listar carritos.
+     */
     private void verCarrito(CarritoListarView carritoListarView) {
         int fila = carritoListarView.getTblCarritos().getSelectedRow();
         if (fila == -1) {
@@ -271,6 +418,11 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Busca y muestra los datos de un carrito para editar.
+     * Carga los items en una copia temporal para edición.
+     * No recibe parámetros ni retorna valores.
+     */
     private void buscarYMostrarCarritoEditar() {
         String codigoTexto = carritoEditarView.getTxtCodigoCarrito().getText().trim();
         if (codigoTexto.isEmpty()) {
@@ -304,6 +456,11 @@ public class CarritoController {
         actualizarResumenEditar(carritoCargado.getSubtotal(), carritoCargado.getIva(), carritoCargado.getTotal());
     }
 
+    /**
+     * Guarda los cambios realizados en la edición de un carrito.
+     * Actualiza los totales y persiste los cambios.
+     * No recibe parámetros ni retorna valores.
+     */
     private void guardarCambiosEdicion() {
         if (carritoCargado == null || copiaItemsEdit == null) {
             carritoEditarView.mostrarMensaje(i18n.get("carrito.error.no_carrito_para_editar"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
@@ -351,6 +508,11 @@ public class CarritoController {
         actualizarResumenEditar(carritoCargado.getSubtotal(), carritoCargado.getIva(), carritoCargado.getTotal());
     }
 
+    /**
+     * Elimina el item seleccionado de la copia temporal de items en edición.
+     * Actualiza la vista y los totales.
+     * No recibe parámetros ni retorna valores.
+     */
     private void eliminarItemSeleccionadoEditar() {
         if (copiaItemsEdit == null) {
             carritoEditarView.mostrarMensaje(i18n.get("carrito.error.no_carrito_para_editar"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
@@ -377,6 +539,10 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Limpia la copia temporal de items en edición y actualiza la vista.
+     * No recibe parámetros ni retorna valores.
+     */
     private void limpiarCarritoEditar() {
         if (copiaItemsEdit != null) {
             copiaItemsEdit.clear();
@@ -385,6 +551,11 @@ public class CarritoController {
         actualizarResumenEditar(0, 0, 0);
     }
 
+    /**
+     * Busca un producto por su código para añadirlo en la edición del carrito.
+     * Muestra los datos del producto si existe.
+     * No recibe parámetros ni retorna valores.
+     */
     private void buscarProductoParaEditar() {
         String codigoTexto = carritoEditarView.getTxtCodigoProducto().getText().trim();
         if (codigoTexto.isEmpty()) {
@@ -410,6 +581,11 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Agrega un producto a la copia temporal de items en edición.
+     * Si el producto ya existe, suma la cantidad.
+     * No recibe parámetros ni retorna valores.
+     */
     private void agregarProductoAlCarritoEditar() {
         if (copiaItemsEdit == null) {
             carritoEditarView.mostrarMensaje(i18n.get("carrito.error.no_carrito_para_editar"), i18n.get("global.error"), JOptionPane.ERROR_MESSAGE);
@@ -455,6 +631,10 @@ public class CarritoController {
         carritoEditarView.limpiarCampos();
     }
 
+    /**
+     * Recalcula los totales (subtotal, IVA, total) de la copia temporal de items en edición.
+     * No recibe parámetros ni retorna valores.
+     */
     private void recalcularTotalesEdicionTemporal() {
         if (copiaItemsEdit != null && carritoEditarView != null) {
             double subtotal = sumarSubtotal(copiaItemsEdit);
@@ -464,6 +644,10 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Recalcula los totales (subtotal, IVA, total) del carrito cargado para edición.
+     * No recibe parámetros ni retorna valores.
+     */
     private void recalcularTotalesCarritoCargado() {
         if (carritoCargado == null) return;
         double subtotal = 0;
@@ -477,6 +661,12 @@ public class CarritoController {
         carritoCargado.setTotal(total);
     }
 
+    /**
+     * Suma el subtotal de una lista de items de carrito.
+     *
+     * @param items Lista de items de carrito.
+     * @return Subtotal calculado como double.
+     */
     private double sumarSubtotal(List<ItemCarrito> items) {
         double subtotal = 0;
         for (ItemCarrito item : items) {
@@ -485,6 +675,13 @@ public class CarritoController {
         return subtotal;
     }
 
+    /**
+     * Actualiza los campos de resumen (subtotal, IVA, total) en la vista de edición de carrito.
+     *
+     * @param subtotal Valor del subtotal.
+     * @param iva Valor del IVA.
+     * @param total Valor total.
+     */
     private void actualizarResumenEditar(double subtotal, double iva, double total) {
         if (carritoEditarView.getTxtSub() != null) {
             carritoEditarView.getTxtSub().setText(FormateadorUtils.formatearMoneda(subtotal, i18n.getLocale()));
@@ -497,6 +694,12 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Muestra los datos de un carrito en la vista de eliminación.
+     * Carga los items y totales del carrito.
+     *
+     * @param eliminarView Vista para eliminar carritos.
+     */
     private void mostrarCarritoAEliminar(CarritoEliminarView eliminarView) {
         String idText = eliminarView.getTxtCodigo().getText().trim();
         if (idText.isEmpty()) {
@@ -536,6 +739,12 @@ public class CarritoController {
         eliminarView.getTxtTotal().setText(FormateadorUtils.formatearMoneda(carrito.getTotal(), i18n.getLocale()));
     }
 
+    /**
+     * Elimina un carrito por su ID y actualiza la información del usuario autenticado.
+     * Muestra mensajes de confirmación y éxito.
+     *
+     * @param eliminarView Vista para eliminar carritos.
+     */
     private void eliminarCarrito(CarritoEliminarView eliminarView) {
         String idText = eliminarView.getTxtCodigo().getText().trim();
         if (idText.isEmpty()) {
@@ -564,6 +773,11 @@ public class CarritoController {
         }
     }
 
+    /**
+     * Limpia los campos y la tabla de la vista de eliminación de carrito.
+     *
+     * @param eliminarView Vista para eliminar carritos.
+     */
     private void limpiarCamposEliminarCarrito(CarritoEliminarView eliminarView) {
         eliminarView.getTxtCodigo().setText("");
         eliminarView.getLblSubTotal().setText("");
@@ -573,3 +787,4 @@ public class CarritoController {
         modelo.setRowCount(0);
     }
 }
+

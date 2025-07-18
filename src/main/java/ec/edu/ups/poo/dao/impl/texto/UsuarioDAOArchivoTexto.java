@@ -9,12 +9,24 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Implementación de UsuarioDAO que almacena los usuarios en un archivo de texto.
+ * Permite crear, buscar, eliminar, actualizar y autenticar usuarios, así como gestionar preguntas de seguridad y carritos asociados.
+ */
 public class UsuarioDAOArchivoTexto implements UsuarioDAO {
     private List<Usuario> usuarios;
     private final String rutaArchivo;
     private final List<Pregunta> preguntas;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+    /**
+     * Constructor de UsuarioDAOArchivoTexto.
+     * Inicializa la lista de preguntas y la ruta del archivo de texto.
+     * Limpia duplicado y carga los usuarios desde el archivo, creando usuarios por defecto si está vacío.
+     *
+     * @param preguntas Lista de preguntas de seguridad disponibles.
+     * @param rutaArchivo Ruta del archivo de texto donde se almacenan los usuarios.
+     */
     public UsuarioDAOArchivoTexto(List<Pregunta> preguntas, String rutaArchivo) {
         this.preguntas = preguntas;
         this.rutaArchivo = rutaArchivo;
@@ -26,6 +38,12 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         }
     }
 
+    /**
+     * Busca un usuario por su cédula.
+     *
+     * @param cedula Cédula del usuario a buscar.
+     * @return Usuario encontrado o null si no existe.
+     */
     @Override
     public Usuario buscarUsuario(String cedula) {
         for (Usuario usuario : usuarios) {
@@ -36,6 +54,11 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         return null;
     }
 
+    /**
+     * Actualiza todos los datos de un usuario existente.
+     *
+     * @param usuarioActualizado Usuario con los datos actualizados.
+     */
     @Override
     public void actualizarTodo(Usuario usuarioActualizado) {
         for (int i = 0; i < usuarios.size(); i++) {
@@ -47,6 +70,11 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         guardarUsuarios();
     }
 
+    /**
+     * Carga los usuarios almacenados en el archivo de texto a la lista interna.
+     * Reconstruye los objetos Usuario, Carrito y PreguntaUsuario.
+     * No recibe parámetros ni retorna valores.
+     */
     private void cargarUsuarios() {
         usuarios.clear(); // Limpia la lista antes de cargar
         File archivo = new File(rutaArchivo);
@@ -134,6 +162,11 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         }
     }
 
+    /**
+     * Guarda la lista de usuarios en el archivo de texto.
+     * Serializa carritos y preguntas de seguridad.
+     * No recibe parámetros ni retorna valores.
+     */
     private void guardarUsuarios() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaArchivo))) {
             for (Usuario usuario : usuarios) {
@@ -190,6 +223,12 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         }
     }
 
+    /**
+     * Busca una pregunta de seguridad por su texto en la lista de preguntas disponibles.
+     *
+     * @param texto Texto de la pregunta a buscar.
+     * @return Pregunta encontrada o null si no existe.
+     */
     private Pregunta buscarPreguntaPorTexto(String texto) {
         for (Pregunta pregunta : preguntas) {
             if (pregunta.getTexto().equals(texto)) return pregunta;
@@ -197,6 +236,13 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         return null;
     }
 
+    /**
+     * Autentica un usuario por cédula y contraseña.
+     *
+     * @param cedula Cédula del usuario.
+     * @param contrasena Contraseña del usuario.
+     * @return Usuario autenticado si las credenciales son correctas, null en caso contrario.
+     */
     @Override
     public Usuario autenticarUsuario(String cedula, String contrasena) {
         for (Usuario usuario : usuarios) {
@@ -208,6 +254,11 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         return null;
     }
 
+    /**
+     * Crea un nuevo usuario si no existe previamente.
+     *
+     * @param usuario Usuario a crear.
+     */
     @Override
     public void crearUsuario(Usuario usuario) {
         if (buscarUsuario(usuario.getCedula()) == null) {
@@ -216,6 +267,11 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         }
     }
 
+    /**
+     * Elimina un usuario por su cédula.
+     *
+     * @param userName Cédula del usuario a eliminar.
+     */
     @Override
     public void eliminarUsuario(String userName) {
         Iterator<Usuario> iterator = usuarios.iterator();
@@ -229,6 +285,13 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         }
     }
 
+    /**
+     * Actualiza la contraseña y el rol de un usuario.
+     *
+     * @param userName Cédula del usuario.
+     * @param contrasena Nueva contraseña.
+     * @param rol Nuevo rol.
+     */
     @Override
     public void actualizar(String userName, String contrasena, Rol rol) {
         Usuario usuario = buscarUsuario(userName);
@@ -243,11 +306,22 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         }
     }
 
+    /**
+     * Lista todos los usuarios almacenados en el archivo de texto.
+     *
+     * @return Lista de todos los usuarios.
+     */
     @Override
     public List<Usuario> listarUsuariosTodos() {
         return new ArrayList<>(usuarios);
     }
 
+    /**
+     * Busca usuarios por su rol.
+     *
+     * @param rol Rol a buscar.
+     * @return Lista de usuarios que tienen el rol especificado.
+     */
     @Override
     public List<Usuario> buscarUsuariosPorRol(Rol rol) {
         List<Usuario> usuariosRol = new ArrayList<>();
@@ -259,6 +333,10 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         return usuariosRol;
     }
 
+    /**
+     * Crea usuarios por defecto (administrador y usuario general) si el archivo está vacío.
+     * No recibe parámetros ni retorna valores.
+     */
     private void crearUsuariosPorDefecto() {
         String nombreAdmin = "Administrador General";
         Date fechaAdmin = getDate(2006, 6, 16);
@@ -306,6 +384,14 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         }
     }
 
+    /**
+     * Obtiene una instancia de Date a partir de año, mes y día.
+     *
+     * @param year Año.
+     * @param month Mes (1-12).
+     * @param day Día del mes.
+     * @return Instancia de Date correspondiente.
+     */
     private Date getDate(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
@@ -318,6 +404,11 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         return cal.getTime();
     }
 
+    /**
+     * Asocia los carritos a los usuarios correspondientes según la cédula.
+     *
+     * @param carritoDAO Instancia de CarritoDAOArchivoTexto para obtener los carritos.
+     */
     public void asociarCarritosAUsuarios(CarritoDAOArchivoTexto carritoDAO) {
         List<Carrito> todosLosCarritos = carritoDAO.listarCarritos();
         for (Usuario usuario : usuarios) {
@@ -332,6 +423,13 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
         }
     }
 
+    /**
+     * Agrega preguntas de seguridad a un usuario.
+     * Reemplaza las preguntas existentes por las nuevas.
+     *
+     * @param cedula Cédula del usuario.
+     * @param nuevasPreguntas Lista de nuevas preguntas a agregar.
+     */
     @Override
     public void agregarPreguntasAUsuario(String cedula, List<PreguntaUsuario> nuevasPreguntas) {
         cargarUsuarios(); // Siempre carga desde archivo para asegurar preguntas
@@ -348,6 +446,8 @@ public class UsuarioDAOArchivoTexto implements UsuarioDAO {
 
     /**
      * Borra duplicados en el archivo de usuarios, dejando solo la última línea por cédula.
+     *
+     * @param rutaArchivo Ruta del archivo de texto de usuarios.
      */
     public static void limpiarDuplicadosUsuarios(String rutaArchivo) {
         Map<String, String> cedulaALinea = new LinkedHashMap<>();

@@ -8,12 +8,24 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación de PreguntaDAO que almacena las preguntas de seguridad en un archivo de texto.
+ * Permite cargar, guardar, listar y modificar preguntas de seguridad persistidas en disco.
+ */
 public class PreguntaDAOArchivoTexto implements PreguntaDAO {
 
     private final List<Pregunta> preguntas = new ArrayList<>();
     private final String rutaArchivo;
     private final MensajeInternacionalizacionHandler i18n;
 
+    /**
+     * Constructor de PreguntaDAOArchivoTexto.
+     * Inicializa el manejador de internacionalización y la ruta del archivo.
+     * Carga las preguntas desde el archivo de texto y, si está vacío, agrega preguntas por defecto y las guarda.
+     *
+     * @param i18n Manejador de internacionalización de mensajes.
+     * @param rutaArchivo Ruta del archivo de texto donde se almacenan las preguntas.
+     */
     public PreguntaDAOArchivoTexto(MensajeInternacionalizacionHandler i18n, String rutaArchivo) {
         this.i18n = i18n;
         this.rutaArchivo = rutaArchivo;
@@ -24,6 +36,10 @@ public class PreguntaDAOArchivoTexto implements PreguntaDAO {
         }
     }
 
+    /**
+     * Carga las preguntas almacenadas en el archivo de texto a la lista interna.
+     * No recibe parámetros ni retorna valores.
+     */
     private void cargarPreguntas() {
         File archivo = new File(rutaArchivo);
         if (!archivo.exists()) return;
@@ -42,6 +58,10 @@ public class PreguntaDAOArchivoTexto implements PreguntaDAO {
         }
     }
 
+    /**
+     * Guarda todas las preguntas de la lista interna en el archivo de texto.
+     * No recibe parámetros ni retorna valores.
+     */
     private void guardarPreguntas() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaArchivo))) {
             for (Pregunta pregunta : preguntas) {
@@ -53,6 +73,10 @@ public class PreguntaDAOArchivoTexto implements PreguntaDAO {
         }
     }
 
+    /**
+     * Agrega preguntas de seguridad por defecto a la lista interna.
+     * No recibe parámetros ni retorna valores.
+     */
     private void agregarPreguntasPorDefecto() {
         preguntas.add(new Pregunta(1, "pregunta.primer_mascota"));
         preguntas.add(new Pregunta(2, "pregunta.ciudad_nacimiento"));
@@ -66,13 +90,23 @@ public class PreguntaDAOArchivoTexto implements PreguntaDAO {
         preguntas.add(new Pregunta(10, "pregunta.pelicula_favorita"));
     }
 
+    /**
+     * Lista todas las preguntas de seguridad almacenadas.
+     * Si modificas la lista retornada, llama a guardarPreguntas() manualmente después.
+     *
+     * @return Lista de preguntas de seguridad.
+     */
     @Override
     public List<Pregunta> listarTodas() {
         // Si modificas la lista retornada, llama a guardarPreguntas() manualmente DESPUÉS.
         return preguntas;
     }
 
-    // Si editas/agregas/eliminas preguntas desde fuera usando la lista, llama a este método luego
+    /**
+     * Guarda los cambios realizados en la lista de preguntas en el archivo de texto.
+     * Si editas/agregas/eliminas preguntas desde fuera usando la lista, llama a este método luego.
+     * No recibe parámetros ni retorna valores.
+     */
     public void guardarCambios() {
         guardarPreguntas();
     }

@@ -16,6 +16,10 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Vista para listar los ítems de un carrito de compras.
+ * Permite visualizar los detalles de los productos agregados al carrito, junto con información de usuario, fecha y totales.
+ */
 public class CarritoListarItemsView extends JInternalFrame {
     private JPanel panelTitle;
     private JLabel lblTitulo;
@@ -48,6 +52,19 @@ public class CarritoListarItemsView extends JInternalFrame {
     private List<ItemCarrito> currentItems;
 
 
+    /**
+     * Constructor de la vista para listar ítems de un carrito.
+     * Inicializa la interfaz gráfica y muestra los datos del carrito.
+     * @param carritoId Identificador del carrito.
+     * @param items Lista de ítems del carrito.
+     * @param subtotal Subtotal del carrito.
+     * @param iva IVA aplicado al carrito.
+     * @param total Total del carrito.
+     * @param username Nombre de usuario asociado al carrito.
+     * @param rol Rol del usuario.
+     * @param fecha Fecha de creación del carrito.
+     * @param i18n Manejador de internacionalización para los textos de la interfaz.
+     */
     public CarritoListarItemsView(
             int carritoId,
             List<ItemCarrito> items,
@@ -83,6 +100,17 @@ public class CarritoListarItemsView extends JInternalFrame {
         aplicarIdioma();
     }
 
+    /**
+     * Muestra los datos del carrito en la interfaz.
+     * @param carritoId Identificador del carrito.
+     * @param items Lista de ítems del carrito.
+     * @param subtotal Subtotal del carrito.
+     * @param iva IVA aplicado al carrito.
+     * @param total Total del carrito.
+     * @param username Nombre de usuario asociado al carrito.
+     * @param rol Rol del usuario.
+     * @param fecha Fecha de creación del carrito.
+     */
     public void mostrarDatos(
             int carritoId,
             List<ItemCarrito> items,
@@ -122,6 +150,10 @@ public class CarritoListarItemsView extends JInternalFrame {
         if (txtFecha != null) txtFecha.setText(fecha);
     }
 
+    /**
+     * Configura y carga la tabla de productos del carrito.
+     * Establece el modelo y el formato visual de la tabla.
+     */
     public void cargarTabla() {
         modelo = new DefaultTableModel(new Object[]{"Item", "Nombre", "Precio", "Cantidad", "Total Item"}, 0) {
             @Override
@@ -165,10 +197,19 @@ public class CarritoListarItemsView extends JInternalFrame {
         }
     }
 
+    /**
+     * Muestra un mensaje en un cuadro de diálogo.
+     * @param mensaje Mensaje a mostrar.
+     * @param titulo Título del cuadro de diálogo.
+     * @param tipo Tipo de mensaje (por ejemplo, JOptionPane.INFORMATION_MESSAGE).
+     */
     public void mostrarMensaje(String mensaje, String titulo, int tipo) {
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 
+    /**
+     * Aplica los textos internacionalizados a los componentes de la interfaz.
+     */
     public void aplicarIdioma() {
         setTitle(i18n.get("carrito.listar.item.titulo"));
         lblTitulo.setText(i18n.get("carrito.listar.item.lbl.titulo"));
@@ -188,6 +229,9 @@ public class CarritoListarItemsView extends JInternalFrame {
         refrescarFormatoMoneda();
     }
 
+    /**
+     * Refresca el formato de moneda en los campos y la tabla según la configuración regional.
+     */
     public void refrescarFormatoMoneda() {
         Locale locale = i18n.getLocale();
         if (modelo != null) {
@@ -209,154 +253,397 @@ public class CarritoListarItemsView extends JInternalFrame {
         if (txtTotal != null) txtTotal.setText(FormateadorUtils.formatearMoneda(total, locale));
     }
 
+    /**
+     * Aplica los iconos a los componentes de la interfaz.
+     */
     public void aplicarIconos(){
         setFrameIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.CARRITO));
         btnSalir.setIcon(ec.edu.ups.poo.util.Direccion.icono(TipoIcono.X));
     }
 
+    /**
+     * Obtiene el panel del título.
+     * @return El panel del título.
+     */
     public JPanel getPanelTitle() {
         return panelTitle;
     }
+
+    /**
+     * Establece el panel del título.
+     * @param panelTitle El panel del título.
+     */
     public void setPanelTitle(JPanel panelTitle) {
         this.panelTitle = panelTitle;
     }
+
+    /**
+     * Obtiene la etiqueta del título.
+     * @return La etiqueta del título.
+     */
     public JLabel getLblTitulo() {
         return lblTitulo;
     }
+
+    /**
+     * Establece la etiqueta del título.
+     * @param lblTitulo La etiqueta del título.
+     */
     public void setLblTitulo(JLabel lblTitulo) {
         this.lblTitulo = lblTitulo;
     }
+
+    /**
+     * Obtiene el panel de producto.
+     * @return El panel de producto.
+     */
     public JPanel getPanelProduct() {
         return panelProduct;
     }
+
+    /**
+     * Establece el panel de producto.
+     * @param panelProduct El panel de producto.
+     */
     public void setPanelProduct(JPanel panelProduct) {
         this.panelProduct = panelProduct;
     }
+
+    /**
+     * Obtiene la etiqueta del código.
+     * @return La etiqueta del código.
+     */
     public JLabel getLblCodigo() {
         return lblCodigo;
     }
+
+    /**
+     * Establece la etiqueta del código.
+     * @param lblCodigo La etiqueta del código.
+     */
     public void setLblCodigo(JLabel lblCodigo) {
         this.lblCodigo = lblCodigo;
     }
+
+    /**
+     * Obtiene el campo de texto para el código.
+     * @return El campo de texto del código.
+     */
     public JTextField getTxtCodigo() {
         return txtCodigo;
     }
+
+    /**
+     * Establece el campo de texto para el código.
+     * @param txtCodigo El campo de texto del código.
+     */
     public void setTxtCodigo(JTextField txtCodigo) {
         this.txtCodigo = txtCodigo;
     }
+
+    /**
+     * Obtiene la etiqueta del usuario.
+     * @return La etiqueta del usuario.
+     */
     public JLabel getLblUsuario() {
         return lblUsuario;
     }
+
+    /**
+     * Establece la etiqueta del usuario.
+     * @param lblUsuario La etiqueta del usuario.
+     */
     public void setLblUsuario(JLabel lblUsuario) {
         this.lblUsuario = lblUsuario;
     }
+
+    /**
+     * Obtiene el campo de texto para el rol del usuario.
+     * @return El campo de texto del rol del usuario.
+     */
     public JTextField getTxtRolUser() {
         return txtRolUser;
     }
+
+    /**
+     * Establece el campo de texto para el rol del usuario.
+     * @param txtRolUser El campo de texto del rol del usuario.
+     */
     public void setTxtRolUser(JTextField txtRolUser) {
         this.txtRolUser = txtRolUser;
     }
+
+    /**
+     * Obtiene el campo de texto para la fecha.
+     * @return El campo de texto de la fecha.
+     */
     public JTextField getTxtFecha() {
         return txtFecha;
     }
+
+    /**
+     * Establece el campo de texto para la fecha.
+     * @param txtFecha El campo de texto de la fecha.
+     */
     public void setTxtFecha(JTextField txtFecha) {
         this.txtFecha = txtFecha;
     }
+
+    /**
+     * Obtiene la etiqueta de la fecha.
+     * @return La etiqueta de la fecha.
+     */
     public JLabel getLblFecha() {
         return lblFecha;
     }
+
+    /**
+     * Establece la etiqueta de la fecha.
+     * @param lblFecha La etiqueta de la fecha.
+     */
     public void setLblFecha(JLabel lblFecha) {
         this.lblFecha = lblFecha;
     }
+
+    /**
+     * Obtiene el panel de ítems.
+     * @return El panel de ítems.
+     */
     public JPanel getPanelItems() {
         return panelItems;
     }
+
+    /**
+     * Establece el panel de ítems.
+     * @param panelItems El panel de ítems.
+     */
     public void setPanelItems(JPanel panelItems) {
         this.panelItems = panelItems;
     }
+
+    /**
+     * Obtiene el scroll de la tabla de productos.
+     * @return El scroll de la tabla.
+     */
     public JScrollPane getScroll() {
         return scroll;
     }
+
+    /**
+     * Establece el scroll de la tabla de productos.
+     * @param scroll El scroll de la tabla.
+     */
     public void setScroll(JScrollPane scroll) {
         this.scroll = scroll;
     }
+
+    /**
+     * Obtiene la tabla de productos.
+     * @return La tabla de productos.
+     */
     public JTable getTblProducts() {
         return tblProducts;
     }
+
+    /**
+     * Establece la tabla de productos.
+     * @param tblProducts La tabla de productos.
+     */
     public void setTblProducts(JTable tblProducts) {
         this.tblProducts = tblProducts;
     }
+
+    /**
+     * Obtiene la etiqueta del subtotal.
+     * @return La etiqueta del subtotal.
+     */
     public JLabel getLblSubtotal() {
         return lblSubtotal;
     }
+
+    /**
+     * Establece la etiqueta del subtotal.
+     * @param lblSubtotal La etiqueta del subtotal.
+     */
     public void setLblSubtotal(JLabel lblSubtotal) {
         this.lblSubtotal = lblSubtotal;
     }
+
+    /**
+     * Obtiene la etiqueta del IVA.
+     * @return La etiqueta del IVA.
+     */
     public JLabel getLblva() {
         return lblva;
     }
+
+    /**
+     * Establece la etiqueta del IVA.
+     * @param lblva La etiqueta del IVA.
+     */
     public void setLblva(JLabel lblva) {
         this.lblva = lblva;
     }
+
+    /**
+     * Obtiene el campo de texto para el IVA.
+     * @return El campo de texto del IVA.
+     */
     public JTextField getTxtIva() {
         return txtIva;
     }
+
+    /**
+     * Establece el campo de texto para el IVA.
+     * @param txtIva El campo de texto del IVA.
+     */
     public void setTxtIva(JTextField txtIva) {
         this.txtIva = txtIva;
     }
+
+    /**
+     * Obtiene la etiqueta del total.
+     * @return La etiqueta del total.
+     */
     public JLabel getLblTotal() {
         return lblTotal;
     }
+
+    /**
+     * Establece la etiqueta del total.
+     * @param lblTotal La etiqueta del total.
+     */
     public void setLblTotal(JLabel lblTotal) {
         this.lblTotal = lblTotal;
     }
+
+    /**
+     * Obtiene el campo de texto para el total.
+     * @return El campo de texto del total.
+     */
     public JTextField getTxtTotal() {
         return txtTotal;
     }
+
+    /**
+     * Establece el campo de texto para el total.
+     * @param txtTotal El campo de texto del total.
+     */
     public void setTxtTotal(JTextField txtTotal) {
         this.txtTotal = txtTotal;
     }
+
+    /**
+     * Obtiene el campo de texto para el subtotal.
+     * @return El campo de texto del subtotal.
+     */
     public JTextField getTxtSubTotal() {
         return txtSubTotal;
     }
+
+    /**
+     * Establece el campo de texto para el subtotal.
+     * @param txtSubTotal El campo de texto del subtotal.
+     */
     public void setTxtSubTotal(JTextField txtSubTotal) {
         this.txtSubTotal = txtSubTotal;
     }
+
+    /**
+     * Obtiene el panel inferior.
+     * @return El panel inferior.
+     */
     public JPanel getPanelInferior() {
         return panelInferior;
     }
+
+    /**
+     * Establece el panel inferior.
+     * @param panelInferior El panel inferior.
+     */
     public void setPanelInferior(JPanel panelInferior) {
         this.panelInferior = panelInferior;
     }
+
+    /**
+     * Obtiene el botón para salir de la vista.
+     * @return El botón de salir.
+     */
     public JButton getBtnSalir() {
         return btnSalir;
     }
+
+    /**
+     * Establece el botón para salir de la vista.
+     * @param btnSalir El botón de salir.
+     */
     public void setBtnSalir(JButton btnSalir) {
         this.btnSalir = btnSalir;
     }
+
+    /**
+     * Obtiene el panel principal.
+     * @return El panel principal.
+     */
     public JPanel getPanelAll() {
         return panelAll;
     }
+
+    /**
+     * Establece el panel principal.
+     * @param panelAll El panel principal.
+     */
     public void setPanelAll(JPanel panelAll) {
         this.panelAll = panelAll;
     }
+
+    /**
+     * Obtiene el campo de texto para el usuario.
+     * @return El campo de texto del usuario.
+     */
     public JTextField getTxtUsuario() {
         return txtUsuario;
     }
+
+    /**
+     * Establece el campo de texto para el usuario.
+     * @param txtUsuario El campo de texto del usuario.
+     */
     public void setTxtUsuario(JTextField txtUsuario) {
         this.txtUsuario = txtUsuario;
     }
+
+    /**
+     * Obtiene la etiqueta de los ítems del carrito.
+     * @return La etiqueta de los ítems del carrito.
+     */
     public JLabel getLblItemsCarrito() {
         return lblItemsCarrito;
     }
+
+    /**
+     * Establece la etiqueta de los ítems del carrito.
+     * @param lblItemsCarrito La etiqueta de los ítems del carrito.
+     */
     public void setLblItemsCarrito(JLabel lblItemsCarrito) {
         this.lblItemsCarrito = lblItemsCarrito;
     }
+
+    /**
+     * Obtiene el modelo de la tabla.
+     * @return El modelo de la tabla.
+     */
     public DefaultTableModel getModelo() {
         return modelo;
     }
+
+    /**
+     * Establece el modelo de la tabla.
+     * @param modelo El modelo de la tabla.
+     */
     public void setModelo(DefaultTableModel modelo) {
         this.modelo = modelo;
     }
 
 }
+

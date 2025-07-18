@@ -23,8 +23,21 @@ import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import java.util.List;
 
+/**
+ * Clase de utilidad para obtener instancias de DAOs según el tipo de almacenamiento.
+ * Permite seleccionar entre almacenamiento en memoria, texto o binario para usuarios, productos, carritos y preguntas.
+ */
 public class DAODireccion {
 
+    /**
+     * Obtiene una instancia de UsuarioDAO según el tipo de almacenamiento.
+     *
+     * @param tipo Tipo de almacenamiento (0: memoria, 1: texto, 2: binario).
+     * @param ruta Ruta base para los archivos.
+     * @param preguntas Lista de preguntas de seguridad disponibles.
+     * @return Instancia de UsuarioDAO correspondiente.
+     * @throws IllegalArgumentException si el tipo es incorrecto.
+     */
     public static UsuarioDAO getUsuarioDAO(int tipo, String ruta, List<Pregunta> preguntas) {
         switch (tipo) {
             case 0: return new UsuarioDAOMemoria(preguntas);
@@ -34,6 +47,14 @@ public class DAODireccion {
         }
     }
 
+    /**
+     * Obtiene una instancia de ProductoDAO según el tipo de almacenamiento.
+     *
+     * @param tipo Tipo de almacenamiento (0: memoria, 1: texto, 2: binario).
+     * @param ruta Ruta base para los archivos.
+     * @return Instancia de ProductoDAO correspondiente.
+     * @throws IllegalArgumentException si el tipo es incorrecto.
+     */
     public static ProductoDAO getProductoDAO(int tipo, String ruta) {
         switch (tipo) {
             case 0: return new ProductoDAOMemoria();
@@ -43,6 +64,16 @@ public class DAODireccion {
         }
     }
 
+    /**
+     * Obtiene una instancia de CarritoDAO según el tipo de almacenamiento.
+     *
+     * @param tipo Tipo de almacenamiento (0: memoria, 1: texto, 2: binario).
+     * @param ruta Ruta base para los archivos.
+     * @param productos Lista de productos disponibles.
+     * @param usuarios Lista de usuarios disponibles.
+     * @return Instancia de CarritoDAO correspondiente.
+     * @throws IllegalArgumentException si el tipo es incorrecto.
+     */
     public static CarritoDAO getCarritoDAO(int tipo, String ruta, List<Producto> productos, List<Usuario> usuarios) {
         switch (tipo) {
             case 0: return new CarritoDAOMemoria();
@@ -53,6 +84,15 @@ public class DAODireccion {
     }
 
 
+    /**
+     * Obtiene una instancia de PreguntaDAO según el tipo de almacenamiento.
+     *
+     * @param tipo Tipo de almacenamiento (0: memoria, 1: texto, 2: binario).
+     * @param ruta Ruta base para los archivos.
+     * @param i18n Manejador de internacionalización de mensajes.
+     * @return Instancia de PreguntaDAO correspondiente.
+     * @throws IllegalArgumentException si el tipo es incorrecto.
+     */
     public static PreguntaDAO getPreguntaDAO(int tipo, String ruta, MensajeInternacionalizacionHandler i18n) {
         switch (tipo) {
             case 0: return new PreguntaDAOMemoria(i18n);

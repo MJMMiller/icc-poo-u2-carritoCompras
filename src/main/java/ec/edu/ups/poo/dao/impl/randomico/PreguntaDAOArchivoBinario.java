@@ -7,10 +7,21 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación de PreguntaDAO que almacena las preguntas de seguridad en un archivo binario.
+ * Permite cargar, guardar, listar y modificar preguntas de seguridad persistidas en disco.
+ */
 public class PreguntaDAOArchivoBinario implements PreguntaDAO {
     private final List<Pregunta> preguntas = new ArrayList<>();
     private final String rutaArchivo;
 
+    /**
+     * Constructor de PreguntaDAOArchivoBinario.
+     * Inicializa la ruta del archivo y carga las preguntas desde el archivo binario.
+     * Si el archivo está vacío, agrega preguntas por defecto y las guarda.
+     *
+     * @param rutaArchivo Ruta del archivo binario donde se almacenan las preguntas.
+     */
     public PreguntaDAOArchivoBinario(String rutaArchivo) {
         this.rutaArchivo = rutaArchivo;
         crearArchivoSiNoExiste();
@@ -21,6 +32,10 @@ public class PreguntaDAOArchivoBinario implements PreguntaDAO {
         }
     }
 
+    /**
+     * Crea el archivo de preguntas si no existe en la ruta especificada.
+     * No recibe parámetros ni retorna valores.
+     */
     private void crearArchivoSiNoExiste() {
         File f = new File(rutaArchivo);
         if (!f.exists()) {
@@ -28,6 +43,10 @@ public class PreguntaDAOArchivoBinario implements PreguntaDAO {
         }
     }
 
+    /**
+     * Carga las preguntas almacenadas en el archivo binario a la lista interna.
+     * No recibe parámetros ni retorna valores.
+     */
     private void cargarPreguntas() {
         preguntas.clear();
         File archivo = new File(rutaArchivo);
@@ -45,6 +64,10 @@ public class PreguntaDAOArchivoBinario implements PreguntaDAO {
         }
     }
 
+    /**
+     * Guarda todas las preguntas de la lista interna en el archivo binario.
+     * No recibe parámetros ni retorna valores.
+     */
     private void guardarPreguntas() {
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(rutaArchivo, false))) {
             for (Pregunta pregunta : preguntas) {
@@ -56,6 +79,10 @@ public class PreguntaDAOArchivoBinario implements PreguntaDAO {
         }
     }
 
+    /**
+     * Agrega preguntas de seguridad por defecto a la lista interna.
+     * No recibe parámetros ni retorna valores.
+     */
     private void agregarPreguntasPorDefecto() {
         preguntas.add(new Pregunta(1, "pregunta.primer_mascota"));
         preguntas.add(new Pregunta(2, "pregunta.ciudad_nacimiento"));
@@ -69,18 +96,29 @@ public class PreguntaDAOArchivoBinario implements PreguntaDAO {
         preguntas.add(new Pregunta(10, "pregunta.pelicula_favorita"));
     }
 
+    /**
+     * Lista todas las preguntas de seguridad almacenadas.
+     *
+     * @return Lista de preguntas de seguridad.
+     */
     @Override
     public List<Pregunta> listarTodas() {
         // Devuelve una copia para evitar modificación externa directa
         return new ArrayList<>(preguntas);
     }
 
-    // Si editas/agregas/eliminas preguntas desde fuera usando la lista, llama a este método luego
+    /**
+     * Guarda los cambios realizados en la lista de preguntas en el archivo binario.
+     * No recibe parámetros ni retorna valores.
+     */
     public void guardarCambios() {
         guardarPreguntas();
     }
 
-    // Opcional: Permite recargar preguntas desde el archivo (útil si otro proceso las modifica)
+    /**
+     * Recarga las preguntas desde el archivo binario, sobrescribiendo la lista interna.
+     * No recibe parámetros ni retorna valores.
+     */
     public void recargarPreguntas() {
         cargarPreguntas();
     }

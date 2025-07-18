@@ -13,8 +13,15 @@ import ec.edu.ups.poo.vista.inicio.RegisterView;
 import ec.edu.ups.poo.vista.inicio.LogInView;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
+/**
+ * Controlador para el registro de nuevos usuarios.
+ * Permite validar los datos ingresados, asignar preguntas de seguridad aleatorias,
+ * guardar el usuario en el sistema y gestionar la internacionalización de la vista.
+ */
 public class RegisterController {
     private final UsuarioDAO usuarioDAO;
     private final PreguntaDAO preguntaDAO;
@@ -28,6 +35,20 @@ public class RegisterController {
     private final String rutaCarpetaDatos;
     private final int tipoAlmacenamientoIndex;
 
+    /**
+     * Constructor de RegisterController.
+     * Inicializa DAOs, vista, manejador de internacionalización, ruta y tipo de almacenamiento.
+     * Configura los eventos y muestra las preguntas de seguridad en la vista.
+     *
+     * @param usuarioDAO DAO para operaciones de usuario.
+     * @param preguntaDAO DAO para operaciones de preguntas de seguridad.
+     * @param productoDAO DAO para operaciones de producto.
+     * @param carritoDAO DAO para operaciones de carrito.
+     * @param registerView Vista de registro de usuario.
+     * @param i18n Manejador de internacionalización de mensajes.
+     * @param rutaCarpetaDatos Ruta de la carpeta de datos.
+     * @param tipoAlmacenamientoIndex Índice del tipo de almacenamiento.
+     */
     public RegisterController(
             UsuarioDAO usuarioDAO,
             PreguntaDAO preguntaDAO,
@@ -60,18 +81,53 @@ public class RegisterController {
         registerView.aplicarIdioma();
     }
 
+    /**
+     * Configura los eventos de la vista de registro.
+     * Asocia acciones a los botones de registro, limpiar, salir y cambio de idioma.
+     * No recibe parámetros ni retorna valores.
+     */
     private void configurarEventos() {
-        registerView.getBtnRegistro().addActionListener(e -> registrarUsuario());
-        registerView.getBtnClean().addActionListener(e -> limpiarCampos());
-        registerView.getBtnSalir().addActionListener(e -> salir());
-        registerView.getCbxIdioma().addActionListener(e -> cambioDeIdiomaDesdeCbx());
+        registerView.getBtnRegistro().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registrarUsuario();
+            }
+        });
+        registerView.getBtnClean().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limpiarCampos();
+            }
+        });
+        registerView.getBtnSalir().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                salir();
+            }
+        });
+        registerView.getCbxIdioma().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambioDeIdiomaDesdeCbx();
+            }
+        });
     }
 
+    /**
+     * Cierra la vista de registro y abre la vista de login.
+     * No recibe parámetros ni retorna valores.
+     */
     private void salir() {
         registerView.dispose();
         abrirLogin();
     }
 
+    /**
+     * Realiza el proceso de registro de usuario.
+     * Valida los campos, verifica unicidad, asigna preguntas de seguridad y guarda el usuario.
+     * Muestra mensajes de éxito o error según corresponda.
+     * No recibe parámetros ni retorna valores.
+     */
     private void registrarUsuario() {
         String username = registerView.getTxtUsuario().getText().trim();
         String password = registerView.getTxtContrasena().getText().trim();
@@ -143,12 +199,20 @@ public class RegisterController {
         }
     }
 
+    /**
+     * Muestra las preguntas de seguridad aleatorias en la vista de registro.
+     * No recibe parámetros ni retorna valores.
+     */
     private void mostrarPreguntasEnVista() {
         registerView.getLblPregunta1().setText(i18n.get(preguntasRandom.get(0).getTexto()));
         registerView.getLblPregunta2().setText(i18n.get(preguntasRandom.get(1).getTexto()));
         registerView.getLblPregunta3().setText(i18n.get(preguntasRandom.get(2).getTexto()));
     }
 
+    /**
+     * Limpia todos los campos del formulario de registro.
+     * No recibe parámetros ni retorna valores.
+     */
     private void limpiarCampos() {
         registerView.getTxtUsuario().setText("");
         registerView.getTxtContrasena().setText("");
@@ -163,6 +227,12 @@ public class RegisterController {
         registerView.getTxtTelefono().setText("");
     }
 
+    /**
+     * Verifica si alguno de los campos proporcionados está vacío.
+     *
+     * @param campos Lista de cadenas a verificar.
+     * @return true si algún campo está vacío, false en caso contrario.
+     */
     private boolean camposVacios(String... campos) {
         for (String campo : campos) {
             if (campo == null || campo.isEmpty()) {
@@ -172,6 +242,12 @@ public class RegisterController {
         return false;
     }
 
+    /**
+     * Obtiene una lista de tres preguntas de seguridad aleatorias.
+     *
+     * @return Lista de tres preguntas aleatorias.
+     * @throws IllegalStateException si no hay suficientes preguntas disponibles.
+     */
     private List<Pregunta> getPreguntasRandom() {
         List<Pregunta> lista = preguntaDAO.listarTodas();
         if (lista.size() < 3) throw new IllegalStateException("No hay suficientes preguntas para el registro");
@@ -179,6 +255,11 @@ public class RegisterController {
         return lista.subList(0, 3);
     }
 
+    /**
+     * Cambia el idioma de la vista de registro según la selección del usuario.
+     * Aplica el idioma y actualiza las preguntas mostradas.
+     * No recibe parámetros ni retorna valores.
+     */
     private void cambioDeIdiomaDesdeCbx() {
         int selectedIndex = registerView.getCbxIdioma().getSelectedIndex();
         switch (selectedIndex) {
@@ -191,6 +272,10 @@ public class RegisterController {
         mostrarPreguntasEnVista();
     }
 
+    /**
+     * Abre la vista de login y aplica la configuración de ruta y tipo de almacenamiento.
+     * No recibe parámetros ni retorna valores.
+     */
     private void abrirLogin() {
         SwingUtilities.invokeLater(() -> {
             LogInView logInView = new LogInView(i18n);

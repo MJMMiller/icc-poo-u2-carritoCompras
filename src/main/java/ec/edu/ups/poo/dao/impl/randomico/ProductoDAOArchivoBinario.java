@@ -8,10 +8,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Implementación de ProductoDAO que almacena los productos en un archivo binario.
+ * Permite crear, buscar, actualizar, eliminar y listar productos de forma persistente.
+ */
 public class ProductoDAOArchivoBinario implements ProductoDAO {
     private final List<Producto> productos;
     private final String rutaArchivo;
 
+    /**
+     * Constructor de ProductoDAOArchivoBinario.
+     * Inicializa la ruta del archivo y carga los productos desde el archivo binario.
+     * Si el archivo está vacío, agrega productos de ejemplo.
+     *
+     * @param rutaArchivo Ruta del archivo binario donde se almacenan los productos.
+     */
     public ProductoDAOArchivoBinario(String rutaArchivo) {
         this.rutaArchivo = rutaArchivo;
         productos = new ArrayList<>();
@@ -24,6 +35,10 @@ public class ProductoDAOArchivoBinario implements ProductoDAO {
         }
     }
 
+    /**
+     * Carga los productos almacenados en el archivo binario a la lista interna.
+     * No recibe parámetros ni retorna valores.
+     */
     private void cargarProductos() {
         productos.clear();
         File archivo = new File(rutaArchivo);
@@ -42,6 +57,10 @@ public class ProductoDAOArchivoBinario implements ProductoDAO {
         }
     }
 
+    /**
+     * Guarda todos los productos de la lista interna en el archivo binario.
+     * No recibe parámetros ni retorna valores.
+     */
     private void guardarProductos() {
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(rutaArchivo, false))) {
             for (Producto producto : productos) {
@@ -54,12 +73,23 @@ public class ProductoDAOArchivoBinario implements ProductoDAO {
         }
     }
 
+    /**
+     * Crea un nuevo producto y lo agrega a la lista interna y al archivo binario.
+     *
+     * @param producto Producto a agregar.
+     */
     @Override
     public void crear(Producto producto) {
         productos.add(producto);
         guardarProductos();
     }
 
+    /**
+     * Busca un producto por su código.
+     *
+     * @param codigo Código del producto a buscar.
+     * @return Producto encontrado o null si no existe.
+     */
     @Override
     public Producto buscarPorCodigo(int codigo) {
         for (Producto producto : productos) {
@@ -70,6 +100,12 @@ public class ProductoDAOArchivoBinario implements ProductoDAO {
         return null;
     }
 
+    /**
+     * Busca productos por su nombre (ignorando mayúsculas/minúsculas).
+     *
+     * @param nombre Nombre del producto a buscar.
+     * @return Lista de productos que coinciden con el nombre.
+     */
     @Override
     public List<Producto> buscarPorNombre(String nombre) {
         List<Producto> encontrados = new ArrayList<>();
@@ -81,6 +117,11 @@ public class ProductoDAOArchivoBinario implements ProductoDAO {
         return encontrados;
     }
 
+    /**
+     * Actualiza los datos de un producto existente en la lista y en el archivo binario.
+     *
+     * @param productoActualizado Producto con los datos actualizados.
+     */
     @Override
     public void actualizar(Producto productoActualizado) {
         for (int i = 0; i < productos.size(); i++) {
@@ -92,6 +133,11 @@ public class ProductoDAOArchivoBinario implements ProductoDAO {
         }
     }
 
+    /**
+     * Elimina un producto de la lista y del archivo binario por su código.
+     *
+     * @param codigo Código del producto a eliminar.
+     */
     @Override
     public void eliminar(int codigo) {
         Iterator<Producto> iterator = productos.iterator();
@@ -105,6 +151,11 @@ public class ProductoDAOArchivoBinario implements ProductoDAO {
         }
     }
 
+    /**
+     * Lista todos los productos almacenados en el archivo binario.
+     *
+     * @return Lista de todos los productos.
+     */
     @Override
     public List<Producto> listarTodos() {
         return new ArrayList<>(productos);

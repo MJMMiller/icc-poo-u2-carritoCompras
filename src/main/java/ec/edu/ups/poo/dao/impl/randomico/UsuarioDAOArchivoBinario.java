@@ -8,10 +8,22 @@ import ec.edu.ups.poo.modelo.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Implementación de UsuarioDAO que almacena los usuarios en un archivo binario.
+ * Permite crear, buscar, eliminar, actualizar y autenticar usuarios, así como gestionar preguntas de seguridad y carritos asociados.
+ */
 public class UsuarioDAOArchivoBinario implements UsuarioDAO {
     private final String rutaArchivo;
     private final List<Pregunta> preguntas;
 
+    /**
+     * Constructor de UsuarioDAOArchivoBinario.
+     * Inicializa la lista de preguntas y la ruta del archivo binario.
+     * Crea el archivo si no existe y agrega usuarios por defecto si está vacío.
+     *
+     * @param preguntas Lista de preguntas de seguridad disponibles.
+     * @param rutaArchivo Ruta del archivo binario donde se almacenan los usuarios.
+     */
     public UsuarioDAOArchivoBinario(List<Pregunta> preguntas, String rutaArchivo) {
         this.preguntas = preguntas;
         this.rutaArchivo = rutaArchivo;
@@ -21,6 +33,10 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         }
     }
 
+    /**
+     * Crea el archivo de usuarios si no existe en la ruta especificada.
+     * No recibe parámetros ni retorna valores.
+     */
     private void crearArchivoSiNoExiste() {
         File f = new File(rutaArchivo);
         if (!f.exists()) {
@@ -32,6 +48,11 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         }
     }
 
+    /**
+     * Crea un nuevo usuario si no existe previamente.
+     *
+     * @param usuario Usuario a crear.
+     */
     @Override
     public void crearUsuario(Usuario usuario) {
         // Solo agrega si no existe
@@ -42,6 +63,11 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         }
     }
 
+    /**
+     * Lista todos los usuarios almacenados en el archivo binario.
+     *
+     * @return Lista de todos los usuarios.
+     */
     @Override
     public List<Usuario> listarUsuariosTodos() {
         List<Usuario> usuarios = new ArrayList<>();
@@ -93,6 +119,12 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         return usuarios;
     }
 
+    /**
+     * Busca una pregunta de seguridad por su texto en la lista de preguntas disponibles.
+     *
+     * @param texto Texto de la pregunta a buscar.
+     * @return Pregunta encontrada o null si no existe.
+     */
     private Pregunta buscarPreguntaPorTexto(String texto) {
         if (preguntas == null) return null;
         for (Pregunta pregunta : preguntas) {
@@ -101,6 +133,11 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         return null;
     }
 
+    /**
+     * Guarda la lista de usuarios en el archivo binario.
+     *
+     * @param usuarios Lista de usuarios a guardar.
+     */
     private void guardarUsuarios(List<Usuario> usuarios) {
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(rutaArchivo, false))) {
             for (Usuario usuario : usuarios) {
@@ -136,6 +173,12 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         }
     }
 
+    /**
+     * Busca un usuario por su cédula.
+     *
+     * @param cedula Cédula del usuario a buscar.
+     * @return Usuario encontrado o null si no existe.
+     */
     @Override
     public Usuario buscarUsuario(String cedula) {
         for (Usuario usuario : listarUsuariosTodos()) {
@@ -146,6 +189,11 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         return null;
     }
 
+    /**
+     * Elimina un usuario por su cédula.
+     *
+     * @param cedula Cédula del usuario a eliminar.
+     */
     @Override
     public void eliminarUsuario(String cedula) {
         List<Usuario> usuarios = listarUsuariosTodos();
@@ -153,6 +201,11 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         guardarUsuarios(usuarios);
     }
 
+    /**
+     * Actualiza todos los datos de un usuario existente.
+     *
+     * @param usuarioActualizado Usuario con los datos actualizados.
+     */
     @Override
     public void actualizarTodo(Usuario usuarioActualizado) {
         List<Usuario> usuarios = listarUsuariosTodos();
@@ -165,6 +218,13 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         guardarUsuarios(usuarios);
     }
 
+    /**
+     * Autentica un usuario por cédula y contraseña.
+     *
+     * @param cedula Cédula del usuario.
+     * @param contrasena Contraseña del usuario.
+     * @return Usuario autenticado si las credenciales son correctas, null en caso contrario.
+     */
     @Override
     public Usuario autenticarUsuario(String cedula, String contrasena) {
         for (Usuario usuario : listarUsuariosTodos()) {
@@ -176,6 +236,13 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         return null;
     }
 
+    /**
+     * Actualiza la contraseña y el rol de un usuario.
+     *
+     * @param userName Cédula del usuario.
+     * @param contrasena Nueva contraseña.
+     * @param rol Nuevo rol.
+     */
     @Override
     public void actualizar(String userName, String contrasena, Rol rol) {
         List<Usuario> usuarios = listarUsuariosTodos();
@@ -191,6 +258,12 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         guardarUsuarios(usuarios);
     }
 
+    /**
+     * Busca usuarios por su rol.
+     *
+     * @param rol Rol a buscar.
+     * @return Lista de usuarios que tienen el rol especificado.
+     */
     @Override
     public List<Usuario> buscarUsuariosPorRol(Rol rol) {
         List<Usuario> usuariosRol = new ArrayList<>();
@@ -202,6 +275,13 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         return usuariosRol;
     }
 
+    /**
+     * Agrega preguntas de seguridad a un usuario.
+     * Reemplaza las preguntas existentes por las nuevas.
+     *
+     * @param cedula Cédula del usuario.
+     * @param nuevasPreguntas Lista de nuevas preguntas a agregar.
+     */
     @Override
     public void agregarPreguntasAUsuario(String cedula, List<PreguntaUsuario> nuevasPreguntas) {
         // Robustez: siempre lee todos los usuarios antes de actualizar
@@ -217,6 +297,10 @@ public class UsuarioDAOArchivoBinario implements UsuarioDAO {
         guardarUsuarios(usuarios);
     }
 
+    /**
+     * Crea usuarios por defecto (administrador y usuario general) si el archivo está vacío.
+     * No recibe parámetros ni retorna valores.
+     */
     private void crearUsuariosPorDefecto() {
         List<Usuario> usuarios = listarUsuariosTodos();
 

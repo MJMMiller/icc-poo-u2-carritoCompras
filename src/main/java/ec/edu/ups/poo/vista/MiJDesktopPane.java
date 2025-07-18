@@ -3,13 +3,26 @@ package ec.edu.ups.poo.vista;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Clase personalizada que extiende JDesktopPane para mostrar un diseño gráfico especial en el fondo.
+ * Utiliza colores y formas inspiradas en el diseño de OXXO y muestra el texto "POO" centrado.
+ */
 public class MiJDesktopPane extends JDesktopPane {
 
+    /**
+     * Constructor por defecto.
+     * Establece el fondo opaco y el color de fondo personalizado.
+     */
     public MiJDesktopPane() {
         setOpaque(true);
         setBackground(new Color(33, 37, 43));
     }
 
+    /**
+     * Sobrescribe el método paintComponent para dibujar el diseño personalizado en el fondo del DesktopPane.
+     *
+     * @param g Objeto Graphics utilizado para dibujar.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -35,6 +48,13 @@ public class MiJDesktopPane extends JDesktopPane {
         g2.dispose();
     }
 
+    /**
+     * Dibuja el diseño gráfico personalizado inspirado en OXXO y el texto "POO" centrado.
+     *
+     * @param g2 Objeto Graphics2D para dibujo avanzado.
+     * @param w Ancho del área de dibujo.
+     * @param h Alto del área de dibujo.
+     */
     private void drawOxxoDesign(Graphics2D g2, int w, int h) {
         Color rojoOxxo = new Color(214, 38, 61);
         Color amarilloOxxo = new Color(253, 184, 39);

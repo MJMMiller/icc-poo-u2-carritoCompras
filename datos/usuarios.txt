@@ -1,2 +1,0 @@
-0150303923|Admin@1|ADMINISTRADOR|Administrador General|2006-06-16|admin@admin.com|0999999999|1,Rocko;2,Cuenca;3,Pizza;
-1104680135|User_2a|USUARIO|Usuario de Prueba|1990-05-15|user@user.com|0888888888|

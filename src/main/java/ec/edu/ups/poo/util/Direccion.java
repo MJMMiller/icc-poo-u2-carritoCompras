@@ -2,8 +2,18 @@ package ec.edu.ups.poo.util;
 
 import javax.swing.*;
 
+/**
+ * Clase de utilidad para obtener iconos de la interfaz gráfica según el tipo solicitado.
+ * Proporciona un método estático para cargar imágenes como iconos a partir de recursos.
+ */
 public class Direccion {
 
+    /**
+     * Devuelve un ImageIcon correspondiente al tipo de icono solicitado.
+     *
+     * @param tipo TipoIcono que representa el icono deseado.
+     * @return ImageIcon cargado desde los recursos, o null si el tipo no es reconocido.
+     */
     public static ImageIcon icono(TipoIcono tipo) {
         switch (tipo) {
             case USUARIO:

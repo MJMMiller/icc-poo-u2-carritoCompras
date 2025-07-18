@@ -13,8 +13,14 @@ import ec.edu.ups.poo.vista.preguntas.PreguntasValidacionView;
 import ec.edu.ups.poo.vista.inicio.LogInView;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
+/**
+ * Controlador para la validación de preguntas de seguridad durante el registro o configuración de usuario.
+ * Permite seleccionar preguntas, registrar respuestas y guardar la configuración en el sistema.
+ */
 public class PreguntaValidacionController {
 
     private final Usuario usuario;
@@ -27,10 +33,24 @@ public class PreguntaValidacionController {
     private List<Pregunta> listaPreguntas;
     private final List<PreguntaUsuario> preguntasRespondidas = new ArrayList<>();
 
-    // NUEVO: Para recordar el modo y ruta de almacenamiento
     private final String rutaCarpetaDatos;
     private final int tipoAlmacenamientoIndex;
 
+    /**
+     * Constructor de PreguntaValidacionController.
+     * Inicializa DAOs, vistas, usuario y configuración de almacenamiento.
+     * Configura la vista y los eventos, y muestra las preguntas disponibles.
+     *
+     * @param usuario Usuario que responde las preguntas de validación.
+     * @param usuarioDAO DAO para operaciones de usuario.
+     * @param preguntaDAO DAO para operaciones de preguntas.
+     * @param productoDAO DAO para operaciones de producto.
+     * @param carritoDAO DAO para operaciones de carrito.
+     * @param preguntasView Vista de validación de preguntas.
+     * @param i18n Manejador de internacionalización de mensajes.
+     * @param rutaCarpetaDatos Ruta de la carpeta de datos.
+     * @param tipoAlmacenamientoIndex Índice del tipo de almacenamiento.
+     */
     public PreguntaValidacionController(
             Usuario usuario,
             UsuarioDAO usuarioDAO,
@@ -58,14 +78,49 @@ public class PreguntaValidacionController {
         preguntasView.aplicarIdiomas();
     }
 
+    /**
+     * Configura los eventos de la vista de preguntas de validación.
+     * Asocia acciones a los botones y controles de la vista.
+     * No recibe parámetros ni retorna valores.
+     */
     private void configurarEventos() {
-        preguntasView.getBtnEnviar().addActionListener(e -> procesarEnvio());
-        preguntasView.getBtnClean().addActionListener(e -> limpiarCampos());
-        preguntasView.getCbxPreguntas().addActionListener(e -> actualizarTextoPregunta());
-        preguntasView.getCbxIdioma().addActionListener(e -> cambioDeIdiomaDesdeCbx());
-        preguntasView.getBtnExit().addActionListener(e -> regresarAlLogin());
+        preguntasView.getBtnEnviar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                procesarEnvio();
+            }
+        });
+        preguntasView.getBtnClean().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limpiarCampos();
+            }
+        });
+        preguntasView.getCbxPreguntas().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarTextoPregunta();
+            }
+        });
+        preguntasView.getCbxIdioma().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambioDeIdiomaDesdeCbx();
+            }
+        });
+        preguntasView.getBtnExit().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                regresarAlLogin();
+            }
+        });
     }
 
+    /**
+     * Muestra las preguntas de seguridad disponibles en la vista.
+     * Filtra las preguntas ya respondidas y actualiza el ComboBox.
+     * No recibe parámetros ni retorna valores.
+     */
     private void mostrarPreguntasEnVista() {
         JComboBox<String> cbxPreguntas = preguntasView.getCbxPreguntas();
         cbxPreguntas.removeAllItems();
@@ -100,6 +155,10 @@ public class PreguntaValidacionController {
         }
     }
 
+    /**
+     * Actualiza el texto de la pregunta seleccionada en la vista.
+     * No recibe parámetros ni retorna valores.
+     */
     private void actualizarTextoPregunta() {
         int index = preguntasView.getCbxPreguntas().getSelectedIndex();
         if (index >= 0 && index < listaPreguntas.size()) {
@@ -110,6 +169,11 @@ public class PreguntaValidacionController {
         }
     }
 
+    /**
+     * Procesa el envío de la respuesta a la pregunta seleccionada.
+     * Valida la respuesta, evita duplicados y gestiona el flujo de preguntas.
+     * No recibe parámetros ni retorna valores.
+     */
     private void procesarEnvio() {
         String respuesta = preguntasView.getTxtRespuestaSeguidad().getText().trim();
         int index = preguntasView.getCbxPreguntas().getSelectedIndex();
@@ -170,9 +234,13 @@ public class PreguntaValidacionController {
         }
     }
 
+    /**
+     * Guarda las preguntas de validación y sus respuestas en el usuario y en el sistema.
+     * Muestra mensaje de éxito y regresa a la vista de login.
+     * No recibe parámetros ni retorna valores.
+     */
     private void guardarPreguntasValidacion() {
         usuario.setPreguntaValidacion(new ArrayList<>(preguntasRespondidas));
-        // Lo CORRECTO: Actualiza TODO el usuario en el archivo para conservar las preguntas de todos
         usuarioDAO.agregarPreguntasAUsuario(usuario.getCedula(), preguntasRespondidas);
         UsuarioDAOArchivoTexto.limpiarDuplicadosUsuarios(rutaCarpetaDatos + "/usuarios.txt");
 
@@ -192,10 +260,19 @@ public class PreguntaValidacionController {
         });
     }
 
+    /**
+     * Limpia el campo de respuesta en la vista.
+     * No recibe parámetros ni retorna valores.
+     */
     private void limpiarCampos() {
         preguntasView.getTxtRespuestaSeguidad().setText("");
     }
 
+    /**
+     * Confirma si el usuario desea finalizar el proceso de preguntas.
+     * Si acepta, guarda las preguntas de validación.
+     * No recibe parámetros ni retorna valores.
+     */
     private void confirmarFinalizarPreguntas() {
         int opcion = JOptionPane.showConfirmDialog(
                 preguntasView,
@@ -209,12 +286,21 @@ public class PreguntaValidacionController {
         }
     }
 
+    /**
+     * Inicializa la vista de preguntas de validación, ocultando y mostrando los campos necesarios.
+     * No recibe parámetros ni retorna valores.
+     */
     private void inicializarVista() {
         preguntasView.getBtnsiguientePregunta().setVisible(false);
         preguntasView.getLblPregunta().setVisible(false);
         preguntasView.getTxtRespuestComparar().setVisible(false);
     }
 
+    /**
+     * Cambia el idioma de la vista según la selección del usuario.
+     * Aplica el idioma y actualiza las preguntas mostradas.
+     * No recibe parámetros ni retorna valores.
+     */
     private void cambioDeIdiomaDesdeCbx() {
         int selectedIndex = preguntasView.getCbxIdioma().getSelectedIndex();
         switch (selectedIndex) {
@@ -227,6 +313,10 @@ public class PreguntaValidacionController {
         mostrarPreguntasEnVista();
     }
 
+    /**
+     * Regresa a la vista de login y restablece la configuración de almacenamiento.
+     * No recibe parámetros ni retorna valores.
+     */
     private void regresarAlLogin(){
         preguntasView.dispose();
         SwingUtilities.invokeLater(() -> {

@@ -11,8 +11,14 @@ import ec.edu.ups.poo.vista.preguntas.PreguntasValidacionView;
 import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * Controlador para la recuperación de contraseña mediante preguntas de seguridad.
+ * Permite validar respuestas, gestionar intentos y cambiar la contraseña del usuario.
+ */
 public class PreguntaRecuperacionController {
 
     private final Usuario usuario;
@@ -33,6 +39,21 @@ public class PreguntaRecuperacionController {
     private final int intentos = 3;
     private boolean puedeCambiarContrasena = false;
 
+    /**
+     * Constructor de PreguntaRecuperacionController.
+     * Inicializa DAOs, vistas, usuario y configuración de almacenamiento.
+     * Configura la vista y los eventos, y muestra la primera pregunta.
+     *
+     * @param usuario Usuario que recupera la contraseña.
+     * @param usuarioDAO DAO para operaciones de usuario.
+     * @param preguntaDAO DAO para operaciones de preguntas.
+     * @param productoDAO DAO para operaciones de producto.
+     * @param carritoDAO DAO para operaciones de carrito.
+     * @param preguntasView Vista de validación de preguntas.
+     * @param i18n Manejador de internacionalización de mensajes.
+     * @param rutaCarpetaDatos Ruta de la carpeta de datos.
+     * @param tipoAlmacenamientoIndex Índice del tipo de almacenamiento.
+     */
     public PreguntaRecuperacionController(
             Usuario usuario,
             UsuarioDAO usuarioDAO,
@@ -61,6 +82,10 @@ public class PreguntaRecuperacionController {
         preguntasView.aplicarIdiomas();
     }
 
+    /**
+     * Inicializa la vista de preguntas de recuperación, ocultando y mostrando los campos necesarios.
+     * No recibe parámetros ni retorna valores.
+     */
     private void inicializarVista() {
         preguntaActual = 0;
         cicloIntentos = 0;
@@ -83,14 +108,48 @@ public class PreguntaRecuperacionController {
         preguntasView.getTxtRespuestComparar().setEditable(true);
     }
 
+    /**
+     * Configura los eventos de la vista de preguntas de recuperación.
+     * Asocia acciones a los botones y controles de la vista.
+     * No recibe parámetros ni retorna valores.
+     */
     private void configurarEventos() {
-        preguntasView.getBtnsiguientePregunta().addActionListener(e -> comprobarRespuesta());
-        preguntasView.getBtnEnviar().addActionListener(e -> cambiarContrasena());
-        preguntasView.getBtnClean().addActionListener(e -> limpiarCampos());
-        preguntasView.getCbxIdioma().addActionListener(e -> cambioDeIdiomaDesdeCbx());
-        preguntasView.getBtnExit().addActionListener(e -> regresarAlLogin());
+        preguntasView.getBtnsiguientePregunta().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                comprobarRespuesta();
+            }
+        });
+        preguntasView.getBtnEnviar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiarContrasena();
+            }
+        });
+        preguntasView.getBtnClean().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limpiarCampos();
+            }
+        });
+        preguntasView.getCbxIdioma().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambioDeIdiomaDesdeCbx();
+            }
+        });
+        preguntasView.getBtnExit().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                regresarAlLogin();
+            }
+        });
     }
 
+    /**
+     * Muestra la pregunta de seguridad actual en la vista.
+     * No recibe parámetros ni retorna valores.
+     */
     private void mostrarPreguntaActual() {
         if (preguntaActual < preguntasGuardadas.size()) {
             String claveI18n = preguntasGuardadas.get(preguntaActual).getPregunta().getTexto();
@@ -102,6 +161,11 @@ public class PreguntaRecuperacionController {
         }
     }
 
+    /**
+     * Comprueba la respuesta ingresada por el usuario para la pregunta actual.
+     * Gestiona los intentos y habilita el cambio de contraseña si la respuesta es correcta.
+     * No recibe parámetros ni retorna valores.
+     */
     private void comprobarRespuesta() {
         if (puedeCambiarContrasena) return;
 
@@ -159,6 +223,10 @@ public class PreguntaRecuperacionController {
         }
     }
 
+    /**
+     * Habilita los campos para el cambio de contraseña si la respuesta es correcta.
+     * No recibe parámetros ni retorna valores.
+     */
     private void habilitarCambioContrasena() {
         preguntasView.getBtnsiguientePregunta().setVisible(false);
         puedeCambiarContrasena = true;
@@ -178,6 +246,11 @@ public class PreguntaRecuperacionController {
         preguntasView.getBtnsiguientePregunta().setEnabled(false);
     }
 
+    /**
+     * Cambia la contraseña del usuario si la nueva contraseña es válida.
+     * Muestra mensajes de éxito o error según corresponda.
+     * No recibe parámetros ni retorna valores.
+     */
     private void cambiarContrasena() {
         String nuevaContrasena = preguntasView.getTxtNuevaContra().getText().trim();
         if (nuevaContrasena.isEmpty()) {
@@ -206,6 +279,10 @@ public class PreguntaRecuperacionController {
         }
     }
 
+    /**
+     * Limpia los campos de respuesta o nueva contraseña en la vista, según el estado actual.
+     * No recibe parámetros ni retorna valores.
+     */
     private void limpiarCampos() {
         if (!puedeCambiarContrasena) {
             preguntasView.getTxtRespuestComparar().setText("");
@@ -214,6 +291,11 @@ public class PreguntaRecuperacionController {
         }
     }
 
+    /**
+     * Cambia el idioma de la vista según la selección del usuario.
+     * Aplica el idioma y actualiza la pregunta mostrada.
+     * No recibe parámetros ni retorna valores.
+     */
     private void cambioDeIdiomaDesdeCbx() {
         int selectedIndex = preguntasView.getCbxIdioma().getSelectedIndex();
         switch (selectedIndex) {
@@ -226,6 +308,10 @@ public class PreguntaRecuperacionController {
         mostrarPreguntaActual();
     }
 
+    /**
+     * Regresa a la vista de login y restablece la configuración de almacenamiento.
+     * No recibe parámetros ni retorna valores.
+     */
     private void regresarAlLogin(){
         preguntasView.dispose();
         SwingUtilities.invokeLater(() -> {

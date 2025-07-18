@@ -7,11 +7,21 @@ import ec.edu.ups.poo.util.MensajeInternacionalizacionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación en memoria del DAO de Pregunta.
+ * Permite gestionar y listar preguntas de seguridad en memoria.
+ */
 public class PreguntaDAOMemoria implements PreguntaDAO {
 
     private final List<Pregunta> preguntas = new ArrayList<>();
     private MensajeInternacionalizacionHandler i18n;
 
+    /**
+     * Constructor de PreguntaDAOMemoria.
+     * Inicializa el manejador de internacionalización y carga las preguntas de seguridad.
+     *
+     * @param i18n Manejador de internacionalización de mensajes.
+     */
     public PreguntaDAOMemoria(MensajeInternacionalizacionHandler i18n) {
         this.i18n = i18n;
         preguntas.add(new Pregunta(1, "pregunta.primer_mascota"));
@@ -26,6 +36,11 @@ public class PreguntaDAOMemoria implements PreguntaDAO {
         preguntas.add(new Pregunta(10, "pregunta.pelicula_favorita"));
     }
 
+    /**
+     * Lista todas las preguntas de seguridad almacenadas en memoria.
+     *
+     * @return Lista de preguntas de seguridad.
+     */
     @Override
     public List<Pregunta> listarTodas() {
         return new ArrayList<>(preguntas);

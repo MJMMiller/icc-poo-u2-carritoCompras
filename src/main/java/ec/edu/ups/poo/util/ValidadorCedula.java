@@ -1,7 +1,17 @@
 package ec.edu.ups.poo.util;
 
+/**
+ * Clase de utilidad para validar cédulas ecuatorianas.
+ * Proporciona un método estático para verificar si una cédula es válida según el algoritmo oficial.
+ */
 public class ValidadorCedula {
 
+    /**
+     * Verifica si la cédula proporcionada es válida según el algoritmo de validación ecuatoriano.
+     *
+     * @param cedula Cadena que representa la cédula a validar.
+     * @return true si la cédula es válida, false en caso contrario.
+     */
     public static boolean esCedulaValida(String cedula) {
         if (cedula == null || !cedula.matches("\\d{10}")) return false;
 
